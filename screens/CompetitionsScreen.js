@@ -1,22 +1,59 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
 import * as React from 'react';
 
-export default function SeminarsScreen({ navigation }) {
+export default function CompetitionsScreen({ navigation }) {
 
     const s = require('../styles/styles');
     const hms = require('../styles/horiz_menu_styles');
     const tls = require('../styles/tiles_list_styles');
 
-    const [events, setEvents] = React.useState(null);
+    const findImage = (e) => {
+        var ImageURL = { uri: e.image };
+        return ImageURL;
+    }
+
+    const [competitions, setCompetitions] = React.useState(null);
 
     React.useEffect(() => {
-        const getEvents = async () => {
+        const getData = async () => {
             const resp = await fetch(URL + "events/getAll");
             const data = await resp.json();
-            setEvents(data);
+            setCompetitions(data);
         }
-        getEvents();
+        getData();
     }, []);
+
+    const iconStyle = (e) => {
+        if (e == 'Галерея' || e == 'Контакты') {
+            return {
+                width: 50,
+                height: 40,
+                opacity: 0.4
+                // tintColor: 'white'
+            }
+        } else if (e == 'Документы') {
+            return {
+                width: 30,
+                height: 40,
+                opacity: 0.4
+                // tintColor: 'white'
+            }
+        } else if (e == 'Турниры') {
+            return {
+                width: 40,
+                height: 40,
+                opacity: 0.4,
+                tintColor: '#E3241D'
+            }
+        } else {
+            return {
+                width: 40,
+                height: 40,
+                opacity: 0.4
+                // tintColor: 'white'
+            }
+        }
+    }
 
     const handleClick = (e) => {
         if (e == 'Новости') {
@@ -38,35 +75,6 @@ export default function SeminarsScreen({ navigation }) {
         }
     }
 
-    const iconStyle = (e) => {
-        if (e == 'Галерея' || e == 'Контакты') {
-            return {
-                width: 50,
-                height: 40,
-                opacity: 0.4
-            }
-        } else if (e == 'Документы') {
-            return {
-                width: 30,
-                height: 40,
-                opacity: 0.4
-            }
-        } else if (e == 'Семинары') {
-            return {
-                width: 30,
-                height: 40,
-                opacity: 0.4,
-                tintColor: '#E3241D'
-            }
-        } else {
-            return {
-                width: 40,
-                height: 40,
-                opacity: 0.4
-            }
-        }
-    }
-
     const drawIcon = (e) => {
         if (e == 'Новости') {
             return require('../images/news.png')
@@ -84,13 +92,11 @@ export default function SeminarsScreen({ navigation }) {
             return require('../images/document.png')
         } else if (e == 'Контакты') {
             return require('../images/contacts.png')
-        } else if (e == 'О клубе') {
-            return require('../images/info.png')
         }
     }
 
     const textStyle = (e) => {
-        if (e == 'Семинары') {
+        if (e == 'Турниры') {
             return {
                 fontSize: 15,
                 color: '#E3241D',
@@ -107,14 +113,14 @@ export default function SeminarsScreen({ navigation }) {
         }
     }
 
-    const renderEvents = (i) => {
-        if (events == null || i >= events.length) { }
+    const renderCompetitions = (i) => {
+        if (competitions == null || i >= competitions.length) { }
         else {
-            if (i.type === 'seminar')
+            if (i.type === 'competition')
                 return (
                     <TouchableOpacity
                         style={tls.NewsTile}
-                        onPress={() => { navigation.navigate("Seminar", { id: i.id - 1 }) }}>
+                        onPress={() => { navigation.navigate("Competition", { id: i.id - 1 }) }}>
                         <View>
                             <View style={tls.dateEventContainer1}>
                                 <Image style={tls.eventsImage} source={require('../images/doc.png')} />
@@ -125,28 +131,34 @@ export default function SeminarsScreen({ navigation }) {
                                 <Text style={tls.btnNewsTextRed}>{i.date}</Text>
                             </View>
                             <View style={tls.dateEventContainer2}>
+                                <Image style={tls.eventsImage} source={require('../images/competition.png')} />
+                                <Text style={tls.btnNewsText}>{i.discipline}</Text>
+                            </View>
+                            <View style={tls.dateEventContainer2}>
                                 <Image style={tls.eventsImage} source={require('../images/locate.png')} />
                                 <Text style={tls.btnNewsText}>{i.city}</Text>
                             </View>
                         </View>
+                        {/* <Image source={findImage(i)} style={styles.newsImage} /> */}
                     </TouchableOpacity>
                 )
         }
     }
 
+
     return (
         <ScrollView>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
-                    {/* !!!!!!!!!!!!!!!!TODO: LINK TO NOTIFICATIONS!!!!!!!!!!!!!!!! */}
                     <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')}>
                         <Image style={s.bellImage} source={require('../images/bell.png')} />
                     </TouchableOpacity>
                     <Image
                         style={s.imageIcon}
                         source={require("../images/icon.jpg")} />
+
                     <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
-                        <Text style={s.iconText}>{'\u25C0'} Семинары</Text>
+                        <Text style={s.iconText}>{'\u25C0'} Турниры</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}>
                         <FlatList style={hms.flatMenu}
@@ -159,8 +171,7 @@ export default function SeminarsScreen({ navigation }) {
                                 { key: 'Турниры' },
                                 { key: 'Статистика' },
                                 { key: 'Галерея' },
-                                { key: 'Контакты' },
-                                { key: 'О клубе' },]}
+                                { key: 'Контакты' },]}
                             renderItem={({ item }) => <TouchableOpacity
                                 style={hms.MenuTile}
                                 onPress={() => { handleClick(item.key) }}>
@@ -176,12 +187,11 @@ export default function SeminarsScreen({ navigation }) {
                         />
                     </View>
                 </ImageBackground>
-
                 <FlatList style={tls.flatNews}
                     showsHorizontalScrollIndicator={false}
-                    data={events}
+                    data={competitions}
                     inverted
-                    renderItem={({ item }) => renderEvents(item)}
+                    renderItem={({ item }) => renderCompetitions(item)}
                     ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
                 />
 
@@ -191,5 +201,17 @@ export default function SeminarsScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
         </ScrollView>
+
     );
 };
+
+const styles = StyleSheet.create({
+    btnNewsTextGray: {
+        fontSize: 15,
+        color: 'gray'
+    },
+    newsImage: {
+        width: 95,
+        height: 115,
+    },
+})

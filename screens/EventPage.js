@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
 import * as React from 'react';
 
-export default function SeminarPage({ route, navigation }) {
+export default function EventPage({ route, navigation }) {
 
     const s = require('../styles/styles');
     const eps = require('../styles/event_page_styles');
@@ -20,7 +20,7 @@ export default function SeminarPage({ route, navigation }) {
         getData();
     }, []);
 
-    const returnSeminarDate = () => {
+    const returnEventDate = () => {
         if (data == null) { }
         else {
             return data[id].date
@@ -35,21 +35,21 @@ export default function SeminarPage({ route, navigation }) {
         }
     }
 
-    const returnSeminarTitle = () => {
+    const returnEventTitle = () => {
         if (data == null) { }
         else {
             return data[id].title
         }
     }
 
-    const returnSeminarDescription = () => {
+    const returnEventDescription = () => {
         if (data == null) { }
         else {
             return data[id].description
         }
     }
 
-    const returnSeminarCity = () => {
+    const returnEventCity = () => {
         if (data == null) { }
         else {
             return data[id].city
@@ -66,8 +66,8 @@ export default function SeminarPage({ route, navigation }) {
                     </TouchableOpacity>
                     
                     <View style={eps.menuView}>
-                        <TouchableOpacity onPress={() => { navigation.navigate("Seminars") }}>
-                            <Text style={eps.iconText}>{'\u25C0'} {returnSeminarTitle()}</Text>
+                        <TouchableOpacity onPress={() => { navigation.navigate("Events") }}>
+                            <Text style={eps.iconText}>{'\u25C0'} {returnEventTitle()}</Text>
                         </TouchableOpacity>
                     </View>
                 </ImageBackground>
@@ -77,17 +77,17 @@ export default function SeminarPage({ route, navigation }) {
                 <View style={eps.viewSem}>
                     <View style={eps.dateEventContainer1}>
                         <Image style={eps.eventsImage} source={require('../images/doc.png')} />
-                        <Text style={eps.btnTitleText}>{returnSeminarTitle()}</Text>
+                        <Text style={eps.btnTitleText}>{returnEventTitle()}</Text>
                     </View>
                     <View style={eps.dateEventContainer2}>
                         <Image style={eps.eventsImage} source={require('../images/calendar.png')} />
-                        <Text style={eps.btnNewsTextRed}>{returnSeminarDate()}</Text>
+                        <Text style={eps.btnNewsTextRed}>{returnEventDate()}</Text>
                     </View>
                     <View style={eps.dateEventContainer2}>
                         <Image style={eps.eventsImage} source={require('../images/locate.png')} />
-                        <Text style={eps.btnNewsText}>{returnSeminarCity()}</Text>
+                        <Text style={eps.btnNewsText}>{returnEventCity()}</Text>
                     </View>
-                    <Text style={eps.btnNewsTextDesc}>{returnSeminarDescription()}</Text>
+                    <Text style={eps.btnNewsTextDesc}>{returnEventDescription()}</Text>
                     <TouchableOpacity style={eps.btnWrite} onPress={() => { navigation.navigate("Main") }}>
                         <Text style={eps.writeText}>Записаться</Text>
                     </TouchableOpacity>

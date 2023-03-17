@@ -1,26 +1,25 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from './screens/HomeScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import NewsScreen from './screens/NewsScreen';
-import SeminarsScreen from './screens/SeminarsScreen';
+import { LogBox } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import MainContainer from './context/MainContainer';
+import BottomTabNavigator from './navigation/TabNavigator';
+// import DrawerNavigator from './navigation/DrawerNavigator';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const App = () => {
+
+  global.URL = "http://192.168.31.15:8080/"
+  LogBox.ignoreAllLogs()
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Welcome'}}
-        />
-        <Stack.Screen name="News" component={NewsScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Seminars" component={SeminarsScreen} />
-      </Stack.Navigator>
+      {/* <MainStackNavigator /> */}
+      <BottomTabNavigator />
+      {/* <DrawerNavigator /> */}
     </NavigationContainer>
   );
 };

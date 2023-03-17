@@ -1,22 +1,58 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import * as React from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, SectionList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export default function EventsScreen({ navigation }) {
+export default function CurriculumScreen({ navigation }) {
 
     const s = require('../styles/styles');
     const hms = require('../styles/horiz_menu_styles');
     const tls = require('../styles/tiles_list_styles');
 
-    const [events, setEvents] = React.useState(null);
+    const [groups, setGroups] = useState([]);
 
-    React.useEffect(() => {
-        const getEvents = async () => {
-            const resp = await fetch(URL + "events/getAll"); // EDIT ON START
-            const data = await resp.json();
-            setEvents(data);
-        }
-        getEvents();
+    useEffect(() => {
+        axios.get(global.URL + "curriculum/get")
+            .then(response => {
+                const data = response.data;
+                const groups = data.reduce((result, item) => {
+                    const group = result.find(g => g.groupNumber === item.groupNumber & g.coach === item.coach);
+                    if (group) {
+                        group.items.push(item);
+                    } else {
+                        result.push({
+                            groupNumber: item.groupNumber,
+                            coach: item.coach,
+                            items: [item],
+                        });
+                    }
+                    return result;
+                }, []);
+                setGroups(groups);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }, []);
+
+    const renderGroup = ({ item }) => (
+        <View style={styles.NewsTile}>
+            <View style={styles.timeContainer}>
+                <Text style={tls.btnNewsTextRed}>{item.groupNumber}</Text>
+                <Text style={tls.btnNewsTextRed}>{item.coach}</Text>
+            </View>
+            <View style={styles.lineFull}></View>
+            <FlatList
+                data={item.items}
+                renderItem={({ item }) => (
+                    <View style={styles.timeContainer}>
+                        <Text>{item.dayOfWeek}</Text>
+                        <Text>{item.timeFromTo}</Text>
+                    </View>
+                )}
+                keyExtractor={item => item.id.toString()}
+            />
+        </View>
+    );
 
     const handleClick = (e) => {
         if (e == 'Новости') {
@@ -91,32 +127,6 @@ export default function EventsScreen({ navigation }) {
         }
     }
 
-    const renderEvents = (i) => {
-        if (events == null || i >= events.length) { }
-        else {
-            return (
-                <TouchableOpacity
-                    style={tls.NewsTile}
-                    onPress={() => { navigation.navigate("Event", { id: i.id - 1 }) }}>
-                    <View>
-                        <View style={tls.dateEventContainer1}>
-                            <Image style={tls.eventsImage} source={require('../images/doc.png')} />
-                            <Text style={tls.btnNewsTextBold}>{i.title}</Text>
-                        </View>
-                        <View style={tls.dateEventContainer2}>
-                            <Image style={tls.eventsImage} source={require('../images/calendar.png')} />
-                            <Text style={tls.btnNewsTextRed}>{i.date}</Text>
-                        </View>
-                        <View style={tls.dateEventContainer2}>
-                            <Image style={tls.eventsImage} source={require('../images/locate.png')} />
-                            <Text style={tls.btnNewsText}>{i.city}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            )
-        }
-    }
-
     return (
         <ScrollView>
             <View style={s.container}>
@@ -125,7 +135,7 @@ export default function EventsScreen({ navigation }) {
                         style={styles.imageIcon}
                         source={require("../images/icon.jpg")} />
                     <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
-                        <Text style={s.iconText}>{'\u25C0'} События</Text>
+                        <Text style={s.iconText}>{'\u25C0'} Новости</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}>
                         <FlatList style={hms.flatMenu}
@@ -143,7 +153,7 @@ export default function EventsScreen({ navigation }) {
                             renderItem={({ item }) => <TouchableOpacity
                                 style={hms.MenuTile}
                                 onPress={() => { handleClick(item.key) }}>
-                                <View style={s.btnView}>
+                                <View style={styles.btnView}>
                                     <Image
                                         style={iconStyle(item.key)}
                                         source={drawIcon(item.key)}
@@ -156,12 +166,10 @@ export default function EventsScreen({ navigation }) {
                     </View>
                 </ImageBackground>
 
-                <FlatList style={tls.flatNews}
-                    showsHorizontalScrollIndicator={false}
-                    data={events}
-                    inverted
-                    renderItem={({ item }) => renderEvents(item)}
-                    ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+                <FlatList style={{ width: '90%' }}
+                    data={groups}
+                    renderItem={renderGroup}
+                    keyExtractor={item => item.groupNumber.toString()}
                 />
 
                 <Text style={tls.btnAllNewsText}>МЫ В СОЦСЕТЯХ</Text>
@@ -181,5 +189,60 @@ const styles = StyleSheet.create({
         width: 110,
         height: 110,
         borderRadius: 10
+    },
+
+    item: {
+        padding: 10,
+        fontSize: 18,
+    },
+    TouchableOpacity: {
+        width: '80%',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        // paddingVertical: 5,
+        backgroundColor: '#930'
+    },
+    TouchableOpacityNews: {
+        width: '90%',
+        // alignItems: 'flex-end',
+        marginTop: 10,
+        paddingVertical: 5,
+    },
+    icon: {
+        width: 20,
+        height: 30,
+        // tintColor: 'white'
+    },
+
+    btnView: {
+        alignItems: 'center',
+        paddingTop: 15
+    },
+
+
+    NewsTile: {
+        height: 130,
+        width: '98%',
+        margin: 10,
+        paddingHorizontal: 20,
+        shadowColor: 'black',
+        elevation: 6,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        alignSelf: 'center',
+        flex: 1,
+        justifyContent: 'center'
+    },
+    timeContainer: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+
+    lineFull: {
+        backgroundColor: 'gainsboro',
+        height: 1,
+        marginBottom: 10,
+        marginTop: 5
     },
 })
