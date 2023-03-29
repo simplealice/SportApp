@@ -145,7 +145,7 @@ export default function SeminarsScreen({ navigation }) {
                     <Image
                         style={s.imageIcon}
                         source={require("../images/icon.jpg")} />
-                    <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                         <Text style={s.iconText}>{'\u25C0'} Семинары</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}>

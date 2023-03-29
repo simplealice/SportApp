@@ -270,7 +270,7 @@ export default function MainScreen({ navigation }) {
                     data={showThreeLastEvents()}
                     renderItem={({ item }) => <TouchableOpacity
                         style={styles.EventTile}
-                        onPress={() => { handleClick(item.key) }}>
+                        onPress={() => { navigation.navigate("Event", { id: item.id - 1 }) }}>
                         <View style={s.btnView}>
                             <View style={styles.upPartView}>
                                 <Text style={styles.eventTitleText}>{item.title}</Text>

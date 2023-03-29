@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
 
-  global.URL = "http://192.168.31.15:8080/"
+  global.URL = "http://192.168.31.9:8080/"
   LogBox.ignoreAllLogs()
 
   return (

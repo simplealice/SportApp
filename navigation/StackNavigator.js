@@ -10,6 +10,7 @@ import NewsPage from '../screens/NewsPage';
 import EventsScreen from '../screens/EventsScreen';
 import EventPage from '../screens/EventPage';
 import TrialPage from '../screens/TrialPage';
+import GaleryScreen from '../screens/GaleryScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator(); 
@@ -28,6 +29,7 @@ const MainStackNavigator = () => {
           <Stack.Screen name="Events" component={EventsScreen} options={{header: () => null}} />
           <Stack.Screen name="Event" component={EventPage} options={{header: () => null}} />
           <Stack.Screen name="Trial" component={TrialPage} options={{header: () => null}} />
+          <Stack.Screen name="Galery" component={GaleryScreen} options={{header: () => null}} />
         </Stack.Navigator>
     )
 }

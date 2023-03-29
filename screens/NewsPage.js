@@ -52,7 +52,7 @@ export default function NewsPage({ route, navigation }) {
                 <ImageBackground style={styles.imageBack} source={require("../images/back.jpg")}>
                     <Image style={styles.imageIcon} />
                     <View style={styles.menuView}>
-                        <TouchableOpacity onPress={() => { navigation.navigate("News") }}>
+                        <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                             <Text style={styles.iconText}>{'\u25C0'} {returnSeminarTitle()}</Text>
                         </TouchableOpacity>
                     </View>

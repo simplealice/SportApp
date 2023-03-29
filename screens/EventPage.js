@@ -66,7 +66,7 @@ export default function EventPage({ route, navigation }) {
                     </TouchableOpacity>
                     
                     <View style={eps.menuView}>
-                        <TouchableOpacity onPress={() => { navigation.navigate("Events") }}>
+                        <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                             <Text style={eps.iconText}>{'\u25C0'} {returnEventTitle()}</Text>
                         </TouchableOpacity>
                     </View>

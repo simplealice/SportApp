@@ -66,7 +66,7 @@ export default function CompetitionPage({ route, navigation }) {
                     </TouchableOpacity>
                     
                     <View style={eps.menuView}>
-                        <TouchableOpacity onPress={() => { navigation.navigate("Competitions") }}>
+                        <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                             <Text style={eps.iconText}>{'\u25C0'} {returnCompetitionTitle()}</Text>
                         </TouchableOpacity>
                     </View>

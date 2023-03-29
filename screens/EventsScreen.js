@@ -124,7 +124,7 @@ export default function EventsScreen({ navigation }) {
                     <Image
                         style={styles.imageIcon}
                         source={require("../images/icon.jpg")} />
-                    <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                         <Text style={s.iconText}>{'\u25C0'} События</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}>

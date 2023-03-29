@@ -157,7 +157,7 @@ export default function CompetitionsScreen({ navigation }) {
                         style={s.imageIcon}
                         source={require("../images/icon.jpg")} />
 
-                    <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                         <Text style={s.iconText}>{'\u25C0'} Турниры</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}>

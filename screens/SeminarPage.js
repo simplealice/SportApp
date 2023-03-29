@@ -66,7 +66,7 @@ export default function SeminarPage({ route, navigation }) {
                     </TouchableOpacity>
                     
                     <View style={eps.menuView}>
-                        <TouchableOpacity onPress={() => { navigation.navigate("Seminars") }}>
+                        <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                             <Text style={eps.iconText}>{'\u25C0'} {returnSeminarTitle()}</Text>
                         </TouchableOpacity>
                     </View>

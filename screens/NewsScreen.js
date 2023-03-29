@@ -141,7 +141,7 @@ export default function NewsScreen({ navigation }) {
                     <Image
                         style={styles.imageIcon}
                         source={require("../images/icon.jpg")} />
-                    <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                         <Text style={styles.iconText}>{'\u25C0'} Новости</Text>
                     </TouchableOpacity>
                     <View style={styles.menuView}>

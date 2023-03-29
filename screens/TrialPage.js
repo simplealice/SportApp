@@ -85,7 +85,8 @@ export default function TrialPage({ navigation }) {
                 console.log("reponse :", res);
                 console.log("status code :", res.statusCode);
                 if (statusCode == '200') {
-                    navigation.navigate("Main")
+                    // navigation.navigate("Main")
+                    navigation.goBack();
                 }
             } catch (error) {
                 console.error(error);
@@ -99,7 +100,7 @@ export default function TrialPage({ navigation }) {
             <View style={s.container}>
                 <ImageBackground style={styles.imageBack} source={require("../images/back2.jpg")}>
                     <Text style={styles.iconText}>Спортивный клуб каратэ "ВОИН"</Text>
-                    <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                         <Text style={styles.iconText}>{'\u25C0'} Запись на пробное занятие</Text>
                     </TouchableOpacity>
                     <View style={styles.menuView}>
@@ -112,7 +113,7 @@ export default function TrialPage({ navigation }) {
                         />
                         <View style={styles.containerDate}>
                             <Text style={styles.dateText}>
-                                {birthday ? birthday.toLocaleDateString() : 'Дата выбрана'}
+                                {birthday ? birthday.toLocaleDateString("en-GB") : 'Дата выбрана'}
                             </Text>
                             <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
                                 <Text style={styles.writeText}>Дата рождения</Text>

@@ -134,8 +134,8 @@ export default function CurriculumScreen({ navigation }) {
                     <Image
                         style={styles.imageIcon}
                         source={require("../images/icon.jpg")} />
-                    <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
-                        <Text style={s.iconText}>{'\u25C0'} Новости</Text>
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+                        <Text style={s.iconText}>{'\u25C0'} Расписание</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}>
                         <FlatList style={hms.flatMenu}
