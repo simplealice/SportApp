@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
 import * as React from 'react';
+import XDate from 'xdate';
 
 export default function MainScreen({ navigation }) {
 
@@ -113,17 +114,23 @@ export default function MainScreen({ navigation }) {
         return ImageURL;
     }
 
+    const retDate = (e) => {
+        var dt = new XDate(e.date);
+        return dt.toString("dd.MM.yyyy");
+    }
+
     // This func returns a news tile and render it on the screen
     const renderNews = (i) => {
         if (news == null || i >= news.length) { }
         else {
             var index = news.length - i - 1;
+            var dt = new XDate(news[index].date); 
             return (
                 <TouchableOpacity
                     style={styles.NewsTile}
                     onPress={() => { navigation.navigate("Newsone", { id: news[index].id - 1 }) }}>
                     <View>
-                        <Text style={styles.btnNewsTextGray}>{news[index].date}</Text>
+                        <Text style={styles.btnNewsTextGray}>{retDate(news[index])}</Text>
                         <Text style={styles.btnNewsTextBold}>{news[index].title}</Text>
                         <Text style={styles.btnNewsText}>{news[index].description}</Text>
                     </View>
@@ -278,7 +285,7 @@ export default function MainScreen({ navigation }) {
                             <View style={styles.downPartView}>
                                 <View style={styles.dateEventContainer}>
                                     <Image style={styles.eventsImage} source={require('../images/calendar.png')} />
-                                    <Text style={styles.eventText}>{item.date}</Text>
+                                    <Text style={styles.eventText}>{retDate(item)}</Text>
                                 </View>
                                 <View style={styles.dateEventContainer}>
                                     <Image style={styles.eventsImage} source={require('../images/locate.png')} />

@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
 import * as React from 'react';
+import XDate from 'xdate';
 
 export default function NewsScreen({ navigation }) {
 
@@ -105,6 +106,11 @@ export default function NewsScreen({ navigation }) {
         }
     }
 
+    const retDate = (e) => {
+        var dt = new XDate(e.date);
+        return dt.toString("dd.MM.yyyy");
+    }
+
     const renderEvents = (i) => {
         if (events == null || i >= events.length) { }
         else {
@@ -119,7 +125,7 @@ export default function NewsScreen({ navigation }) {
                             </View>
                             <View style={styles.dateEventContainer2}>
                                 <Image style={styles.eventsImage} source={require('../images/calendar.png')} />
-                                <Text style={styles.btnNewsTextRed}>{i.date}</Text>
+                                <Text style={styles.btnNewsTextRed}>{retDate(i)}</Text>
                             </View>
                             <View style={styles.dateEventContainer2}>
                                 <Image style={styles.eventsImage} source={require('../images/locate.png')} />

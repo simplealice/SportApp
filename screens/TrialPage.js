@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, TextInput } from 'react-native';
 import * as React from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import XDate from 'xdate';
 
 export default function TrialPage({ navigation }) {
 
@@ -9,7 +10,7 @@ export default function TrialPage({ navigation }) {
     const tls = require('../styles/tiles_list_styles');
 
     const [name, setName] = React.useState('');
-    const [birthday, setBirthday] = React.useState(new Date());
+    const [birthday, setBirthday] = React.useState(new XDate());
     const [datePickerVisible1, setDatePickerVisible1] = React.useState(false);
     const showDatePicker1 = () => {
         setDatePickerVisible1(true);
@@ -24,7 +25,7 @@ export default function TrialPage({ navigation }) {
     const [phone, setPhone] = React.useState('');
     const [mail, setMail] = React.useState('');
 
-    const [date, setDate] = React.useState(new Date());
+    const [date, setDate] = React.useState(new XDate());
     const [datePickerVisible2, setDatePickerVisible2] = React.useState(false);
     const showDatePicker2 = () => {
         setDatePickerVisible2(true);
@@ -113,7 +114,7 @@ export default function TrialPage({ navigation }) {
                         />
                         <View style={styles.containerDate}>
                             <Text style={styles.dateText}>
-                                {birthday ? birthday.toLocaleDateString("en-GB") : 'Дата выбрана'}
+                                {birthday ? birthday.toString("dd.MM.yyyy") : 'Дата выбрана'}
                             </Text>
                             <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
                                 <Text style={styles.writeText}>Дата рождения</Text>
@@ -143,7 +144,7 @@ export default function TrialPage({ navigation }) {
                         />
                         <View style={styles.containerDate}>
                             <Text style={styles.dateText}>
-                                {date ? date.toLocaleDateString() : 'Дата выбрана'}
+                                {date ? date.toString("dd.MM.yyyy") : 'Дата выбрана'}
                             </Text>
                             <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker2}>
                                 <Text style={styles.writeText}>Дата посещения</Text>

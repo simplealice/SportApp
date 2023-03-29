@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
 import * as React from 'react';
+import XDate from 'xdate';
 
 export default function CompetitionsScreen({ navigation }) {
 
@@ -92,6 +93,8 @@ export default function CompetitionsScreen({ navigation }) {
             return require('../images/document.png')
         } else if (e == 'Контакты') {
             return require('../images/contacts.png')
+        } else if (e == 'О клубе') {
+            return require('../images/info.png')
         }
     }
 
@@ -113,6 +116,11 @@ export default function CompetitionsScreen({ navigation }) {
         }
     }
 
+    const retDate = (e) => {
+        var dt = new XDate(e.date);
+        return dt.toString("dd.MM.yyyy");
+    }
+
     const renderCompetitions = (i) => {
         if (competitions == null || i >= competitions.length) { }
         else {
@@ -128,7 +136,7 @@ export default function CompetitionsScreen({ navigation }) {
                             </View>
                             <View style={tls.dateEventContainer2}>
                                 <Image style={tls.eventsImage} source={require('../images/calendar.png')} />
-                                <Text style={tls.btnNewsTextRed}>{i.date}</Text>
+                                <Text style={tls.btnNewsTextRed}>{retDate(i)}</Text>
                             </View>
                             <View style={tls.dateEventContainer2}>
                                 <Image style={tls.eventsImage} source={require('../images/competition.png')} />
@@ -171,7 +179,8 @@ export default function CompetitionsScreen({ navigation }) {
                                 { key: 'Турниры' },
                                 { key: 'Статистика' },
                                 { key: 'Галерея' },
-                                { key: 'Контакты' },]}
+                                { key: 'Контакты' },
+                                { key: 'О клубе' },]}
                             renderItem={({ item }) => <TouchableOpacity
                                 style={hms.MenuTile}
                                 onPress={() => { handleClick(item.key) }}>

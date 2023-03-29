@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
 import * as React from 'react';
+import XDate from 'xdate';
 
 export default function CompetitionPage({ route, navigation }) {
 
@@ -20,10 +21,15 @@ export default function CompetitionPage({ route, navigation }) {
         getData();
     }, []);
 
+    const retDate = (e) => {
+        var dt = new XDate(e.date);
+        return dt.toString("dd.MM.yyyy");
+    }
+
     const returnCompetitionDate = () => {
         if (data == null) { }
         else {
-            return data[id].date
+            return retDate(data[id])
         }
     }
 

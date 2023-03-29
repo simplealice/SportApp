@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
 import * as React from 'react';
+import XDate from 'xdate';
 
 export default function EventsScreen({ navigation }) {
 
@@ -91,6 +92,11 @@ export default function EventsScreen({ navigation }) {
         }
     }
 
+    const retDate = (e) => {
+        var dt = new XDate(e.date);
+        return dt.toString("dd.MM.yyyy");
+    }
+
     const renderEvents = (i) => {
         if (events == null || i >= events.length) { }
         else {
@@ -105,7 +111,7 @@ export default function EventsScreen({ navigation }) {
                         </View>
                         <View style={tls.dateEventContainer2}>
                             <Image style={tls.eventsImage} source={require('../images/calendar.png')} />
-                            <Text style={tls.btnNewsTextRed}>{i.date}</Text>
+                            <Text style={tls.btnNewsTextRed}>{retDate(i)}</Text>
                         </View>
                         <View style={tls.dateEventContainer2}>
                             <Image style={tls.eventsImage} source={require('../images/locate.png')} />
