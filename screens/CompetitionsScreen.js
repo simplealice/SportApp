@@ -73,6 +73,8 @@ export default function CompetitionsScreen({ navigation }) {
             navigation.navigate("Documents")
         } else if (e == 'Контакты') {
             navigation.navigate("Contacts")
+        } else if (e == 'О клубе') {
+            navigation.navigate("About")
         }
     }
 

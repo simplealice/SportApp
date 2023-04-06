@@ -1,58 +1,22 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, SectionList } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
+import * as React from 'react';
+import XDate from 'xdate';
 
-export default function CurriculumScreen({ navigation }) {
+export default function CoachesScreen({ navigation }) {
 
     const s = require('../styles/styles');
     const hms = require('../styles/horiz_menu_styles');
-    const tls = require('../styles/tiles_list_styles');
 
-    const [groups, setGroups] = useState([]);
+    const [coaches, setCoaches] = React.useState(null);
 
-    useEffect(() => {
-        axios.get(global.URL + "curriculum/get")
-            .then(response => {
-                const data = response.data;
-                const groups = data.reduce((result, item) => {
-                    const group = result.find(g => g.groupNumber === item.groupNumber & g.coach === item.coach);
-                    if (group) {
-                        group.items.push(item);
-                    } else {
-                        result.push({
-                            groupNumber: item.groupNumber,
-                            coach: item.coach,
-                            items: [item],
-                        });
-                    }
-                    return result;
-                }, []);
-                setGroups(groups);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+    React.useEffect(() => {
+        const getCoaches = async () => {
+            const resp = await fetch(URL + "coaches/getAll"); // EDIT ON START
+            const data = await resp.json();
+            setCoaches(data);
+        }
+        getCoaches();
     }, []);
-
-    const renderGroup = ({ item }) => (
-        <View style={styles.NewsTile}>
-            <View style={styles.timeContainer}>
-                <Text style={tls.btnNewsTextRed}>{item.groupNumber}</Text>
-                <Text style={tls.btnNewsTextRed}>{item.coach}</Text>
-            </View>
-            <View style={styles.lineFull}></View>
-            <FlatList
-                data={item.items}
-                renderItem={({ item }) => (
-                    <View style={styles.timeContainer}>
-                        <Text>{item.dayOfWeek}</Text>
-                        <Text>{item.timeFromTo}</Text>
-                    </View>
-                )}
-                keyExtractor={item => item.id.toString()}
-            />
-        </View>
-    );
 
     const handleClick = (e) => {
         if (e == 'Новости') {
@@ -73,11 +37,22 @@ export default function CurriculumScreen({ navigation }) {
             navigation.navigate("Contacts")
         } else if (e == 'О клубе') {
             navigation.navigate("About")
+        } else if (e == 'Инфо') {
+            navigation.navigate("About")
+        } else if (e == 'Награды клуба') {
+            navigation.navigate("Prizes")
         }
     }
 
     const iconStyle = (e) => {
-        if (e == 'Галерея' || e == 'Контакты') {
+        if (e == 'О клубе') {
+            return {
+                width: 40,
+                height: 40,
+                opacity: 0.4,
+                tintColor: '#E3241D'
+            }
+        } else if (e == 'Галерея' || e == 'Контакты') {
             return {
                 width: 50,
                 height: 40,
@@ -121,11 +96,65 @@ export default function CurriculumScreen({ navigation }) {
     }
 
     const textStyle = (e) => {
-        return {
-            fontSize: 15,
-            color: 'black',
-            paddingTop: 5,
-            textAlign: 'center'
+        if (e == 'О клубе') {
+            return {
+                fontSize: 15,
+                color: '#E3241D',
+                paddingTop: 5,
+                textAlign: 'center',
+            }
+        } else if (e == 'Тренерский состав') {
+            return {
+                fontSize: 15,
+                color: 'white',
+                paddingTop: 5,
+                textAlign: 'center'
+            }
+        } else {
+            return {
+                fontSize: 15,
+                color: 'black',
+                paddingTop: 5,
+                textAlign: 'center'
+            }
+        }
+    }
+
+    const subMenuStyle = (e) => {
+        if (e == 'Тренерский состав') {
+            return {
+                marginTop: 12,
+                height: 55,
+                width: 125,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingHorizontal: 10,
+                backgroundColor: '#E3241D'
+            }
+        } else {
+            return {
+                marginTop: 12,
+                height: 55,
+                width: 125,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingHorizontal: 10,
+                backgroundColor: 'gainsboro'
+            }
+        }
+    }
+
+    const renderCoaches = (i) => {
+        if (coaches == null || i >= coaches.length) { }
+        else {
+            return (
+                <View style={styles.coachContainer}>
+                    <Image style={styles.coachImage} source={require('../images/coach.png')} />
+                    <Text style={styles.coachText}>{i.position}</Text>
+                    <Text style={styles.coachBoldText}>{i.surname} {i.name}</Text>
+                    <Text style={styles.coachText}>{i.description}</Text>
+                </View>
+            )
         }
     }
 
@@ -137,7 +166,7 @@ export default function CurriculumScreen({ navigation }) {
                         style={styles.imageIcon}
                         source={require("../images/icon.jpg")} />
                     <TouchableOpacity onPress={() => { navigation.goBack(); }}>
-                        <Text style={s.iconText}>{'\u25C0'} Расписание</Text>
+                        <Text style={s.iconText}>{'\u25C0'} О клубе</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}>
                         <FlatList style={hms.flatMenu}
@@ -155,7 +184,7 @@ export default function CurriculumScreen({ navigation }) {
                             renderItem={({ item }) => <TouchableOpacity
                                 style={hms.MenuTile}
                                 onPress={() => { handleClick(item.key) }}>
-                                <View style={styles.btnView}>
+                                <View style={s.btnView}>
                                     <Image
                                         style={iconStyle(item.key)}
                                         source={drawIcon(item.key)}
@@ -168,16 +197,30 @@ export default function CurriculumScreen({ navigation }) {
                     </View>
                 </ImageBackground>
 
-                <FlatList style={{ width: '90%' }}
-                    data={groups}
-                    renderItem={renderGroup}
-                    keyExtractor={item => item.groupNumber.toString()}
-                />
+                <View style={styles.subMenuView}>
+                    <FlatList style={styles.flatSubMenu}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                        data={[
+                            { key: 'Инфо' },
+                            { key: 'Тренерский состав' },
+                            { key: 'Награды клуба' },]}
+                        renderItem={({ item }) => <TouchableOpacity
+                            style={subMenuStyle(item.key)}
+                            onPress={() => { handleClick(item.key) }}>
+                            <View>
+                                <Text style={textStyle(item.key)}>{item.key}</Text>
+                            </View>
+                        </TouchableOpacity>}
+                    />
+                </View>
 
-                <Text style={tls.btnAllNewsText}>МЫ В СОЦСЕТЯХ</Text>
-                <TouchableOpacity onPress={() => Linking.openURL('https://vk.com/public151614553')}>
-                    <Image style={s.netsImage} source={require('../images/vk.png')} />
-                </TouchableOpacity>
+                <FlatList style={styles.flatNews}
+                    showsHorizontalScrollIndicator={false}
+                    data={coaches}
+                    renderItem={({ item }) => renderCoaches(item)}
+                    ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+                />
             </View>
         </ScrollView>
     );
@@ -192,59 +235,34 @@ const styles = StyleSheet.create({
         height: 110,
         borderRadius: 10
     },
-
-    item: {
-        padding: 10,
-        fontSize: 18,
+    flatSubMenu: {
+        alignSelf: 'center'
     },
-    TouchableOpacity: {
-        width: '80%',
+    SubMenuTile: {
+        marginTop: 12,
+        height: 55,
+        width: 125,
         alignItems: 'center',
+        justifyContent: 'center',
         paddingHorizontal: 10,
-        // paddingVertical: 5,
-        backgroundColor: '#930'
+        backgroundColor: 'gainsboro'
     },
-    TouchableOpacityNews: {
-        width: '90%',
-        // alignItems: 'flex-end',
-        marginTop: 10,
-        paddingVertical: 5,
+    subMenuView: {
+        width: '100%',
+        paddingBottom: 20
     },
-    icon: {
-        width: 20,
-        height: 30,
-        // tintColor: 'white'
-    },
-
-    btnView: {
-        alignItems: 'center',
-        paddingTop: 15
-    },
-
-
-    NewsTile: {
+    coachImage: {
+        width: '100%',
         height: 130,
-        width: '98%',
-        margin: 10,
-        paddingHorizontal: 20,
-        shadowColor: 'black',
-        elevation: 6,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        alignSelf: 'center',
-        flex: 1,
-        justifyContent: 'center'
+        width: 130,
+        aspectRatio: 1,
+        borderRadius: 65
     },
-    timeContainer: {
-        justifyContent: 'space-between',
+    coachContainer: {
         alignItems: 'center',
-        flexDirection: 'row',
+        marginBottom: 30
     },
-
-    lineFull: {
-        backgroundColor: 'gainsboro',
-        height: 1,
-        marginBottom: 10,
-        marginTop: 5
-    },
+    coachBoldText: {
+        fontWeight: 'bold'
+    }
 })
