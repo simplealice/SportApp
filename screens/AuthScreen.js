@@ -1,6 +1,8 @@
-import { StyleSheet, ScrollView, FlatList, View, TextInput, SafeAreaView, TouchableOpacity, Text, Image, ImageBackground } from 'react-native';
+import { StyleSheet, ScrollView, View, TextInput, SafeAreaView, TouchableOpacity, Text, Image, ImageBackground, Switch } from 'react-native';
 import React, { useState } from 'react';
 import axios from 'axios';
+import XDate from 'xdate';
+import Accordion from '../navigation/Accordion';
 
 export default function AuthScreen({ navigation }) {
 
@@ -11,19 +13,53 @@ export default function AuthScreen({ navigation }) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [token, setToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
-  const [user, setUser] = React.useState(null);
-  const [data, setData] = React.useState(null);
+  const [role, setRole] = useState('');
+  const [surname, setSurame] = useState('');
+  const [name, setName] = useState('');
+  const [birthday, setBirthday] = useState(null);
+  const [kuDan, setKuDan] = useState('');
+  const [category, setCategory] = useState('');
+  const [major, setMajor] = useState('');
+  const [team, setTeam] = useState('');
+  const [medals, setMedals] = useState('');
 
-  const getUser = () => {
-    fetch(global.URL + `users/get?email=${username}&password=${password}`)
-      .then(response => response.json())
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+
+  var menu = [
+    {
+      title: 'Участник соревнований',
+      data: 'Спортсмен пока не участвовал ни в одних соревнованиях...'
+    },
+    {
+      title: 'Мое расписание',
+      // data: renderGroup(groups[0])
+      data: 'Расписания нет...'
+    },
+    {
+      title: 'Мои документы',
+      data: 'Пока что не добавлен ни один документ...'
+    }
+  ]
+
+  const getUser = (token) => {
+    fetch(global.URL + `users/get/${username}`, {
+      method: 'POST',
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      }
+    }).then(response => response.json())
       .then(data => {
-        if (data.surname) {
-          setUser(data.surname);
-        } else {
-          console.log('Invalid login credentials');
-        }
+        setRole(data.role)
+        setSurame(data.surname)
+        setName(data.name)
+        setBirthday(data.birthDate)
+        setCategory(data.category)
+        setKuDan(data.kuDan)
+        setMajor(data.major)
+        setTeam(data.team)
+        setMedals(data.medals)
       })
       .catch(error => console.error(error));
   };
@@ -37,10 +73,8 @@ export default function AuthScreen({ navigation }) {
       .then(response => {
         const data = response.data;
         setToken(data.token);
-        setRefreshToken(data.refreshToken);
-        console.log(`Logged in with token ${data.token} and refresh token ${data.refreshToken}`);
-
-        getUser();
+        // console.log(`Logged in with token ${data.token}`);
+        getUser(data.token);
       })
       .catch(error => {
         console.error(error);
@@ -49,31 +83,78 @@ export default function AuthScreen({ navigation }) {
 
   const handleLogout = () => {
     // Send logout request to server
-    axios.post(global.URL + "auth/logout", { refreshToken })
+    axios.post(global.URL + "auth/logout")
       .then(response => {
         console.log(response.data);
         setToken(null);
-        setRefreshToken(null);
       })
       .catch(error => {
         console.error(error);
       });
   };
 
-  const handleRefreshToken = () => {
-    // Send refresh token request to server
-    axios.post(global.URL + "auth/authenticate", { refreshToken })
-      .then(response => {
-        const data = response.data;
-        setToken(data.token);
-        console.log(`Token refreshed with token ${data.token}`);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
+  const retDate = (e) => {
+    var dt = new XDate(e);
+    return dt.toString("dd.MM.yyyy");
+  }
 
-  if (!token && !refreshToken) {
+  // This func returns a news tile and render it on the screen
+  const renderInfo = () => {
+    if (surname == null || name == null || birthday == null || category == null) { }
+    else {
+      return (
+        <View style={styles.cardContainer}>
+          <Text style={styles.cardTextBold}>КАРТОЧКА СПОРТСМЕНА</Text>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Дата рождения:</Text>
+            <Text style={styles.cardText}>{retDate(birthday)}</Text>
+          </View>
+          <View style={styles.lineFull}></View>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Кю/дан:</Text>
+            <Text style={styles.cardText}>{kuDan}</Text>
+          </View>
+          <View style={styles.lineFull}></View>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Категория:</Text>
+            <Text style={styles.cardText}>{category}</Text>
+          </View>
+          <View style={styles.lineFull}></View>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Направление:</Text>
+            <Text style={styles.cardText}>{major}</Text>
+          </View>
+          <View style={styles.lineFull}></View>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Членство в сборной:</Text>
+            <Text style={styles.cardText}>{team}</Text>
+          </View>
+          <View style={styles.lineFull}></View>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Количество медалей:</Text>
+            <Text style={styles.cardText} numberOfLines={2} ellipsizeMode="tail">{medals}</Text>
+          </View>
+        </View>
+      )
+    }
+  }
+
+  const renderAccordions = () => {
+    const items = [];
+    for (let item = 0; item < menu.length; item++) {
+      items.push(
+        <Accordion
+          key={item}
+          title={menu[item].title}
+          data={menu[item].data}
+        />
+      );
+    }
+    return items;
+  }
+
+
+  if (!token) {
     return (
       <View style={s.container}>
         <ImageBackground style={styles.imageBack} source={require("../images/back2.jpg")}>
@@ -87,7 +168,7 @@ export default function AuthScreen({ navigation }) {
                 style={styles.input}
                 onChangeText={text => setUsername(text)}
                 value={username}
-                placeholder="Email"
+                placeholder="Эл. почта"
               />
               <TextInput
                 style={styles.input}
@@ -109,11 +190,81 @@ export default function AuthScreen({ navigation }) {
         </ImageBackground>
       </View>
     );
-  } else {
+  } else if (role === "SPORTSMEN") {
     // Render dashboard if logged in
     return (
+      <ScrollView>
+        <View style={s.container}>
+          <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
+            <Image
+              style={styles.imageIcon}
+              source={require("../images/icon.jpg")} />
+            <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
+              <Text style={s.iconText}>{'\u25C0'} {surname} {name}</Text>
+            </TouchableOpacity>
+            <View style={hms.menuView}/>
+          </ImageBackground>
 
+          <View style={styles.container}>
+            {renderInfo()}
 
+            {renderAccordions()}
+
+            <Text>{"\n"}</Text>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
+              <Text style={styles.btnText}>Уведомления</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
+              <Text style={styles.btnText}>Чат с тренером</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
+              <Text style={styles.btnText}>Мой календарь</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
+              <Text style={styles.btnText}>Записаться на индивидуальное занятие</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+
+            <View style={styles.pushContainer}>
+            <Text style={styles.btnText}>Включить пуш-уведомления</Text>
+              <Switch
+                trackColor={{ false: '#767577', true: '#E3241D' }}
+                thumbColor={isEnabled ? 'white' : '#f4f3f4'}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </View>
+
+            <TouchableOpacity
+              style={styles.btnWrite}
+              // disabled
+              onPress={handleLogout}>
+              <View>
+                <Text style={styles.writeText}>Выйти</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    );
+  } else if (role === "COACH") {
+    return (
       <ScrollView>
         <View style={s.container}>
           <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
@@ -124,23 +275,13 @@ export default function AuthScreen({ navigation }) {
               <Text style={s.iconText}>{'\u25C0'} Мой профиль</Text>
             </TouchableOpacity>
             <View style={hms.menuView}>
-              
+
             </View>
           </ImageBackground>
 
-          {/* <FlatList style={{ width: '90%' }}
-            data={groups}
-            renderItem={renderGroup}
-            keyExtractor={item => item.groupNumber.toString()}
-          /> */}
+          <View style={styles.container}>
+            {renderInfo()}
 
-          <Text style={tls.btnAllNewsText}>МЫ В СОЦСЕТЯХ</Text>
-          <TouchableOpacity onPress={() => Linking.openURL('https://vk.com/public151614553')}>
-            <Image style={s.netsImage} source={require('../images/vk.png')} />
-          </TouchableOpacity>
-
-          <View>
-            <Text>You are logged in with token {token}</Text>
             <TouchableOpacity
               style={styles.btnWrite}
               // disabled
@@ -149,57 +290,12 @@ export default function AuthScreen({ navigation }) {
                 <Text style={styles.writeText}>Log out</Text>
               </View>
             </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.btnWrite}
-              // disabled
-              onPress={handleRefreshToken}>
-              <View>
-                <Text style={styles.writeText}>Refresh token</Text>
-              </View>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     );
   }
 };
-//   return (
-//     <View style={s.container}>
-//       <ImageBackground style={styles.imageBack} source={require("../images/back2.jpg")}>
-//         <Image
-//           style={styles.image}
-//           source={require("../images/icon.jpg")} />
-//         <Text style={styles.iconText}>Спортивный клуб каратэ "ВОИН"</Text>
-//         <View style={styles.menuView}>
-//           <SafeAreaView>
-//             <TextInput
-//               style={styles.input}
-//               onChangeText={text => setUsername(text)}
-//               value={username}
-//               placeholder="Email"
-//             />
-//             <TextInput
-//               style={styles.input}
-//               secureTextEntry={true}
-//               onChangeText={text => setPassword(text)}
-//               value={password}
-//               placeholder="Пароль"
-//             />
-//           </SafeAreaView>
-//           <TouchableOpacity
-//             style={styles.btnWrite}
-//             // disabled
-//             onPress={handleSubmit}>
-//             <View>
-//               <Text style={styles.writeText}>Войти</Text>
-//             </View>
-//           </TouchableOpacity>
-//         </View>
-//       </ImageBackground>
-//     </View>
-//   );
-// };
 
 const styles = StyleSheet.create({
   iconText: {
@@ -245,6 +341,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 100
   },
+  pushContainer: {
+    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   input: {
     height: 40,
     margin: 12,
@@ -252,7 +354,32 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     padding: 10,
   },
-
+  btnImage: {
+    width: 25,
+    height: 25,
+    tintColor: '#E3241D'
+  },
+  btnText: {
+    fontSize: 14,
+    // marginLeft: 15,
+    paddingRight: 10
+  },
+  btnTextArrow: {
+    color: '#E3241D'
+  },
+  btnTile: {
+    height: 46,
+    width: '98%',
+    paddingHorizontal: 20,
+    shadowColor: 'black',
+    elevation: 6,
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
 
   imageIcon: {
     marginTop: 60,
@@ -316,4 +443,44 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 5
   },
+  container: {
+    flex: 1,
+    width: '95%',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  cardContainer: {
+    width: '100%',
+    shadowColor: 'black',
+    elevation: 6,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    flex: 1,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: 10
+  },
+  cardString: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cardText: {
+    fontSize: 14,
+    color: 'black'
+  },
+  cardTextBold: {
+    fontSize: 14,
+    color: 'black',
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  cardTextGrey: {
+    fontSize: 14,
+    color: 'grey'
+  }
 })

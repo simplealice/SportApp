@@ -113,30 +113,28 @@ export default function NewsScreen({ navigation }) {
         return dt.toString("dd.MM.yyyy");
     }
 
+        // This func returns an image URL from the object's param image
+        const findImage = (e) => {
+            var ImageURL = { uri: e.image };
+            return ImageURL;
+        }
+
     const renderEvents = (i) => {
         if (events == null || i >= events.length) { }
         else {
+            const MAXLENGTH = 40; 
                 return (
                     <TouchableOpacity
                         style={styles.NewsTile}
                         onPress={() => { navigation.navigate("Newsone", { id: i.id - 1 }) }}>
-                        <View>
-                            <View style={styles.dateEventContainer1}>
-                                <Image style={styles.eventsImage} source={require('../images/doc.png')} />
-                                <Text style={styles.btnNewsTextBold}>{i.title}</Text>
-                            </View>
-                            <View style={styles.dateEventContainer2}>
-                                <Image style={styles.eventsImage} source={require('../images/calendar.png')} />
-                                <Text style={styles.btnNewsTextRed}>{retDate(i)}</Text>
-                            </View>
-                            <View style={styles.dateEventContainer2}>
-                                <Image style={styles.eventsImage} source={require('../images/locate.png')} />
-                                <Text style={styles.btnNewsText}>{i.description}</Text>
-                            </View>
-                            {/* <Text style={styles.btnNewsTextBold}>{i.title}</Text>
-                            <Text style={styles.btnNewsTextRed}>{i.date}</Text>
-                            <Text style={styles.btnNewsText}>{i.city}</Text> */}
-                        </View>
+                        <View style={styles.TextContainer}>
+                        <Text style={styles.btnNewsTextGray}>{retDate(i)}</Text>
+                        <Text style={styles.btnNewsTextBold}>{i.title}</Text>
+                        <Text style={styles.btnNewsText} numberOfLines={2} ellipsizeMode="tail">
+                            {i.description.slice(0, MAXLENGTH)}{(i.description.length > MAXLENGTH) ? '...' : ''}
+                        </Text>
+                    </View>
+                    <Image style={styles.newsImage} source={findImage(i)} />
                     </TouchableOpacity>
                 )
         }
@@ -271,6 +269,22 @@ const styles = StyleSheet.create({
         height: 30,
         // tintColor: 'white'
     },
+    TextContainer: {
+        width: '70%'
+    },
+    btnNewsText: {
+        fontSize: 15,
+        color: 'black'
+    },
+    btnNewsTextBold: {
+        fontSize: 15,
+        color: 'black',
+        fontWeight: 'bold'
+    },
+    btnNewsTextGray: {
+        fontSize: 15,
+        color: 'gray'
+    },
 
     btnAllNewsText: {
         fontSize: 15,
@@ -292,7 +306,7 @@ const styles = StyleSheet.create({
     },
     NewsTile: {
         marginTop: 10,
-        height: 160,
+        height: 110,
         width: '90%',
         paddingHorizontal: 15,
         shadowColor: 'black',

@@ -14,6 +14,10 @@ import GaleryScreen from '../screens/GaleryScreen';
 import AboutScreen from '../screens/AboutScreen';
 import CoachesScreen from '../screens/CoachesScreen';
 import PrizesScreen from '../screens/PrizesScreen';
+import ContactsScreen from '../screens/ContactsScreen';
+import SignSeminarPage from '../screens/SignSeminarPage';
+import SignCompetitionPage from '../screens/SignCompetitionPage';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator(); 
@@ -36,6 +40,9 @@ const MainStackNavigator = () => {
           <Stack.Screen name="About" component={AboutScreen} options={{header: () => null}} />
           <Stack.Screen name="Coaches" component={CoachesScreen} options={{header: () => null}} />
           <Stack.Screen name="Prizes" component={PrizesScreen} options={{header: () => null}} />
+          <Stack.Screen name="Contacts" component={ContactsScreen} options={{header: () => null}} />
+          <Stack.Screen name="SignInSeminar" component={SignSeminarPage} options={{header: () => null}} />
+          <Stack.Screen name="SignInCompetition" component={SignCompetitionPage} options={{header: () => null}} />
         </Stack.Navigator>
     )
 }

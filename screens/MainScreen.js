@@ -126,15 +126,18 @@ export default function MainScreen({ navigation }) {
         if (news == null || i >= news.length) { }
         else {
             var index = news.length - i - 1;
+            const MAXLENGTH = 40; 
             var dt = new XDate(news[index].date); 
             return (
                 <TouchableOpacity
                     style={styles.NewsTile}
                     onPress={() => { navigation.navigate("Newsone", { id: news[index].id - 1 }) }}>
-                    <View>
+                    <View style={styles.TextContainer}>
                         <Text style={styles.btnNewsTextGray}>{retDate(news[index])}</Text>
                         <Text style={styles.btnNewsTextBold}>{news[index].title}</Text>
-                        <Text style={styles.btnNewsText}>{news[index].description}</Text>
+                        <Text style={styles.btnNewsText} numberOfLines={2} ellipsizeMode="tail">
+                            {news[index].description.slice(0, MAXLENGTH)}{(news[index].description.length > MAXLENGTH) ? '...' : ''}
+                        </Text>
                     </View>
                     <Image style={styles.newsImage} source={findImage(news[index])} />
                 </TouchableOpacity>
@@ -343,6 +346,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
+    },
+    TextContainer: {
+        width: '70%'
     },
     btnNewsText: {
         fontSize: 15,

@@ -96,6 +96,19 @@ export default function TrialPage({ navigation }) {
         }
     }
 
+    const formatDate = (data) => {
+        let day = ""
+        let month = ""
+        if (data.getDate() < 10) {
+            day = "0" + data.getDate()
+        } else day = data.getDate()
+        if (data.getMonth() + 1 < 10) {
+            month = "0" + (data.getMonth() + 1)
+        } else month = data.getMonth() + 1
+        let dateTimeString = day + '.' + month + '.' + data.getFullYear();
+        return dateTimeString;
+    };
+
     return (
         <ScrollView>
             <View style={s.container}>
@@ -114,15 +127,16 @@ export default function TrialPage({ navigation }) {
                         />
                         <View style={styles.containerDate}>
                             <Text style={styles.dateText}>
-                                {birthday ? birthday.toString("dd.MM.yyyy") : 'Дата выбрана'}
+                                {birthday ? formatDate(birthday) : 'Дата выбрана'}
                             </Text>
                             <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
                                 <Text style={styles.writeText}>Дата рождения</Text>
                             </TouchableOpacity>
                             <DateTimePickerModal
-                                date={birthday}
+                                // date={birthday}
                                 isVisible={datePickerVisible1}
                                 mode="date"
+                                value={birthday}
                                 onConfirm={handleConfirmBirthday}
                                 onCancel={hideDatePicker1}
                             />
@@ -144,15 +158,16 @@ export default function TrialPage({ navigation }) {
                         />
                         <View style={styles.containerDate}>
                             <Text style={styles.dateText}>
-                                {date ? date.toString("dd.MM.yyyy") : 'Дата выбрана'}
+                                {date ? formatDate(date) : 'Дата не выбрана'}
                             </Text>
                             <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker2}>
                                 <Text style={styles.writeText}>Дата посещения</Text>
                             </TouchableOpacity>
                             <DateTimePickerModal
-                                date={date}
+                                // date={date}
                                 isVisible={datePickerVisible2}
                                 mode="date"
+                                value={date}
                                 onConfirm={handleConfirmDate}
                                 onCancel={hideDatePicker2}
                             />
@@ -238,7 +253,7 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     dateText: {
-        fontSize: 14, 
+        fontSize: 14,
         fontWeight: 'bold',
         marginTop: 30
     }

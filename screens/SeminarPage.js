@@ -94,7 +94,7 @@ export default function SeminarPage({ route, navigation }) {
                         <Text style={eps.btnNewsText}>{returnSeminarCity()}</Text>
                     </View>
                     <Text style={eps.btnNewsTextDesc}>{returnSeminarDescription()}</Text>
-                    <TouchableOpacity style={eps.btnWrite} onPress={() => { navigation.navigate("Main") }}>
+                    <TouchableOpacity style={eps.btnWrite} onPress={() => { navigation.navigate("SignInSeminar", { id: id + 1 }) }}>
                         <Text style={eps.writeText}>Записаться</Text>
                     </TouchableOpacity>
                 </View>
