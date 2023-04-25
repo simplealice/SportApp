@@ -13,7 +13,7 @@ export default function ContactsScreen({ navigation }) {
     const [mail, setMail] = React.useState('');
     const [comment, setComment] = React.useState('');
 
-    
+
     const [error, setError] = React.useState('');
 
     const showError = (error, state) => {
@@ -32,7 +32,7 @@ export default function ContactsScreen({ navigation }) {
         if (!comment.trim() || comment.length < 3) return showError('Комментарий должно содержать не менее 3 символов', setError)
         return 1;
     }
-    
+
     const handleSubmit = async () => {
         var i = checkIfValid()
         console.log(checkIfValid())
@@ -218,44 +218,44 @@ export default function ContactsScreen({ navigation }) {
 
 
                 <View style={styles.menuView}>
-                <Text style={styles.btnFeedbackText}>ФОРМА ОБРАТНОЙ СВЯЗИ</Text>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={setName}
-                            value={name}
-                            placeholder="ФИО"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={setPhone}
-                            // onChangeText={(value) => handleOnChangeText(value, 'phone')}
-                            value={phone}
-                            placeholder="Номер телефона"
-                            keyboardType="numeric"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={setMail}
-                            value={mail}
-                            placeholder="Эл. почта"
-                            autoCapitalize='none'
-                        />
+                    <Text style={styles.btnFeedbackText}>ФОРМА ОБРАТНОЙ СВЯЗИ</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setName}
+                        value={name}
+                        placeholder="ФИО"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setPhone}
+                        // onChangeText={(value) => handleOnChangeText(value, 'phone')}
+                        value={phone}
+                        placeholder="Номер телефона"
+                        keyboardType="numeric"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setMail}
+                        value={mail}
+                        placeholder="Эл. почта"
+                        autoCapitalize='none'
+                    />
 
-                        <TextInput
-                            editable
-                            multiline
-                            numberOfLines={4}
-                            maxLength={100}
-                            placeholder="Комментарий"
-                            onChangeText={text => setComment(text)}
-                            value={comment}
-                            style={styles.textField}
-                        />
-                        <TouchableOpacity style={styles.btnWrite} onPress={() => handleSubmit()}>
-                            <Text style={styles.writeText}>Отправить</Text>
-                        </TouchableOpacity>
+                    <TextInput
+                        editable
+                        multiline
+                        numberOfLines={4}
+                        maxLength={100}
+                        placeholder="Комментарий"
+                        onChangeText={text => setComment(text)}
+                        value={comment}
+                        style={styles.textField}
+                    />
+                    <TouchableOpacity style={styles.btnWrite} onPress={() => handleSubmit()}>
+                        <Text style={styles.writeText}>Отправить</Text>
+                    </TouchableOpacity>
 
-                    </View>
+                </View>
 
             </View>
         </ScrollView>

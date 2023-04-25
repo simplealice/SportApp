@@ -9,6 +9,7 @@ export default function NewsPage({ route, navigation }) {
     const [data, setData] = React.useState(null);
 
     React.useEffect(() => {
+        console.log(id)
         const getData = async () => {
             const resp = await fetch(URL + "news/getAll");
             const data = await resp.json();
@@ -25,6 +26,7 @@ export default function NewsPage({ route, navigation }) {
     const returnSeminarDate = () => {
         if (data == null) { }
         else {
+            console.log(id)
             return retDate(data[id])
         }
     }
@@ -65,6 +67,7 @@ export default function NewsPage({ route, navigation }) {
                 </ImageBackground>
 
                 <Image source={findImage()} style={styles.photo} />
+                {/* {data[id].image ? <Image style={styles.photo} source={findImage()} /> : <View />}  */}
 
                 <View style={styles.viewSem}>
                     <View style={styles.dateEventContainer1}>

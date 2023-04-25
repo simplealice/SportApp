@@ -169,6 +169,7 @@ export default function AuthScreen({ navigation }) {
                 onChangeText={text => setUsername(text)}
                 value={username}
                 placeholder="Эл. почта"
+                autoCapitalize='none'
               />
               <TextInput
                 style={styles.input}
@@ -176,6 +177,7 @@ export default function AuthScreen({ navigation }) {
                 onChangeText={text => setPassword(text)}
                 value={password}
                 placeholder="Пароль"
+                autoCapitalize='none'
               />
             </SafeAreaView>
             <TouchableOpacity
@@ -272,22 +274,51 @@ export default function AuthScreen({ navigation }) {
               style={styles.imageIcon}
               source={require("../images/icon.jpg")} />
             <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
-              <Text style={s.iconText}>{'\u25C0'} Мой профиль</Text>
+              <Text style={s.iconText}>{'\u25C0'} Страница редактора</Text>
             </TouchableOpacity>
-            <View style={hms.menuView}>
-
-            </View>
+            <View style={hms.menuView}></View>
           </ImageBackground>
 
+          <Text>{"\n"}</Text>
           <View style={styles.container}>
-            {renderInfo()}
+          <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Уведомления</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Чаты</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <Text>{"\n"}</Text>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("EditUsersScreen", { token: token }) }}>
+              <Text style={styles.btnText}>Пользователи</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("EditNewsScreen") }}>
+              <Text style={styles.btnText}>Новости</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>События</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.btnWrite}
               // disabled
               onPress={handleLogout}>
               <View>
-                <Text style={styles.writeText}>Log out</Text>
+                <Text style={styles.writeText}>Выйти</Text>
               </View>
             </TouchableOpacity>
           </View>

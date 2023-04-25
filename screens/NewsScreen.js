@@ -134,7 +134,8 @@ export default function NewsScreen({ navigation }) {
                             {i.description.slice(0, MAXLENGTH)}{(i.description.length > MAXLENGTH) ? '...' : ''}
                         </Text>
                     </View>
-                    <Image style={styles.newsImage} source={findImage(i)} />
+                    {/* <Image style={styles.newsImage} source={findImage(i)} /> */}
+                    {i.image ? <Image style={styles.newsImage} source={findImage(i)} /> : <View />} 
                     </TouchableOpacity>
                 )
         }

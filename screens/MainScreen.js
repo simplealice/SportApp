@@ -139,7 +139,8 @@ export default function MainScreen({ navigation }) {
                             {news[index].description.slice(0, MAXLENGTH)}{(news[index].description.length > MAXLENGTH) ? '...' : ''}
                         </Text>
                     </View>
-                    <Image style={styles.newsImage} source={findImage(news[index])} />
+                    {news[index].image ? <Image style={styles.newsImage} source={findImage(news[index])} /> : <View />} 
+                    {/* <Image style={styles.newsImage} source={findImage(news[index])} /> */}
                 </TouchableOpacity>
             )
         }
