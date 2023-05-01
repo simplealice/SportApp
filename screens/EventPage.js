@@ -13,12 +13,16 @@ export default function EventPage({ route, navigation }) {
     const [data, setData] = React.useState(null);
 
     React.useEffect(() => {
-        const getData = async () => {
-            const resp = await fetch(URL + "events/getAll");
-            const data = await resp.json();
-            setData(data);
-        }
-        getData();
+        fetch(URL + `events/get/${id}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => console.error(error));
     }, []);
 
     const retDate = (e) => {
@@ -29,14 +33,14 @@ export default function EventPage({ route, navigation }) {
     const returnEventDate = () => {
         if (data == null) { }
         else {
-            return retDate(data[id])
+            return retDate(data)
         }
     }
 
     const findImage = () => {
         if (data == null) { }
         else {
-            var ImageURL = { uri: data[id].image };
+            var ImageURL = { uri: data.image };
             return ImageURL;
         }
     }
@@ -44,21 +48,21 @@ export default function EventPage({ route, navigation }) {
     const returnEventTitle = () => {
         if (data == null) { }
         else {
-            return data[id].title
+            return data.title
         }
     }
 
     const returnEventDescription = () => {
         if (data == null) { }
         else {
-            return data[id].description
+            return data.description
         }
     }
 
     const returnEventCity = () => {
         if (data == null) { }
         else {
-            return data[id].city
+            return data.city
         }
     }
 
@@ -70,7 +74,7 @@ export default function EventPage({ route, navigation }) {
                     <TouchableOpacity style={eps.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')}>
                         <Image style={s.bellImage} source={require('../images/bell.png')} />
                     </TouchableOpacity>
-                    
+
                     <View style={eps.menuView}>
                         <TouchableOpacity onPress={() => { navigation.goBack(); }}>
                             <Text style={eps.iconText}>{'\u25C0'} {returnEventTitle()}</Text>
@@ -94,9 +98,11 @@ export default function EventPage({ route, navigation }) {
                         <Text style={eps.btnNewsText}>{returnEventCity()}</Text>
                     </View>
                     <Text style={eps.btnNewsTextDesc}>{returnEventDescription()}</Text>
-                    <TouchableOpacity style={eps.btnWrite} 
-                    onPress={() => { if( data[id].type == "seminar") navigation.navigate("SignInSeminar", { id: id + 1 })
-                    else  navigation.navigate("SignInCompetition", { id: id + 1 }) }}>
+                    <TouchableOpacity style={eps.btnWrite}
+                        onPress={() => {
+                            if (data[id].type == "seminar") navigation.navigate("SignInSeminar", { id: id + 1 })
+                            else navigation.navigate("SignInCompetition", { id: id + 1 })
+                        }}>
                         <Text style={eps.writeText}>Записаться</Text>
                     </TouchableOpacity>
                 </View>

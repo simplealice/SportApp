@@ -130,7 +130,7 @@ export default function CompetitionsScreen({ navigation }) {
                 return (
                     <TouchableOpacity
                         style={tls.NewsTile}
-                        onPress={() => { navigation.navigate("Competition", { id: i.id - 1 }) }}>
+                        onPress={() => { navigation.navigate("Competition", { id: i.id }) }}>
                         <View>
                             <View style={tls.dateEventContainer1}>
                                 <Image style={tls.eventsImage} source={require('../images/doc.png')} />

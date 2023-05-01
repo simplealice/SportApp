@@ -131,7 +131,7 @@ export default function MainScreen({ navigation }) {
             return (
                 <TouchableOpacity
                     style={styles.NewsTile}
-                    onPress={() => { navigation.navigate("Newsone", { id: news[index].id - 1 }) }}>
+                    onPress={() => { navigation.navigate("Newsone", { id: news[index].id }) }}>
                     <View style={styles.TextContainer}>
                         <Text style={styles.btnNewsTextGray}>{retDate(news[index])}</Text>
                         <Text style={styles.btnNewsTextBold}>{news[index].title}</Text>
@@ -283,7 +283,7 @@ export default function MainScreen({ navigation }) {
                     data={showThreeLastEvents()}
                     renderItem={({ item }) => <TouchableOpacity
                         style={styles.EventTile}
-                        onPress={() => { navigation.navigate("Event", { id: item.id - 1 }) }}>
+                        onPress={() => { navigation.navigate("Event", { id: item.id }) }}>
                         <View style={s.btnView}>
                             <View style={styles.upPartView}>
                                 <Text style={styles.eventTitleText}>{item.title}</Text>

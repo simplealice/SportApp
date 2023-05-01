@@ -9,13 +9,17 @@ export default function NewsPage({ route, navigation }) {
     const [data, setData] = React.useState(null);
 
     React.useEffect(() => {
-        console.log(id)
-        const getData = async () => {
-            const resp = await fetch(URL + "news/getAll");
-            const data = await resp.json();
-            setData(data);
-        }
-        getData();
+
+        fetch(URL + `news/get/${id}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => console.error(error));
     }, []);
 
     const retDate = (e) => {
@@ -26,15 +30,14 @@ export default function NewsPage({ route, navigation }) {
     const returnSeminarDate = () => {
         if (data == null) { }
         else {
-            console.log(id)
-            return retDate(data[id])
+            return retDate(data)
         }
     }
 
     const findImage = () => {
         if (data == null) { }
         else {
-            var ImageURL = { uri: data[id].image };
+            var ImageURL = { uri: data.image };
             return ImageURL;
         }
     }
@@ -42,14 +45,14 @@ export default function NewsPage({ route, navigation }) {
     const returnSeminarTitle = () => {
         if (data == null) { }
         else {
-            return data[id].title
+            return data.title
         }
     }
 
     const returnSeminarDescription = () => {
         if (data == null) { }
         else {
-            return data[id].description
+            return data.description
         }
     }
 

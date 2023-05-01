@@ -28,61 +28,75 @@ export default function EditNewsPage({ route, navigation }) {
         hideDatePicker1();
     };
 
-    const [data, setData] = React.useState(null);
+    // const [data, setData] = React.useState(null);
 
     React.useEffect(() => {
-        console.log(id)
-        const getData = async () => {
-            const resp = await fetch(URL + "news/getAll");
-            const data = await resp.json();
-            setData(data);
-        }
-        getData();
-        // setTitle(data[id].title)
-        // setDate(data[id].date)
-        // setImage(data[id].image)
-        // setDescription(data[id].description)
+        getNews()
+        // fetch(URL + `news/get/${id}`, {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json',
+        //     }
+        // })
+        //     .then(response => response.json())
+        //     .then(data => setData(data))
+        //     .catch(error => console.error(error));
 
     }, []);
 
-    // React.useEffect(() => {
-    //     getNews();
-    // }, []);
+    const getNews = () => {
+        fetch(global.URL + `news/get/${id}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }).then(response => response.json())
+            .then(data => {
+                setTitle(data.title)
+                setDate(data.date)
+                setDescription(data.description)
+                setImage(data.image)
+            })
+            .catch(error => console.error(error));
+    };
 
-    const returnSeminarDate = () => {
-        if (data == null) { }
-        else {
-            // setDate(retDate(data[id]))
-            return retDate(data[id])
-        }
-    }
+
+    // const returnSeminarDate = () => {
+    //     if (data == null) { }
+    //     else {
+    //         // setDate(retDate(data[id]))
+    //         return retDate(data)
+    //     }
+    // }
 
     const findImage = () => {
-        if (data == null) { }
+        if (image == null) { }
         else {
-            var ImageURL = { uri: data[id].image };
+            var ImageURL = { uri: image };
             // setImage(ImageURL);
             return ImageURL
         }
     }
 
-    const returnSeminarTitle = () => {
-        if (data == null) { }
-        else {
-            // setTitle(data[id].title)
-            return data[id].title
-        }
-    }
+    // const returnSeminarTitle = () => {
+    //     if (data == null) { }
+    //     else {
+    //         // setTitle(data[id].title)
+    //         return data.title
+    //     }
+    // }
 
-    const returnSeminarDescription = () => {
-        if (data == null) { }
-        else {
-            // setDescription(data[id].description)
-            return data[id].description
-        }
-    }
+    // const returnSeminarDescription = () => {
+    //     if (data == null) { }
+    //     else {
+    //         // setDescription(data[id].description)
+    //         return data.description
+    //     }
+    // }
 
-    const editUser = () => {
+    const editNews = () => {
         fetch(global.URL + `news/edit/${id}`, {
             method: 'PUT',
             headers: {
@@ -91,10 +105,10 @@ export default function EditNewsPage({ route, navigation }) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                title: title,
-                newBirthDate: date,
-                description: description,
-                image: image
+                newTitle: title,
+                newDate: date,
+                newDescription: description,
+                newImage: image
             }),
         }).then(response => response.json())
             .then(data => {
@@ -134,7 +148,7 @@ export default function EditNewsPage({ route, navigation }) {
 
                     <View style={eps.menuView}>
                         <TouchableOpacity onPress={() => { navigation.goBack(); }}>
-                            <Text style={eps.iconText}>{'\u25C0'} {returnSeminarTitle()}</Text>
+                            <Text style={eps.iconText}>{'\u25C0'} {title}</Text>
                         </TouchableOpacity>
                     </View>
                 </ImageBackground>
@@ -145,7 +159,7 @@ export default function EditNewsPage({ route, navigation }) {
                     <TextInput
                         style={styles.input}
                         onChangeText={setTitle}
-                        value={returnSeminarTitle()}
+                        value={title}
                         placeholder="Название"
                     />
 
@@ -171,7 +185,7 @@ export default function EditNewsPage({ route, navigation }) {
                     <TextInput
                         style={styles.input}
                         onChangeText={setImage}
-                        value={findImage()}
+                        value={image}
                         placeholder="http://..."
                     />
 
@@ -179,14 +193,14 @@ export default function EditNewsPage({ route, navigation }) {
                     <TextInput
                         editable
                         multiline
-                        numberOfLines={4}
-                        maxLength={100}
+                        numberOfLines={30}
+                        maxLength={700}
                         placeholder="Описание"
                         onChangeText={text => setDescription(text)}
-                        value={returnSeminarDescription()}
+                        value={description}
                         style={styles.textField}
                     />
-                    <TouchableOpacity style={styles.btnWrite} onPress={() => editUser()}>
+                    <TouchableOpacity style={styles.btnWrite} onPress={() => editNews()}>
                         <Text style={styles.writeText}>Отправить</Text>
                     </TouchableOpacity>
 
@@ -291,7 +305,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     textField: {
-        height: 100,
+        height: 400,
         margin: 12,
         borderColor: '#E5E5E5',
         borderWidth: 1,

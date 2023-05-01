@@ -1,9 +1,27 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
 import * as React from 'react';
+import { useState, useCallback, useEffect } from 'react'
 
 export default function GaleryScreen({ navigation }) {
 
     const [photos, setPhotos] = React.useState(null);
+
+    // const [hovered, setHovered] = useState(false)
+
+    // const onEnter = () => {
+    //     console.log(hovered)
+    //     setHovered(true)
+    // }
+    // const onExit = () => {
+    //     setHovered(false)
+    // }
+
+    // const openPhoto = (e) => {
+    //     return (
+    //         <Image style = {{width: 100}} source = { findImage(e) } />
+    //     )
+    // }
+
 
     // Set photos
     React.useEffect(() => {
@@ -155,13 +173,23 @@ export default function GaleryScreen({ navigation }) {
                     showsHorizontalScrollIndicator={false}
                     data={photos}
                     inverted
+                    numColumns={3}
+                    columnWrapperStyle={{ justifyContent: 'space-between' }}
+                    contentContainerStyle={{ marginLeft: 10, marginRight: 10 }}
                     renderItem={({ item }) =>
-                        <Image
-                            style={styles.photo}
-                            source={findImage(item)}
-                        />}
+                    // <View>
+                    //     <TouchableOpacity onPress={() => onEnter()}>
+                            <Image
+                                style={styles.photo}
+                                source={findImage(item)}
+                            />
+                        // </TouchableOpacity>
+                        //</ScrollView>{hovered && <Image style = {{width: 500}} source = { findImage(item) } />}
+                        //</View>
+                    }
                     ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
                 />
+
 
                 <Text style={styles.btnAllNewsText}>МЫ В СОЦСЕТЯХ</Text>
                 <TouchableOpacity onPress={() => Linking.openURL('https://vk.com/public151614553')}>
@@ -199,7 +227,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     photo: {
-        width: '90%',
+        width: '30%',
         // height: 250,
         aspectRatio: 1,
         alignSelf: 'center',
@@ -259,7 +287,7 @@ const styles = StyleSheet.create({
     },
     flatNews: {
         width: "100%",
-        marginBottom: 10
+        marginBottom: 10,
     },
     netsImage: {
         width: 60,

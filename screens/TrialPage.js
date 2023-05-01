@@ -57,6 +57,10 @@ export default function TrialPage({ navigation }) {
 
         if (!mail.trim() && !phone.trim()) return showError('Необходимо ввести почту или номер телефона', setError)
 
+        if (birthday === '' || birthday.getFullYear() >= 2019) {
+            return showError('Недопустимая дата рождения', setError)
+        }
+
         return 1;
     }
 

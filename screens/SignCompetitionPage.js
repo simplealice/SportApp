@@ -43,6 +43,10 @@ export default function SignCompetitionPage({ route, navigation }) {
         if (!person.trim() || person.length < 3) return showError('ФИО должно содержать не менее 3 символов', setError)
 
         if (!email.trim()) return showError('Необходимо ввести почту', setError)
+ 
+        if (birthday === '' || birthday.getFullYear() >= 2019) {
+            return showError('Недопустимая дата рождения', setError)
+        }
 
         return 1;
     }

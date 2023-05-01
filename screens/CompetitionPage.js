@@ -13,12 +13,16 @@ export default function CompetitionPage({ route, navigation }) {
     const [data, setData] = React.useState(null);
 
     React.useEffect(() => {
-        const getData = async () => {
-            const resp = await fetch(URL + "events/getAll");
-            const data = await resp.json();
-            setData(data);
-        }
-        getData();
+        fetch(URL + `events/get/${id}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => console.error(error));
     }, []);
 
     const retDate = (e) => {
@@ -29,14 +33,14 @@ export default function CompetitionPage({ route, navigation }) {
     const returnCompetitionDate = () => {
         if (data == null) { }
         else {
-            return retDate(data[id])
+            return retDate(data)
         }
     }
 
     const findImage = () => {
         if (data == null) { }
         else {
-            var ImageURL = { uri: data[id].image };
+            var ImageURL = { uri: data.image };
             return ImageURL;
         }
     }
@@ -44,21 +48,21 @@ export default function CompetitionPage({ route, navigation }) {
     const returnCompetitionTitle = () => {
         if (data == null) { }
         else {
-            return data[id].title
+            return data.title
         }
     }
 
     const returnCompetitionDescription = () => {
         if (data == null) { }
         else {
-            return data[id].description
+            return data.description
         }
     }
 
     const returnCompetitionCity = () => {
         if (data == null) { }
         else {
-            return data[id].city
+            return data.city
         }
     }
 

@@ -126,7 +126,7 @@ export default function NewsScreen({ navigation }) {
                 return (
                     <TouchableOpacity
                         style={styles.NewsTile}
-                        onPress={() => { navigation.navigate("Newsone", { id: i.id - 1 }) }}>
+                        onPress={() => { navigation.navigate("Newsone", { id: i.id }) }}>
                         <View style={styles.TextContainer}>
                         <Text style={styles.btnNewsTextGray}>{retDate(i)}</Text>
                         <Text style={styles.btnNewsTextBold}>{i.title}</Text>
