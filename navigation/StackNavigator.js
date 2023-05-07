@@ -31,16 +31,18 @@ const Stack = createNativeStackNavigator();
 
 const MainStackNavigator = ({ navigation, route }) => {
   React.useLayoutEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route);
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'Splash'; 
+    // console.log(routeName)
     if (routeName === "Splash") {
       navigation.setOptions({ tabBarStyle: { display: 'none' } });
     } else {
       navigation.setOptions({ tabBarStyle: { display: 'flex' } });
     }
   }, [navigation, route]);
+
   return (
     <Stack.Navigator>
-      {!global.splashed ? <Stack.Screen name="Splash" component={SplashScreen} options={{ header: () => null, tabBarVisible: false }} /> : <></>}
+      {!global.splashed ? <Stack.Screen name="Splash" component={SplashScreen} options={{ header: () => null }} /> : <></>}
       <Stack.Screen name="Main" component={MainScreen} options={{ header: () => null }} />
       <Stack.Screen name="Seminars" component={SeminarsScreen} options={{ header: () => null }} />
       <Stack.Screen name="Seminar" component={SeminarPage} options={{ header: () => null }} />

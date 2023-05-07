@@ -8,15 +8,15 @@ export default function PrizesScreen({ navigation }) {
     const hms = require('../styles/horiz_menu_styles');
     const tls = require('../styles/tiles_list_styles');
 
-    const [events, setEvents] = React.useState(null);
+    const [awards, setAwards] = React.useState(null);
 
     React.useEffect(() => {
-        const getEvents = async () => {
-            const resp = await fetch(URL + "events/getAll"); // EDIT ON START
+        const getAwards = async () => {
+            const resp = await fetch(URL + "awards/getAll"); // EDIT ON START
             const data = await resp.json();
-            setEvents(data);
+            setAwards(data);
         }
-        getEvents();
+        getAwards();
     }, []);
 
     const handleClick = (e) => {
@@ -145,9 +145,25 @@ export default function PrizesScreen({ navigation }) {
         }
     }
 
-    const retDate = (e) => {
-        var dt = new XDate(e.date);
-        return dt.toString("dd.MM.yyyy");
+    const findImage = (i) => {
+        if (i == null) { }
+        else {
+            var ImageURL = { uri: i.image };
+            return ImageURL;
+        }
+    }
+
+    const renderAwards = (i) => {
+        if (awards == null || i >= awards.length) { }
+        else {
+            return (
+                <View style={styles.awardContainer}>
+                    <Image style={styles.awardImage} source={findImage(i)} />
+                    <Text style={styles.awardBoldText}>{i.name}</Text>
+                    <Text style={styles.awardText}>{i.description}</Text>
+                </View>
+            )
+        }
     }
 
     return (
@@ -208,33 +224,12 @@ export default function PrizesScreen({ navigation }) {
                     />
                 </View>
 
-                <Image
-                    style={styles.infoPhoto}
-                    source={require("../images/infoPhoto.jpg")} />
-
-                <View style={styles.infoPhotoView}>
-                    <Text style={styles.infoPhotoBoldText}>Владимирская региональная физкультурно-спортивная
-                        общественная организация "Спортивный клуб каратэ "ВОИН"</Text>
-                    <Text style={styles.infoPhotoText}>Сокращенное наименование: ВРФСОО "СКК "ВОИН"</Text>
-                </View>
-
-                <Text style={styles.infoText}>В нашей секции каратэ шотокан во Владимире мы улучшаем 
-                физическое состояние Ваших детей. Способствуем реализации ряда задач нравственного, эстетического
-                    и трудового воспитания. Стимулируем психологические и волевые качества юных каратистов.
-                    Позаботьтесь о физическом воспитании своего ребенка уже сегодня!{"\n"}
-                    Каратэ шотокан (Сетокан каратэ) –один из основных стилей каратэ, разработанный
-                    Гитином Фунакоси и являющийся ныне одним из наиболее распространенных в мире. Название
-                    происходит от литературного псевдонима Фунакоси Гитина — «Сёто», что значит
-                    «качающиеся сосны», а «кан» значит «зал».
-                </Text>
-
-                <View style={styles.insideInfoView}>
-                    <Text style={styles.infoBoldRedText}>В программу обучения входит:</Text>
-                    <Text style={styles.insideInfoText}>✓специальная и спортивная подготовка {"\n"}
-                    ✓ искусство ведения поединка {"\n"}
-                    ✓ участия в спортивных соревнованиях и турнирах {"\n"}
-                    ✓ участия в семинарах и аттестационных экзаменах</Text>
-                </View>
+                <FlatList style={styles.flatNews}
+                    showsHorizontalScrollIndicator={false}
+                    data={awards}
+                    renderItem={({ item }) => renderAwards(item)}
+                    ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+                />
             </View>
         </ScrollView>
     );
@@ -252,75 +247,24 @@ const styles = StyleSheet.create({
     flatSubMenu: {
         alignSelf: 'center'
     },
-    SubMenuTile: {
-        marginTop: 12,
-        height: 55,
-        width: 125,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 10,
-        backgroundColor: 'gainsboro'
-    },
+
     subMenuView: {
         width: '100%',
         paddingBottom: 20
     },
-    infoPhoto: {
-        width: '100%',
-        height: 250,
-    },
-    infoPhotoView: {
-        width: '95%',
-        backgroundColor: '#E3241D',
-        alignItems: 'center',
-        padding: 10,
-        paddingTop: 20,
-        paddingBottom: 20,
-        borderRadius: 5,
-        marginTop: -10,
-        shadowColor: 'black',
-        elevation: 6,
-    },
-    infoPhotoText: {
-        fontSize: 14,
-        color: 'white',
-        alignSelf: 'center',
-        textAlign: 'center',
-        marginTop: 10
-    },
-    infoPhotoBoldText: {
-        fontSize: 14,
-        color: 'white',
-        fontWeight: 'bold',
-        alignSelf: 'center',
-        textAlign: 'center'
-    },
-    infoText: {
-        fontSize: 14,
-        alignSelf: 'center',
-        textAlign: 'justify',
-        margin: 15,
 
+    awardImage: {
+        width: '100%',
+        height: 150,
+        width: 150,
+        aspectRatio: 1,
+        // borderRadius: 65
     },
-    insideInfoView: {
-        width: '95%',
-        backgroundColor: 'white',
-        padding: 10,
-        borderRadius: 5,
-        shadowColor: 'black',
-        elevation: 6,
-        marginBottom: 20
+    awardContainer: {
+        alignItems: 'center',
+        marginBottom: 30
     },
-    infoBoldRedText: {
-        fontSize: 14,
-        color: '#E3241D',
-        fontWeight: 'bold',
-        marginLeft: 10,
-        marginRight: 10
-    },
-    insideInfoText: {
-        fontSize: 14,
-        marginLeft: 10,
-        marginRight: 10
+    awardBoldText: {
+        fontWeight: 'bold'
     }
 })

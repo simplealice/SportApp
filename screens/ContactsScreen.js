@@ -155,8 +155,10 @@ export default function ContactsScreen({ navigation }) {
                     <Image
                         style={s.imageIcon}
                         source={require("../images/icon.jpg")} />
-                    <Text style={s.iconText}>{'\u25C0'} Контакты</Text>
 
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+                        <Text style={s.iconText}>{'\u25C0'} Контакты</Text>
+                    </TouchableOpacity>
                     <View style={hms.menuView}>
                         <FlatList style={hms.flatMenu}
                             showsHorizontalScrollIndicator={false}

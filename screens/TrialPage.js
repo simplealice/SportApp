@@ -161,7 +161,7 @@ export default function TrialPage({ navigation }) {
                         {global.birthday === '' ?
                             <View style={styles.containerDate}>
                                 <Text style={styles.dateText}>
-                                    {birthday ? formatDate(birthday) : 'Дата выбрана'}
+                                    {birthday ? formatDate(birthday) : 'Дата не выбрана'}
                                 </Text>
                                 <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
                                     <Text style={styles.writeText}>Дата рождения</Text>

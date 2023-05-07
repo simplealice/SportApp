@@ -57,6 +57,9 @@ export default function AuthScreen({ navigation }) {
     global.name = str
     global.birthday = birthday
     global.category = category
+    console.log("GName: " + global.name)
+    console.log("GBirth: " + global.birthday)
+    console.log("GCat: " + global.category)
   }
 
   const getUser = (token) => {
