@@ -23,14 +23,25 @@ import AddUserPage from '../screens/editor_screens/AddUserPage';
 import EditNewsScreen from '../screens/editor_screens/EditNewsScreen';
 import AddNewsPage from '../screens/editor_screens/AddNewsPage';
 import EditNewsPage from '../screens/editor_screens/EditNewsPage';
+import SplashScreen from './SplashScreen';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator(); 
 
-const MainStackNavigator = () => {
+const MainStackNavigator = ({navigation, route}) => {
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName === "Splash"){
+        navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }else {
+        navigation.setOptions({tabBarStyle: {display: 'flex'}});
+    }
+}, [navigation, route]);
     return (
         <Stack.Navigator>
+          <Stack.Screen name="Splash" component={SplashScreen} options={{header: () => null}} />
           <Stack.Screen name="Main" component={MainScreen} options={{header: () => null}} />
           <Stack.Screen name="Seminars" component={SeminarsScreen} options={{header: () => null}} />
           <Stack.Screen name="Seminar" component={SeminarPage} options={{header: () => null}} />

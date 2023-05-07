@@ -80,27 +80,10 @@ export default function EditNewsPage({ route, navigation }) {
         }
     }
 
-    // const returnSeminarTitle = () => {
-    //     if (data == null) { }
-    //     else {
-    //         // setTitle(data[id].title)
-    //         return data.title
-    //     }
-    // }
-
-    // const returnSeminarDescription = () => {
-    //     if (data == null) { }
-    //     else {
-    //         // setDescription(data[id].description)
-    //         return data.description
-    //     }
-    // }
-
     const editNews = () => {
         fetch(global.URL + `news/edit/${id}`, {
             method: 'PUT',
             headers: {
-                // "Authorization": `Bearer ${token}`,
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -119,17 +102,11 @@ export default function EditNewsPage({ route, navigation }) {
     };
 
     const deleteNews = () => {
-        fetch(global.URL + `news/delete/${id}`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                navigation.navigate("EditNewsScreen")
-            }).catch(error => console.error(error));
+        fetch(global.URL + `news/delete/${id}`)
+        .then(response => {
+            response.json()
+            navigation.navigate("EditNewsScreen")
+        }).catch(error => console.error(error));
     };
 
     const retDate = (e) => {
@@ -142,7 +119,7 @@ export default function EditNewsPage({ route, navigation }) {
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} source={require("../../images/back.jpg")}>
                     <TouchableOpacity style={eps.OpacityBell} onPress={() => deleteNews()}>
-                        {/* <Image style={s.bellImage} source={require('../../images/bin.png')} /> */}
+                        <Image style={s.bellImage} source={require('../../images/bin.png')} />
                     </TouchableOpacity>
                     <Text style={styles.titleText}>{'\n'}{'\n'}{'\n'}</Text>
 

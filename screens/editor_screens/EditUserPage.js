@@ -101,6 +101,7 @@ export default function EditUserPage({ route, navigation }) {
     //             return response.json();
     //         }).then(data => {
     //             console.log(data);
+    //             navigation.navigate("EditUsersScreen", { token: token })
     //         }).catch(error => {
     //             console.error('There was a problem with the fetch operation:', error);
     //         });
@@ -110,18 +111,6 @@ export default function EditUserPage({ route, navigation }) {
         var dt = new XDate(e);
         return dt.toString("dd.MM.yyyy");
     }
-    // const formatDate = (data) => {
-    //     let day = ""
-    //     let month = ""
-    //     if (data.getDate() < 10) {
-    //         day = "0" + data.getDate()
-    //     } else day = data.getDate()
-    //     if (data.getMonth() + 1 < 10) {
-    //         month = "0" + (data.getMonth() + 1)
-    //     } else month = data.getMonth() + 1
-    //     let dateTimeString = day + '.' + month + '.' + data.getFullYear();
-    //     return dateTimeString;
-    // };
 
     return (
         <ScrollView>

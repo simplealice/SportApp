@@ -40,14 +40,15 @@ export default function AddNewsPage({ navigation }) {
             },
             body: JSON.stringify({
                 title: title,
+                date: date.toString("yyyy-MM-dd"),
                 description: description,
-                date: date,
                 image: image,
             }),
-        }).then(response => response.json())
+        }).then(response => {
+            response.json()
+        })
             .then(data => {
-                console.log(data);
-                navigation.goBack();
+                navigation.navigate("EditNewsScreen")
             })
             .catch(error => console.error(error));
     };
