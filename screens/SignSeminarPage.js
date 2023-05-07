@@ -8,7 +8,7 @@ export default function SignSeminarPage({ route, navigation }) {
     const tls = require('../styles/tiles_list_styles');
 
     const [email, setEmail] = React.useState('');
-    const [person, setPerson] = React.useState('');
+    const [person, setPerson] = React.useState(global.name);
     
     const [error, setError] = React.useState('');
 

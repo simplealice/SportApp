@@ -14,6 +14,8 @@ const App = () => {
 
   global.URL = "http://192.168.31.9:8080/"
   global.splashed = false
+  global.name = ''
+  global.birthday = ''
   LogBox.ignoreAllLogs()
 
   return (

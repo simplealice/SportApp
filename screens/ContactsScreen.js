@@ -8,7 +8,7 @@ export default function ContactsScreen({ navigation }) {
     const s = require('../styles/styles');
     const hms = require('../styles/horiz_menu_styles');
 
-    const [name, setName] = React.useState('');
+    const [name, setName] = React.useState(global.name);
     const [phone, setPhone] = React.useState('');
     const [mail, setMail] = React.useState('');
     const [comment, setComment] = React.useState('');

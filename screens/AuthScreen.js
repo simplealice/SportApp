@@ -43,6 +43,22 @@ export default function AuthScreen({ navigation }) {
     }
   ]
 
+  // useState(() => {
+  //   var str = surname
+  //   str += ' '
+  //   str += name
+  //   global.name = str
+  //   console.log("GName: " + global.name)
+  // })
+  const changeState = () => {
+    var str = surname
+    str += ' '
+    str += name
+    global.name = str
+    global.birthday = birthday
+    global.category = category
+  }
+
   const getUser = (token) => {
     fetch(global.URL + `users/get/${username}`, {
       method: 'POST',
@@ -87,6 +103,8 @@ export default function AuthScreen({ navigation }) {
       .then(response => {
         console.log(response.data);
         setToken(null);
+        global.name = ''
+        global.birthday = ''
       })
       .catch(error => {
         console.error(error);
@@ -194,6 +212,7 @@ export default function AuthScreen({ navigation }) {
     );
   } else if (role === "SPORTSMEN") {
     // Render dashboard if logged in
+    { changeState() }
     return (
       <ScrollView>
         <View style={s.container}>
@@ -204,7 +223,7 @@ export default function AuthScreen({ navigation }) {
             <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
               <Text style={s.iconText}>{'\u25C0'} {surname} {name}</Text>
             </TouchableOpacity>
-            <View style={hms.menuView}/>
+            <View style={hms.menuView} />
           </ImageBackground>
 
           <View style={styles.container}>
@@ -236,14 +255,14 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("IndividualPage", {surname: surname, namei: name, birthDate: birthday, token: token}) }}>
+              onPress={() => { navigation.navigate("IndividualPage", { token: token }) }}>
               {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
               <Text style={styles.btnText}>Записаться на индивидуальное занятие</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
 
             <View style={styles.pushContainer}>
-            <Text style={styles.btnText}>Включить пуш-уведомления</Text>
+              <Text style={styles.btnText}>Включить пуш-уведомления</Text>
               <Switch
                 trackColor={{ false: '#767577', true: '#E3241D' }}
                 thumbColor={isEnabled ? 'white' : '#f4f3f4'}
@@ -281,7 +300,7 @@ export default function AuthScreen({ navigation }) {
 
           <Text>{"\n"}</Text>
           <View style={styles.container}>
-          <TouchableOpacity
+            <TouchableOpacity
               style={styles.btnTile}
               onPress={() => { navigation.navigate("") }}>
               <Text style={styles.btnText}>Уведомления</Text>

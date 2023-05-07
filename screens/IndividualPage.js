@@ -9,10 +9,8 @@ export default function IndividualPage({ route, navigation }) {
     const hms = require('../styles/horiz_menu_styles');
     const tls = require('../styles/tiles_list_styles');
 
-    const { surname, namei, birthDate, token } = route.params;
+    const { token } = route.params;
 
-    const [name, setName] = React.useState(surname + ' ' + namei);
-    const [birthday, setBirthday] = React.useState(birthDate);
     const [phone, setPhone] = React.useState('');
     const [mail, setMail] = React.useState('');
 
@@ -126,10 +124,10 @@ export default function IndividualPage({ route, navigation }) {
                     <View style={styles.menuView}>
                         {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                         <Text style={styles.input}>
-                            {name}
+                            {global.name}
                         </Text>
                         <Text style={styles.input}>
-                            {formatDateBirth(birthday)}
+                            {formatDateBirth(global.birthday)}
                         </Text>
                         <TextInput
                             style={styles.input}

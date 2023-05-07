@@ -10,8 +10,8 @@ export default function SignCompetitionPage({ route, navigation }) {
     const tls = require('../styles/tiles_list_styles');
 
     const [email, setEmail] = React.useState('');
-    const [person, setPerson] = React.useState('');
-    const [birthday, setBirthday] = React.useState('');
+    const [person, setPerson] = React.useState(global.name);
+    const [birthday, setBirthday] = React.useState(global.birthday);
     const [datePickerVisible1, setDatePickerVisible1] = React.useState(false);
     const showDatePicker1 = () => {
         setDatePickerVisible1(true);
@@ -24,7 +24,7 @@ export default function SignCompetitionPage({ route, navigation }) {
         hideDatePicker1();
     };
     const [category, setCategory] = React.useState('');
-    
+
     const [error, setError] = React.useState('');
 
     const showError = (error, state) => {
@@ -34,7 +34,7 @@ export default function SignCompetitionPage({ route, navigation }) {
             state('')
         }, 5500)
     }
-  
+
     const { id } = route.params;
 
     const checkIfValid = () => {
@@ -46,9 +46,11 @@ export default function SignCompetitionPage({ route, navigation }) {
 
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (email.trim() && !re.test(email)) return showError('Неверный формат почты', setError)
- 
-        if (birthday === '' || birthday.getFullYear() >= 2019) {
-            return showError('Недопустимая дата рождения', setError)
+
+        if (global.birthday === '') {
+            if (birthday === '' || birthday.getFullYear() >= 2019) {
+                return showError('Недопустимая дата рождения', setError)
+            }
         }
 
         return 1;
@@ -100,7 +102,24 @@ export default function SignCompetitionPage({ route, navigation }) {
         } else month = data.getMonth() + 1
         let dateTimeString = day + '.' + month + '.' + data.getFullYear();
         return dateTimeString;
-      };
+    };
+
+    const formatDateBirth = (data) => {
+        let day = data[8]
+        day += data[9]
+        let month = data[5]
+        month += data[6]
+        let year = data[0]
+        year += data[1]
+        year += data[2]
+        year += data[3]
+        let str = day
+        str += '.'
+        str += month
+        str += '.'
+        str += year
+        return str;
+    };
 
     return (
         <ScrollView>
@@ -125,22 +144,26 @@ export default function SignCompetitionPage({ route, navigation }) {
                             placeholder="Эл. почта"
                             autoCapitalize='none'
                         />
-                        <View style={styles.containerDate}>
-                            <Text style={styles.dateText}>
-                                {birthday ? formatDate(birthday) : 'Дата не выбрана'}
+                        {global.birthday === '' ?
+                            <View style={styles.containerDate}>
+                                <Text style={styles.dateText}>
+                                    {birthday ? formatDate(birthday) : 'Дата не выбрана'}
+                                </Text>
+                                <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
+                                    <Text style={styles.writeText}>Дата рождения</Text>
+                                </TouchableOpacity>
+                                <DateTimePickerModal
+                                    // date={birthday}
+                                    isVisible={datePickerVisible1}
+                                    mode="date"
+                                    value={birthday}
+                                    onConfirm={handleConfirmBirthday}
+                                    onCancel={hideDatePicker1}
+                                />
+                            </View> : <Text style={styles.input}>
+                                {formatDateBirth(global.birthday)}
                             </Text>
-                            <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
-                                <Text style={styles.writeText}>Дата рождения</Text>
-                            </TouchableOpacity>
-                            <DateTimePickerModal
-                                // date={birthday}
-                                isVisible={datePickerVisible1}
-                                mode="date"
-                                value={birthday}
-                                onConfirm={handleConfirmBirthday}
-                                onCancel={hideDatePicker1}
-                            />
-                        </View>
+                        }
                         <TextInput
                             style={styles.input}
                             onChangeText={setCategory}
@@ -217,7 +240,7 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     dateText: {
-        fontSize: 14, 
+        fontSize: 14,
         fontWeight: 'bold',
         marginTop: 30
     }
