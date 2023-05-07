@@ -5,6 +5,7 @@ function SplashScreen({ navigation }) {
 
   useEffect(() => {
     setTimeout(() => {
+      global.splashed = true
       navigation.navigate('Main');
     }, 3000);
   }, []);
