@@ -57,8 +57,18 @@ export default function TrialPage({ navigation }) {
 
         if (!mail.trim() && !phone.trim()) return showError('Необходимо ввести почту или номер телефона', setError)
 
-        if (birthday === '' || birthday.getFullYear() >= 2019) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (mail.trim() && !re.test(mail)) return showError('Неверный формат почты', setError)
+
+        if (birthday === '' || birthday.getFullYear() >= 2019 || birthday.getFullYear() <= 1950) {
             return showError('Недопустимая дата рождения', setError)
+        }
+
+        if (date === '' || date.getFullYear() < new Date().getFullYear()
+        || (date.getFullYear() === new Date().getFullYear() && date.getMonth() < new Date().getMonth())
+        || (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() && date.getDate() <= new Date().getDate())
+        ) {
+            return showError('Недопустимая дата записи', setError)
         }
 
         return 1;

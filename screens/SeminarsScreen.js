@@ -122,7 +122,7 @@ export default function SeminarsScreen({ navigation }) {
                 return (
                     <TouchableOpacity
                         style={tls.NewsTile}
-                        onPress={() => { navigation.navigate("Seminar", { id: i.id - 1 }) }}>
+                        onPress={() => { navigation.navigate("Seminar", { id: i.id }) }}>
                         <View>
                             <View style={tls.dateEventContainer1}>
                                 <Image style={tls.eventsImage} source={require('../images/doc.png')} />

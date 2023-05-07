@@ -29,6 +29,9 @@ export default function SignSeminarPage({ route, navigation }) {
 
         if (!email.trim()) return showError('Необходимо ввести почту', setError)
 
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (email.trim() && !re.test(email)) return showError('Неверный формат почты', setError)
+
         return 1;
     }
 

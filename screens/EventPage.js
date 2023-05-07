@@ -100,8 +100,8 @@ export default function EventPage({ route, navigation }) {
                     <Text style={eps.btnNewsTextDesc}>{returnEventDescription()}</Text>
                     <TouchableOpacity style={eps.btnWrite}
                         onPress={() => {
-                            if (data[id].type == "seminar") navigation.navigate("SignInSeminar", { id: id + 1 })
-                            else navigation.navigate("SignInCompetition", { id: id + 1 })
+                            if (data.type == "seminar") navigation.navigate("SignInSeminar", { id: id })
+                            else navigation.navigate("SignInCompetition", { id: id })
                         }}>
                         <Text style={eps.writeText}>Записаться</Text>
                     </TouchableOpacity>

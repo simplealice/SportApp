@@ -43,6 +43,9 @@ export default function SignCompetitionPage({ route, navigation }) {
         if (!person.trim() || person.length < 3) return showError('ФИО должно содержать не менее 3 символов', setError)
 
         if (!email.trim()) return showError('Необходимо ввести почту', setError)
+
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (email.trim() && !re.test(email)) return showError('Неверный формат почты', setError)
  
         if (birthday === '' || birthday.getFullYear() >= 2019) {
             return showError('Недопустимая дата рождения', setError)

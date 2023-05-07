@@ -98,7 +98,7 @@ export default function CompetitionPage({ route, navigation }) {
                         <Text style={eps.btnNewsText}>{returnCompetitionCity()}</Text>
                     </View>
                     <Text style={eps.btnNewsTextDesc}>{returnCompetitionDescription()}</Text>
-                    <TouchableOpacity style={eps.btnWrite} onPress={() => { navigation.navigate("SignInCompetition", { id: id + 1 }) }}>
+                    <TouchableOpacity style={eps.btnWrite} onPress={() => { navigation.navigate("SignInCompetition", { id: id }) }}>
                         <Text style={eps.writeText}>Записаться</Text>
                     </TouchableOpacity>
                 </View>

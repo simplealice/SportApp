@@ -40,7 +40,7 @@ const MainStackNavigator = ({ navigation, route }) => {
   }, [navigation, route]);
   return (
     <Stack.Navigator>
-      {!global.splashed ? <Stack.Screen name="Splash" component={SplashScreen} options={{ header: () => null }} /> : <></>}
+      {!global.splashed ? <Stack.Screen name="Splash" component={SplashScreen} options={{ header: () => null, tabBarVisible: false }} /> : <></>}
       <Stack.Screen name="Main" component={MainScreen} options={{ header: () => null }} />
       <Stack.Screen name="Seminars" component={SeminarsScreen} options={{ header: () => null }} />
       <Stack.Screen name="Seminar" component={SeminarPage} options={{ header: () => null }} />
@@ -58,12 +58,6 @@ const MainStackNavigator = ({ navigation, route }) => {
       <Stack.Screen name="Contacts" component={ContactsScreen} options={{ header: () => null }} />
       <Stack.Screen name="SignInSeminar" component={SignSeminarPage} options={{ header: () => null }} />
       <Stack.Screen name="SignInCompetition" component={SignCompetitionPage} options={{ header: () => null }} />
-      <Stack.Screen name="EditUsersScreen" component={EditUsersScreen} options={{ header: () => null }} />
-      <Stack.Screen name="EditUserPage" component={EditUserPage} options={{ header: () => null }} />
-      <Stack.Screen name="AddUserPage" component={AddUserPage} options={{ header: () => null }} />
-      <Stack.Screen name="EditNewsScreen" component={EditNewsScreen} options={{ header: () => null }} />
-      <Stack.Screen name="AddNewsPage" component={AddNewsPage} options={{ header: () => null }} />
-      <Stack.Screen name="EditNewsPage" component={EditNewsPage} options={{ header: () => null }} />
     </Stack.Navigator>
   )
 }
