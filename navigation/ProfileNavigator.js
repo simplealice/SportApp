@@ -6,6 +6,7 @@ import EditNewsScreen from '../screens/editor_screens/EditNewsScreen';
 import AddNewsPage from '../screens/editor_screens/AddNewsPage';
 import EditNewsPage from '../screens/editor_screens/EditNewsPage';
 import AuthScreen from '../screens/AuthScreen';
+import IndividualPage from '../screens/IndividualPage';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -15,6 +16,7 @@ const ProfileStackNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Profile" component={AuthScreen} options={{ header: () => null }} />
+            <Stack.Screen name="IndividualPage" component={IndividualPage} options={{ header: () => null }} />
             <Stack.Screen name="EditUsersScreen" component={EditUsersScreen} options={{ header: () => null }} />
             <Stack.Screen name="EditUserPage" component={EditUserPage} options={{ header: () => null }} />
             <Stack.Screen name="AddUserPage" component={AddUserPage} options={{ header: () => null }} />

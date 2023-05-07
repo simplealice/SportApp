@@ -236,7 +236,7 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
+              onPress={() => { navigation.navigate("IndividualPage", {surname: surname, namei: name, birthDate: birthday, token: token}) }}>
               {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
               <Text style={styles.btnText}>Записаться на индивидуальное занятие</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
@@ -265,7 +265,7 @@ export default function AuthScreen({ navigation }) {
         </View>
       </ScrollView>
     );
-  } else if (role === "COACH") {
+  } else if (role === "ADMIN") {
     return (
       <ScrollView>
         <View style={s.container}>
