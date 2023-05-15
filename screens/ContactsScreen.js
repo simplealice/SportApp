@@ -28,6 +28,12 @@ export default function ContactsScreen({ navigation }) {
         if (!name.trim() || name.length < 3) return showError('ФИО должно содержать не менее 3 символов', setError)
 
         if (!mail.trim() && !phone.trim()) return showError('Необходимо ввести почту или номер телефона', setError)
+        
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (mail.trim() && !re.test(mail)) return showError('Неверный формат почты', setError)
+
+        var pattern = new RegExp(/^[0-9\b]+$/);
+        if (phone.trim() && (!pattern.test(phone) || phone.length !== 11)) return showError('Неверный формат номера телефона', setError)
 
         if (!comment.trim() || comment.length < 3) return showError('Комментарий должно содержать не менее 3 символов', setError)
         return 1;
@@ -221,6 +227,7 @@ export default function ContactsScreen({ navigation }) {
 
                 <View style={styles.menuView}>
                     <Text style={styles.btnFeedbackText}>ФОРМА ОБРАТНОЙ СВЯЗИ</Text>
+                    {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                     <TextInput
                         style={styles.input}
                         onChangeText={setName}

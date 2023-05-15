@@ -3,18 +3,23 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ImageBackgr
 import React, { useState } from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import XDate from 'xdate';
+import SelectDropdown from 'react-native-select-dropdown';
 
-export default function AddNewsPage({ navigation }) {
+export default function AddEventPage({ navigation }) {
 
     const s = require('../../styles/styles');
     const eps = require('../../styles/event_page_styles');
 
     // const { token } = route.params;
 
+    const roles = ['Турнир', 'Семинар']
     const [title, setTitle] = useState('');
     const [date, setDate] = React.useState(new XDate());
     const [description, setDescription] = useState('');
     const [image, setImage] = useState('');
+    const [city, setCity] = useState('');
+    const [type, setType] = useState('seminar');
+    const [discipline, setDiscipline] = useState('');
 
     const [datePickerVisible1, setDatePickerVisible1] = React.useState(false);
     const showDatePicker1 = () => {
@@ -29,24 +34,31 @@ export default function AddNewsPage({ navigation }) {
     };
 
     const addNews = () => {
+        console.log(type)
         if (checkIfValid() == 1) {
-            fetch(global.URL + 'news/add', {
+            fetch(global.URL + 'events/add', {
                 method: 'POST',
+                // headers: {
+                //     "Authorization": `Bearer ${token}`,
+                // },
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    title: title,
                     date: date.toString("yyyy-MM-dd"),
+                    title: title,
+                    city: city,
                     description: description,
+                    type: type,
+                    discipline: discipline,
                     image: image,
                 }),
             }).then(response => {
                 response.json()
             })
                 .then(data => {
-                    navigation.navigate("EditNewsScreen")
+                    navigation.navigate("EditEventsScreen")
                 })
                 .catch(error => console.error(error));
         }
@@ -56,7 +68,6 @@ export default function AddNewsPage({ navigation }) {
         var dt = new XDate(e);
         return dt.toString("dd.MM.yyyy");
     }
-
 
     const [error, setError] = React.useState('');
 
@@ -76,11 +87,16 @@ export default function AddNewsPage({ navigation }) {
 
         if (date === '' || date.getFullYear() < new Date().getFullYear()
             || (date.getFullYear() === new Date().getFullYear() && date.getMonth() < new Date().getMonth())
-            || (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() && date.getDate() !== new Date().getDate())
+            || (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() && date.getDate() <= new Date().getDate())
         ) {
             return showError('Недопустимая дата', setError)
         }
 
+        if (!city.trim() || city.length < 3) return showError('Место проведения должно содержать не менее 3 символов', setError)
+
+        if (type == 'competition') {
+            if (!discipline.trim() || discipline.length < 2) return showError('Дисциплина должна содержать не менее 2 символов', setError)
+        }
 
         return 1;
     }
@@ -99,9 +115,30 @@ export default function AddNewsPage({ navigation }) {
                 </ImageBackground>
 
                 <View style={styles.menuView}>
-                    <Text style={styles.btnFeedbackText}>ДОБАВЛЕНИЕ НОВОСТИ</Text>
+                    <Text style={styles.btnFeedbackText}>ДОБАВЛЕНИЕ СОБЫТИЯ</Text>
 
                     {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
+
+                    <SelectDropdown
+                        buttonStyle={styles.selectDropdown}
+                        buttonTextStyle={styles.selectDropdownText}
+                        data={roles}
+                        defaultButtonText='Выберите тип...'
+                        onSelect={(selectedItem, index) => {
+                            if (selectedItem === 'Турнир') {
+                                setType('competition')
+                            }
+                            else if (selectedItem === 'Семинар') {
+                                setType('seminar')
+                            }
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item
+                        }}
+                    />
 
                     <TextInput
                         style={styles.input}
@@ -126,6 +163,21 @@ export default function AddNewsPage({ navigation }) {
                             onCancel={hideDatePicker1}
                         />
                     </View>
+
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setCity}
+                        value={city}
+                        placeholder="Место проведения"
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setDiscipline}
+                        value={discipline}
+                        placeholder="Дисциплина (для турниров)"
+                    />
+
                     <TextInput
                         style={styles.input}
                         onChangeText={setImage}

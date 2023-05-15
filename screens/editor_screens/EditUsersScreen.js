@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
+import SelectDropdown from 'react-native-select-dropdown';
 
 export default function EditUsersScreen({ route, navigation }) {
 
@@ -11,11 +12,19 @@ export default function EditUsersScreen({ route, navigation }) {
     const { token } = route.params;
 
     const [users, setUsers] = React.useState(null);
+    // const roles = ['Спортсмен', 'Тренер', 'Все']
+    // const [selectedRole, setSelectedRole] = React.useState('ALL');
+    // const [shown, setShown] = React.useState(null);
+
+    // React.useEffect(() => {
+    //     console.log(token)
+    //     getUsers(token);
+    //     // setShown(FilterUsers())
+    // }, []);
 
     React.useEffect(() => {
-        console.log(token)
         getUsers(token);
-    }, []);
+    });
 
     const getUsers = (token) => {
         fetch(global.URL + 'users/getAll', {
@@ -29,6 +38,27 @@ export default function EditUsersScreen({ route, navigation }) {
             })
             .catch(error => console.error(error));
     };
+
+    // const FilterUsers = () => {
+    //     console.log(selectedRole)
+    //     if (selectedRole === 'SPORTSMEN') {
+    //         let dataSportsmen = users.filter(function (item) {
+    //             return item.role == 'SPORTSMEN';
+    //         }).map(function ({ id, role, surname, name, email }) {
+    //             return { id, role, surname, name, email };
+    //         });
+    //         return dataSportsmen
+    //     } else if (selectedRole === 'COACH') {
+    //         let dataCoach = users.filter(function (item) {
+    //             return item.role == 'COACH';
+    //         }).map(function ({ id, role, surname, name, email }) {
+    //             return { id, role, surname, name, email };
+    //         });
+    //         return dataCoach
+    //     }
+    //     return users
+    //     //  console.log(dataSportsmen);
+    // }
 
     const renderEvents = (i) => {
         if (users == null || i >= users.length) { }
@@ -47,6 +77,7 @@ export default function EditUsersScreen({ route, navigation }) {
                         </View>
                         <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
                     </View>
+                    {/* {FilterUsers()} */}
                 </TouchableOpacity>
             )
         }
@@ -68,10 +99,35 @@ export default function EditUsersScreen({ route, navigation }) {
                     <View style={hms.menuView}></View>
                 </ImageBackground>
 
+                {/* <SelectDropdown
+                    buttonStyle={styles.selectDropdown}
+                    buttonTextStyle={styles.selectDropdownText}
+                    data={roles}
+                    defaultButtonText='Все'
+                    onSelect={(selectedItem, index) => {
+                        if (selectedItem === 'Спортсмены') {
+                            setSelectedRole('SPORTSMEN')
+                        }
+                        else if (selectedItem === 'Тренеры') {
+                            setSelectedRole('COACH')
+                        }
+                        else if (selectedItem === 'Все') {
+                            setSelectedRole('ALL')
+                        }
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        return selectedItem
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        return item
+                    }}
+                /> */}
                 {/* <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                     <Text>Добавить +</Text>
                 </TouchableOpacity> */}
                 <Text>{"\n"}</Text>
+
+
                 <FlatList style={tls.flatNews}
                     showsHorizontalScrollIndicator={false}
                     data={users}

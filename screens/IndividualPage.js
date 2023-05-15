@@ -11,8 +11,8 @@ export default function IndividualPage({ route, navigation }) {
 
     const { token } = route.params;
 
-    const [phone, setPhone] = React.useState('');
-    const [mail, setMail] = React.useState('');
+    const [phone, setPhone] = React.useState(global.phone);
+    const [mail, setMail] = React.useState(global.email);
 
     const [date, setDate] = React.useState(new XDate());
     const [datePickerVisible2, setDatePickerVisible2] = React.useState(false);
@@ -46,6 +46,9 @@ export default function IndividualPage({ route, navigation }) {
 
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (mail.trim() && !re.test(mail)) return showError('Неверный формат почты', setError)
+
+        var pattern = new RegExp(/^[0-9\b]+$/);
+        if (phone.trim() && (!pattern.test(phone) || phone.length !== 11)) return showError('Неверный формат номера телефона', setError)
 
         if (date === '' || date.getFullYear() < new Date().getFullYear()
             || (date.getFullYear() === new Date().getFullYear() && date.getMonth() < new Date().getMonth())

@@ -2,32 +2,28 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackgro
 import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
-export default function EditNewsScreen({ navigation }) {
+export default function EditEventsScreen({ navigation }) {
 
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
 
-    const [news, setNews] = React.useState(null);
+    const [events, setEvents] = React.useState(null);
 
     // React.useEffect(() => {
-    //     console.log('Screen')
-    //     getUsers();
+    //     getEvents();
     // }, []);
 
     React.useEffect(() => {
-        getUsers();
+        getEvents();
     });
 
-    const getUsers = () => {
-        fetch(global.URL + 'news/getAll', {
+    const getEvents = () => {
+        fetch(global.URL + 'events/getAll', {
             method: 'GET',
-            // headers: {
-            //     "Authorization": `Bearer ${token}`,
-            // }
         }).then(response => response.json())
             .then(data => {
-                setNews(data)
+                setEvents(data)
             })
             .catch(error => console.error(error));
     };
@@ -44,25 +40,14 @@ export default function EditNewsScreen({ navigation }) {
     }
 
     const renderEvents = (i) => {
-        if (news == null || i >= news.length) { }
+        if (events == null || i >= events.length) { }
         else {
             const MAXLENGTH = 40; 
             return (
-                // <TouchableOpacity
-                //     style={styles.userBtnTile}
-                //     onPress={() => { navigation.navigate("EditUserPage", { token: token, id: i.id, email: i.email }) }}>
-                //     <View style={styles.userTile}>
-                //         <View>
-                //             <Text style={tls.btnNewsTextBold}>{role}</Text>
-                //             <Text style={tls.btnNewsText}>{i.surname} {i.name}</Text>
-                //         </View>
-                //         <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-                //     </View>
-                // </TouchableOpacity>
 
                 <TouchableOpacity
                     style={styles.NewsTile}
-                    onPress={() => { navigation.navigate("EditNewsPage", { id: i.id }) }}>
+                    onPress={() => { navigation.navigate("EditEventPage", { id: i.id }) }}>
                     <View style={styles.TextContainer}>
                         <Text style={styles.btnNewsTextGray}>{retDate(i)}</Text>
                         <Text style={styles.btnNewsTextBold}>{i.title}</Text>
@@ -80,14 +65,14 @@ export default function EditNewsScreen({ navigation }) {
         <ScrollView>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../../images/back.jpg")}>
-                    <TouchableOpacity style={s.OpacityBell} onPress={() => navigation.navigate("AddNewsPage")}>
+                    <TouchableOpacity style={s.OpacityBell} onPress={() => navigation.navigate("AddEventPage")}>
                         <Image style={styles.plusImage} source={require('../../images/plus.png')} />
                     </TouchableOpacity>
                     <Image
                         style={styles.imageIcon}
                         source={require("../../images/icon.jpg")} />
                     <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                        <Text style={s.iconText}>{'\u25C0'} Новости</Text>
+                        <Text style={s.iconText}>{'\u25C0'} События</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}></View>
                 </ImageBackground>
@@ -95,7 +80,7 @@ export default function EditNewsScreen({ navigation }) {
                 <Text>{"\n"}</Text>
                 <FlatList style={tls.flatNews}
                     showsHorizontalScrollIndicator={false}
-                    data={news}
+                    data={events}
                     inverted
                     renderItem={({ item }) => renderEvents(item)}
                     ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
@@ -146,7 +131,7 @@ const styles = StyleSheet.create({
     },
     NewsTile: {
         marginTop: 10,
-        height: 110,
+        height: 140,
         width: '90%',
         paddingHorizontal: 15,
         shadowColor: 'black',
@@ -163,6 +148,10 @@ const styles = StyleSheet.create({
     btnNewsText: {
         fontSize: 14,
         color: 'black'
+    },
+    btnNewsTextGray: {
+        fontSize: 15,
+        color: 'gray'
     },
     btnNewsTextBold: {
         fontSize: 14,

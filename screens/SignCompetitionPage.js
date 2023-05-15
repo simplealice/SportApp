@@ -9,7 +9,7 @@ export default function SignCompetitionPage({ route, navigation }) {
     const hms = require('../styles/horiz_menu_styles');
     const tls = require('../styles/tiles_list_styles');
 
-    const [email, setEmail] = React.useState('');
+    const [email, setEmail] = React.useState(global.email);
     const [person, setPerson] = React.useState(global.name);
     const [birthday, setBirthday] = React.useState(global.birthday);
     const [datePickerVisible1, setDatePickerVisible1] = React.useState(false);

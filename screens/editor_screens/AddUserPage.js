@@ -41,30 +41,65 @@ export default function AddUserPage({ route, navigation }) {
 
     const addUser = () => {
         console.log(global.URL + `auth/register?role=${role}`)
-        fetch(global.URL + `auth/register?role=${role}`, {
-            method: 'POST',
-            // headers: {
-            //     "Authorization": `Bearer ${token}`,
-            // },
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                surname: surname,
-                name: name,
-                birthDate: birthday,
-                category: category,
-            }),
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                navigation.navigate("EditUsersScreen", { token: token })
-            })
-            .catch(error => console.error(error));
+        if (checkIfValid() == 1) {
+            fetch(global.URL + `auth/register?role=${role}`, {
+                method: 'POST',
+                // headers: {
+                //     "Authorization": `Bearer ${token}`,
+                // },
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    surname: surname,
+                    name: name,
+                    birthDate: birthday,
+                    category: category,
+                }),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    navigation.navigate("EditUsersScreen", { token: token })
+                })
+                .catch(error => console.error(error));
+        }
     };
+
+    const [error, setError] = React.useState('');
+
+    const showError = (error, state) => {
+        // console.log(error)
+        state(error)
+        setTimeout(() => {
+            state('')
+        }, 5500)
+    }
+
+    const checkIfValid = () => {
+        // if (!isValidField(userInfo)) return showError('Необходимо заполнить все поля', setError)
+
+        if (!role.trim()) return showError('Необходимо выбрать роль пользователя', setError)
+
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!email.trim() || !re.test(email)) return showError('Неверный формат почты', setError)
+
+        if (!password.trim() || password.length < 5) return showError('Пароль должен содержать не менее 5 символов', setError)
+
+        if (!surname.trim() || surname.length < 2) return showError('Фамилия должна содержать не менее 2 символов', setError)
+
+        if (!name.trim() || name.length < 2) return showError('Имя должно содержать не менее 2 символов', setError)
+
+        if (global.birthday === '') {
+            if (birthday === '' || birthday.getFullYear() >= 2019 || birthday.getFullYear() <= 1950) {
+                return showError('Недопустимая дата рождения', setError)
+            }
+        }
+
+        return 1;
+    }
 
     const retDate = (e) => {
         var dt = new XDate(e);
@@ -86,6 +121,7 @@ export default function AddUserPage({ route, navigation }) {
 
                 <View style={styles.menuView}>
                     <Text style={styles.btnFeedbackText}>ДОБАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯ</Text>
+                    {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                     <SelectDropdown
                         buttonStyle={styles.selectDropdown}
                         buttonTextStyle={styles.selectDropdownText}

@@ -23,6 +23,9 @@ export default function AuthScreen({ navigation }) {
   const [team, setTeam] = useState('');
   const [medals, setMedals] = useState('');
 
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -57,9 +60,13 @@ export default function AuthScreen({ navigation }) {
     global.name = str
     global.birthday = birthday
     global.category = category
+    global.email = email
+    global.phone = phone
     console.log("GName: " + global.name)
     console.log("GBirth: " + global.birthday)
     console.log("GCat: " + global.category)
+    console.log("GMail: " + global.email)
+    console.log("GPhone: " + global.phone)
   }
 
   const getUser = (token) => {
@@ -79,6 +86,8 @@ export default function AuthScreen({ navigation }) {
         setMajor(data.major)
         setTeam(data.team)
         setMedals(data.medals)
+        setEmail(data.email)
+        setPhone(data.phone)
       })
       .catch(error => console.error(error));
   };
@@ -108,6 +117,8 @@ export default function AuthScreen({ navigation }) {
         setToken(null);
         global.name = ''
         global.birthday = ''
+        global.email = ''
+        global.phone = ''
       })
       .catch(error => {
         console.error(error);
@@ -276,7 +287,7 @@ export default function AuthScreen({ navigation }) {
             </View>
 
             <TouchableOpacity
-              style={styles.btnWrite}
+              style={styles.btnExit}
               // disabled
               onPress={handleLogout}>
               <View>
@@ -315,6 +326,21 @@ export default function AuthScreen({ navigation }) {
               <Text style={styles.btnText}>Чаты</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Обратная связь</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Записи</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+
+
             <Text>{"\n"}</Text>
             <TouchableOpacity
               style={styles.btnTile}
@@ -330,13 +356,56 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
+              onPress={() => { navigation.navigate("EditEventsScreen") }}>
               <Text style={styles.btnText}>События</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.btnWrite}
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("EditEventsScreen") }}>
+              <Text style={styles.btnText}>Расписание</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("EditEventsScreen") }}>
+              <Text style={styles.btnText}>Статистика</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("EditEventsScreen") }}>
+              <Text style={styles.btnText}>Галерея</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Тренерский состав</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Информация о клубе</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Награды клуба</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Контакты</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.btnExit}
               // disabled
               onPress={handleLogout}>
               <View>
@@ -375,6 +444,15 @@ const styles = StyleSheet.create({
   },
   btnWrite: {
     marginTop: 30,
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#E3241D',
+    width: 150,
+    borderRadius: 20,
+  },
+  btnExit: {
+    marginTop: 30,
+    marginBottom: 30,
     alignItems: 'center',
     alignSelf: 'center',
     backgroundColor: '#E3241D',

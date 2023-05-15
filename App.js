@@ -12,10 +12,12 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
 
-  global.URL = "http://192.168.31.9:8080/"
+  global.URL = "http://192.168.31.24:8080/"
   global.splashed = false
   global.name = ''
   global.birthday = ''
+  global.email = ''
+  global.phone = ''
   LogBox.ignoreAllLogs()
 
   return (

@@ -7,7 +7,7 @@ export default function SignSeminarPage({ route, navigation }) {
     const hms = require('../styles/horiz_menu_styles');
     const tls = require('../styles/tiles_list_styles');
 
-    const [email, setEmail] = React.useState('');
+    const [email, setEmail] = React.useState(global.email);
     const [person, setPerson] = React.useState(global.name);
     
     const [error, setError] = React.useState('');

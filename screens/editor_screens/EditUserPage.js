@@ -20,6 +20,8 @@ export default function EditUserPage({ route, navigation }) {
     const [major, setMajor] = useState('');
     const [team, setTeam] = useState('');
     const [medals, setMedals] = useState('');
+    // const [group, setGroup] = useState('');
+    const [scores, setScores] = useState('');
 
     const [datePickerVisible1, setDatePickerVisible1] = React.useState(false);
     const showDatePicker1 = () => {
@@ -54,6 +56,10 @@ export default function EditUserPage({ route, navigation }) {
                 setMajor(data.major)
                 setTeam(data.team)
                 setMedals(data.medals)
+                // setGroup(data.group)
+                setScores(data.scores)
+                // console.log(data.scores)
+                console.log(scores)
             })
             .catch(error => console.error(error));
     };
@@ -74,7 +80,9 @@ export default function EditUserPage({ route, navigation }) {
                 newKuDan: kuDan,
                 newMajor: major,
                 newTeam: team,
-                newMedals: medals
+                newMedals: medals,
+                // newGroup: group,
+                newScores: scores
             }),
         }).then(response => response.json())
             .then(data => {
@@ -209,6 +217,25 @@ export default function EditUserPage({ route, navigation }) {
                         value={medals}
                         style={styles.textField}
                     />
+
+                    <Text style={styles.titleText}>Баллы</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setScores}
+                        value={scores}
+                        placeholder="20"
+                        keyboardType="numeric"
+                    />
+
+                    {/* <Text style={styles.titleText}>Группа</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setGroup}
+                        value={group}
+                        placeholder="1"
+                        autoCapitalize='none'
+                    /> */}
+
                     <TouchableOpacity style={styles.btnWrite} onPress={() => editUser()}>
                         <Text style={styles.writeText}>Отправить</Text>
                     </TouchableOpacity>

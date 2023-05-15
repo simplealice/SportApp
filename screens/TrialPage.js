@@ -22,8 +22,8 @@ export default function TrialPage({ navigation }) {
         setBirthday(birthday);
         hideDatePicker1();
     };
-    const [phone, setPhone] = React.useState('');
-    const [mail, setMail] = React.useState('');
+    const [phone, setPhone] = React.useState(global.phone);
+    const [mail, setMail] = React.useState(global.email);
 
     const [date, setDate] = React.useState(new XDate());
     const [datePickerVisible2, setDatePickerVisible2] = React.useState(false);
@@ -43,7 +43,7 @@ export default function TrialPage({ navigation }) {
     const [error, setError] = React.useState('');
 
     const showError = (error, state) => {
-        console.log(error)
+        // console.log(error)
         state(error)
         setTimeout(() => {
             state('')
@@ -59,6 +59,9 @@ export default function TrialPage({ navigation }) {
 
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (mail.trim() && !re.test(mail)) return showError('Неверный формат почты', setError)
+
+        var pattern = new RegExp(/^[0-9\b]+$/);
+        if (phone.trim() && (!pattern.test(phone) || phone.length !== 11)) return showError('Неверный формат номера телефона', setError)
         
         if (global.birthday === '') {
             if (birthday === '' || birthday.getFullYear() >= 2019 || birthday.getFullYear() <= 1950) {
