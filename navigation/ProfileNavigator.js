@@ -10,6 +10,8 @@ import IndividualPage from '../screens/IndividualPage';
 import EditEventsScreen from '../screens/editor_screens/EditEventsScreen';
 import AddEventPage from '../screens/editor_screens/AddEventPage';
 import EditEventPage from '../screens/editor_screens/EditEventPage';
+import EditCurriculumScreen from '../screens/editor_screens/EditCurriculumScreen';
+import EditCurriculumPage from '../screens/editor_screens/EditCurriculumPage';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -29,6 +31,8 @@ const ProfileStackNavigator = () => {
             <Stack.Screen name="EditEventsScreen" component={EditEventsScreen} options={{ header: () => null }} />
             <Stack.Screen name="AddEventPage" component={AddEventPage} options={{ header: () => null }} />
             <Stack.Screen name="EditEventPage" component={EditEventPage} options={{ header: () => null }} />
+            <Stack.Screen name="EditCurriculumScreen" component={EditCurriculumScreen} options={{ header: () => null }} />
+            <Stack.Screen name="EditCurriculumPage" component={EditCurriculumPage} options={{ header: () => null }} />
         </Stack.Navigator>
     )
 }

@@ -144,12 +144,18 @@ export default function CoachesScreen({ navigation }) {
         }
     }
 
+    const findImg = (e) => {
+        var base64Image = 'data:image/png;base64,' + e;
+        return base64Image
+    }
+
     const renderCoaches = (i) => {
         if (coaches == null || i >= coaches.length) { }
         else {
             return (
                 <View style={styles.coachContainer}>
-                    <Image style={styles.coachImage} source={require('../images/coach.png')} />
+                    { i.filebyte === '' ? <Image style={styles.coachImage} source={ require('../images/coach.png')} /> :
+                    <Image style={styles.coachImage} source={{uri: findImg(i.filebyte)}}/> }
                     <Text style={styles.coachText}>{i.position}</Text>
                     <Text style={styles.coachBoldText}>{i.surname} {i.name}</Text>
                     <Text style={styles.coachText}>{i.description}</Text>

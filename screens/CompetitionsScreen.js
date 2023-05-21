@@ -13,7 +13,7 @@ export default function CompetitionsScreen({ navigation }) {
         return ImageURL;
     }
 
-    const [competitions, setCompetitions] = React.useState(null);
+    const [competitions, setCompetitions] = React.useState([]);
 
     React.useEffect(() => {
         const getData = async () => {

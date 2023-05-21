@@ -8,29 +8,25 @@ export default function EditNewsScreen({ navigation }) {
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
 
-    const [news, setNews] = React.useState(null);
+    const [news, setNews] = React.useState([]);
 
-    // React.useEffect(() => {
-    //     console.log('Screen')
-    //     getUsers();
-    // }, []);
+    React.useEffect(() => {       
+        getNews();
+    }, []);
 
-    React.useEffect(() => {
-        getUsers();
-    });
-
-    const getUsers = () => {
-        fetch(global.URL + 'news/getAll', {
+    const getNews = async () => {
+        await fetch(global.URL + 'news/getAll', {
             method: 'GET',
-            // headers: {
-            //     "Authorization": `Bearer ${token}`,
-            // }
         }).then(response => response.json())
             .then(data => {
                 setNews(data)
             })
             .catch(error => console.error(error));
     };
+
+  useEffect(() => {
+    console.log("rerendered");
+  }, [news]);
 
     // This func returns an image URL from the object's param image
     const findImage = (e) => {

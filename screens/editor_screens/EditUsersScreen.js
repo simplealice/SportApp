@@ -24,14 +24,14 @@ export default function EditUsersScreen({ route, navigation }) {
 
     React.useEffect(() => {
         getUsers(token);
-    });
+    }, []);
 
     const getUsers = (token) => {
         fetch(global.URL + 'users/getAll', {
             method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            }
+            // headers: {
+            //     "Authorization": `Bearer ${token}`,
+            // }
         }).then(response => response.json())
             .then(data => {
                 setUsers(data)

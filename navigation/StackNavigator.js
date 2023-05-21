@@ -16,13 +16,8 @@ import PrizesScreen from '../screens/PrizesScreen';
 import ContactsScreen from '../screens/ContactsScreen';
 import SignSeminarPage from '../screens/SignSeminarPage';
 import SignCompetitionPage from '../screens/SignCompetitionPage';
-import EditUsersScreen from '../screens/editor_screens/EditUsersScreen';
-import EditUserPage from '../screens/editor_screens/EditUserPage';
-import AddUserPage from '../screens/editor_screens/AddUserPage';
-import EditNewsScreen from '../screens/editor_screens/EditNewsScreen';
-import AddNewsPage from '../screens/editor_screens/AddNewsPage';
-import EditNewsPage from '../screens/editor_screens/EditNewsPage';
 import SplashScreen from './SplashScreen';
+import StatisticsScreen from '../screens/StatisticsScreen';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -60,6 +55,7 @@ const MainStackNavigator = ({ navigation, route }) => {
       <Stack.Screen name="Contacts" component={ContactsScreen} options={{ header: () => null }} />
       <Stack.Screen name="SignInSeminar" component={SignSeminarPage} options={{ header: () => null }} />
       <Stack.Screen name="SignInCompetition" component={SignCompetitionPage} options={{ header: () => null }} />
+      <Stack.Screen name="Statistics" component={StatisticsScreen} options={{ header: () => null }} />
     </Stack.Navigator>
   )
 }

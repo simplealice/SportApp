@@ -26,6 +26,8 @@ export default function AuthScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
+  const [userId, setUserId] = useState('');
+
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -62,11 +64,7 @@ export default function AuthScreen({ navigation }) {
     global.category = category
     global.email = email
     global.phone = phone
-    console.log("GName: " + global.name)
-    console.log("GBirth: " + global.birthday)
-    console.log("GCat: " + global.category)
-    console.log("GMail: " + global.email)
-    console.log("GPhone: " + global.phone)
+    global.userId = userId
   }
 
   const getUser = (token) => {
@@ -88,6 +86,7 @@ export default function AuthScreen({ navigation }) {
         setMedals(data.medals)
         setEmail(data.email)
         setPhone(data.phone)
+        setUserId(data.id)
       })
       .catch(error => console.error(error));
   };
@@ -363,14 +362,8 @@ export default function AuthScreen({ navigation }) {
 
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("EditEventsScreen") }}>
+              onPress={() => { navigation.navigate("EditCurriculumScreen") }}>
               <Text style={styles.btnText}>Расписание</Text>
-              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnTile}
-              onPress={() => { navigation.navigate("EditEventsScreen") }}>
-              <Text style={styles.btnText}>Статистика</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
             <TouchableOpacity
