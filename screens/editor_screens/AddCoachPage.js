@@ -1,62 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
 import React, { useState } from 'react';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import XDate from 'xdate';
 
-export default function AddNewsPage({ navigation }) {
+export default function AddCoachPage({ route, navigation }) {
 
     const s = require('../../styles/styles');
     const eps = require('../../styles/event_page_styles');
 
-    // const { token } = route.params;
+    const { token } = route.params;
 
-    const [title, setTitle] = useState('');
-    const [date, setDate] = React.useState(new XDate());
+    const [surname, setSurname] = useState('');
+    const [name, setName] = useState('');
+    const [position, setPosition] = useState('');
     const [description, setDescription] = useState('');
-    const [image, setImage] = useState('');
+    const [photo, setPhoto] = useState('');
 
-    const [datePickerVisible1, setDatePickerVisible1] = React.useState(false);
-    const showDatePicker1 = () => {
-        setDatePickerVisible1(true);
-    };
-    const hideDatePicker1 = () => {
-        setDatePickerVisible1(false);
-    };
-    const handleConfirmBirthday = (date) => {
-        setDate(date);
-        hideDatePicker1();
-    };
-
-    const addNews = () => {
+    const addCoach = () => {
         if (checkIfValid() == 1) {
-            fetch(global.URL + 'news/add', {
+            fetch(global.URL + 'coaches/add', {
                 method: 'POST',
+                // headers: {
+                //     "Authorization": `Bearer ${token}`,
+                // },
                 headers: {
-                    Accept: 'application/json',
+                    // Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    title: title,
-                    date: date.toString("yyyy-MM-dd"),
+                    surname: surname,
+                    name: name,
+                    position: position,
                     description: description,
-                    image: image,
+                    image: photo
                 }),
-            }).then(response => {
-                response.json()
-            })
+            }).then(response => response.json())
                 .then(data => {
-                    navigation.navigate("EditNewsScreen")
+                    console.log(data);
+                    navigation.navigate("EditCoachesScreen", { token: token })
                 })
                 .catch(error => console.error(error));
         }
     };
-
-    const retDate = (e) => {
-        var dt = new XDate(e);
-        return dt.toString("dd.MM.yyyy");
-    }
-
 
     const [error, setError] = React.useState('');
 
@@ -70,20 +53,17 @@ export default function AddNewsPage({ navigation }) {
 
     const checkIfValid = () => {
 
-        if (!title.trim() || title.length < 5) return showError('Название должно содержать не менее 5 символов', setError)
+        if (!surname.trim() || surname.length < 2) return showError('Фамилия должна содержать не менее 2 символов', setError)
 
-        if (!description.trim() || description.length < 10) return showError('Описание должно содержать не менее 10 символов', setError)
+        if (!name.trim() || name.length < 2) return showError('Имя должно содержать не менее 2 символов', setError)
 
-        if (date === '' || date.getFullYear() < new Date().getFullYear()
-            || (date.getFullYear() === new Date().getFullYear() && date.getMonth() < new Date().getMonth())
-            || (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() && date.getDate() !== new Date().getDate())
-        ) {
-            return showError('Недопустимая дата', setError)
-        }
+        if (!position.trim() || position.length < 5) return showError('Должность должна содержать не менее 5 символов', setError)
 
+        if (!description.trim() || description.length < 5) return showError('Описание должно содержать не менее 5 символов', setError)
 
         return 1;
     }
+
 
     return (
         <ScrollView>
@@ -99,52 +79,45 @@ export default function AddNewsPage({ navigation }) {
                 </ImageBackground>
 
                 <View style={styles.menuView}>
-                    <Text style={styles.btnFeedbackText}>ДОБАВЛЕНИЕ НОВОСТИ</Text>
-
+                    <Text style={styles.btnFeedbackText}>ДОБАВЛЕНИЕ ТРЕНЕРА</Text>
                     {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
-
+                    
                     <TextInput
                         style={styles.input}
-                        onChangeText={setTitle}
-                        value={title}
-                        placeholder="Название"
+                        onChangeText={setSurname}
+                        value={surname}
+                        placeholder="Фамилия"
                     />
-
-                    <View style={styles.containerDate}>
-                        <Text style={styles.dateText}>
-                            {date ? retDate(date) : 'Дата выбрана'}
-                        </Text>
-                        <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
-                            <Text style={styles.writeText}>Дата</Text>
-                        </TouchableOpacity>
-                        <DateTimePickerModal
-                            // date={birthday}
-                            isVisible={datePickerVisible1}
-                            mode="date"
-                            value={date}
-                            onConfirm={handleConfirmBirthday}
-                            onCancel={hideDatePicker1}
-                        />
-                    </View>
                     <TextInput
                         style={styles.input}
-                        onChangeText={setImage}
-                        value={image}
-                        placeholder="Ссылка на изображение"
-                        autoCapitalize='none'
+                        onChangeText={setName}
+                        value={name}
+                        placeholder="Имя"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setPosition}
+                        value={position}
+                        placeholder="Должность"
                     />
                     <TextInput
                         editable
                         multiline
-                        numberOfLines={10}
-                        maxLength={160}
-                        placeholder="Описание..."
+                        numberOfLines={5}
+                        maxLength={200}
+                        placeholder="Описание"
                         onChangeText={text => setDescription(text)}
                         value={description}
                         style={styles.textField}
                     />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setPhoto}
+                        value={photo}
+                        placeholder="Ссылка на изображение"
+                    />
 
-                    <TouchableOpacity style={styles.btnWrite} onPress={() => addNews()}>
+                    <TouchableOpacity style={styles.btnWrite} onPress={() => addCoach()}>
                         <Text style={styles.writeText}>Добавить</Text>
                     </TouchableOpacity>
 
@@ -230,7 +203,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     textField: {
-        height: 250,
+        height: 150,
         margin: 12,
         borderColor: '#E5E5E5',
         borderWidth: 1,

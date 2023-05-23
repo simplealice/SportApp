@@ -151,8 +151,8 @@ export default function StatisticsScreen({ navigation }) {
     const renderTableItem = ({ item, index }) => (
         <View style={styles.tableRow}>
             <Text style={styles.tableCellB}>{item.surname} {item.name[0]}.</Text>
-            <Text style={styles.tableCell}>{item.scores}</Text>
-            <Text style={styles.tableCell}>{item.scores}</Text>
+            <Text style={styles.tableCell}>{item.category}</Text>
+            <Text style={styles.tableCell}>{item.kuDan}</Text>
             <Text style={styles.tableCell}>{item.scores}</Text>
         </View>
     )

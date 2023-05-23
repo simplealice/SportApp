@@ -11,7 +11,10 @@ import EditEventsScreen from '../screens/editor_screens/EditEventsScreen';
 import AddEventPage from '../screens/editor_screens/AddEventPage';
 import EditEventPage from '../screens/editor_screens/EditEventPage';
 import EditCurriculumScreen from '../screens/editor_screens/EditCurriculumScreen';
-import EditCurriculumPage from '../screens/editor_screens/EditCurriculumPage';
+import EditCurriculumPage from '../screens/editor_screens/EditCurriculumPage'
+import EditCoachesScreen from '../screens/editor_screens/EditCoachesScreen';
+import EditCoachPage from '../screens/editor_screens/EditCoachPage';
+import AddCoachPage from '../screens/editor_screens/AddCoachPage';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -33,6 +36,9 @@ const ProfileStackNavigator = () => {
             <Stack.Screen name="EditEventPage" component={EditEventPage} options={{ header: () => null }} />
             <Stack.Screen name="EditCurriculumScreen" component={EditCurriculumScreen} options={{ header: () => null }} />
             <Stack.Screen name="EditCurriculumPage" component={EditCurriculumPage} options={{ header: () => null }} />
+            <Stack.Screen name="AddCoachPage" component={AddCoachPage} options={{ header: () => null }} />
+            <Stack.Screen name="EditCoachesScreen" component={EditCoachesScreen} options={{ header: () => null }} />
+            <Stack.Screen name="EditCoachPage" component={EditCoachPage} options={{ header: () => null }} />
         </Stack.Navigator>
     )
 }

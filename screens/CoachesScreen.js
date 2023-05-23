@@ -154,8 +154,9 @@ export default function CoachesScreen({ navigation }) {
         else {
             return (
                 <View style={styles.coachContainer}>
-                    { i.filebyte === '' ? <Image style={styles.coachImage} source={ require('../images/coach.png')} /> :
-                    <Image style={styles.coachImage} source={{uri: findImg(i.filebyte)}}/> }
+                    {/* { i.filebyte === '' ? <Image style={styles.coachImage} source={ require('../images/coach.png')} /> :
+                    <Image style={styles.coachImage} source={{uri: findImg(i.filebyte)}}/> } */}
+                    <Image style={styles.coachImage} source={ require('../images/coach.png')} />
                     <Text style={styles.coachText}>{i.position}</Text>
                     <Text style={styles.coachBoldText}>{i.surname} {i.name}</Text>
                     <Text style={styles.coachText}>{i.description}</Text>
@@ -266,9 +267,14 @@ const styles = StyleSheet.create({
     },
     coachContainer: {
         alignItems: 'center',
-        marginBottom: 30
+        marginBottom: 30,
+        marginLeft: 20,
+        marginRight: 20
     },
     coachBoldText: {
         fontWeight: 'bold'
+    },
+    coachText: {
+        textAlign: 'center'
     }
 })

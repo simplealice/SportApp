@@ -182,7 +182,7 @@ export default function AddEventPage({ navigation }) {
                         style={styles.input}
                         onChangeText={setImage}
                         value={image}
-                        placeholder="Изображение"
+                        placeholder="Ссылка на изображение"
                         autoCapitalize='none'
                     />
                     <TextInput

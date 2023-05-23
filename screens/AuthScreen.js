@@ -313,18 +313,6 @@ export default function AuthScreen({ navigation }) {
 
           <Text>{"\n"}</Text>
           <View style={styles.container}>
-            <TouchableOpacity
-              style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
-              <Text style={styles.btnText}>Уведомления</Text>
-              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
-              <Text style={styles.btnText}>Чаты</Text>
-              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.btnTile}
@@ -374,7 +362,7 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
+              onPress={() => { navigation.navigate("EditCoachesScreen", { token: token }) }}>
               <Text style={styles.btnText}>Тренерский состав</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
