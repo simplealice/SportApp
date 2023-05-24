@@ -15,6 +15,9 @@ import EditCurriculumPage from '../screens/editor_screens/EditCurriculumPage'
 import EditCoachesScreen from '../screens/editor_screens/EditCoachesScreen';
 import EditCoachPage from '../screens/editor_screens/EditCoachPage';
 import AddCoachPage from '../screens/editor_screens/AddCoachPage';
+import EditClubInfoPage from '../screens/editor_screens/EditClubInfoPage';
+import ChatScreen from '../screens/ChatScreen';
+import ChatPage from '../screens/ChatPage';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -39,6 +42,9 @@ const ProfileStackNavigator = () => {
             <Stack.Screen name="AddCoachPage" component={AddCoachPage} options={{ header: () => null }} />
             <Stack.Screen name="EditCoachesScreen" component={EditCoachesScreen} options={{ header: () => null }} />
             <Stack.Screen name="EditCoachPage" component={EditCoachPage} options={{ header: () => null }} />
+            <Stack.Screen name="EditClubInfoPage" component={EditClubInfoPage} options={{ header: () => null }} />
+            <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ header: () => null }} />
+            <Stack.Screen name="ChatPage" component={ChatPage} options={{ header: () => null }} />
         </Stack.Navigator>
     )
 }

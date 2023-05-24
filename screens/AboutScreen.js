@@ -6,6 +6,19 @@ export default function AboutScreen({ navigation }) {
     const s = require('../styles/styles');
     const hms = require('../styles/horiz_menu_styles');
 
+    const [title, setTitle] = React.useState(null);
+    const [description, setDescription] = React.useState(null);
+
+    React.useEffect(() => {
+        const getEvents = async () => {
+            const resp = await fetch(URL + "club/get");
+            const data = await resp.json();
+            setTitle(data.title);
+            setDescription(data.description)
+        }
+        getEvents();
+    }, []);
+
     const handleClick = (e) => {
         if (e == 'Новости') {
             navigation.navigate("News")
@@ -132,6 +145,8 @@ export default function AboutScreen({ navigation }) {
         }
     }
 
+    
+
     return (
         <ScrollView>
             <View style={s.container}>
@@ -195,20 +210,11 @@ export default function AboutScreen({ navigation }) {
                     source={require("../images/infoPhoto.jpg")} />
 
                 <View style={styles.infoPhotoView}>
-                    <Text style={styles.infoPhotoBoldText}>Владимирская региональная физкультурно-спортивная
-                        общественная организация "Спортивный клуб каратэ "ВОИН"</Text>
+                    <Text style={styles.infoPhotoBoldText}>{title}</Text>
                     <Text style={styles.infoPhotoText}>Сокращенное наименование: ВРФСОО "СКК "ВОИН"</Text>
                 </View>
 
-                <Text style={styles.infoText}>В нашей секции каратэ шотокан во Владимире мы улучшаем 
-                физическое состояние Ваших детей. Способствуем реализации ряда задач нравственного, эстетического
-                    и трудового воспитания. Стимулируем психологические и волевые качества юных каратистов.
-                    Позаботьтесь о физическом воспитании своего ребенка уже сегодня!{"\n"}
-                    Каратэ шотокан (Сетокан каратэ) –один из основных стилей каратэ, разработанный
-                    Гитином Фунакоси и являющийся ныне одним из наиболее распространенных в мире. Название
-                    происходит от литературного псевдонима Фунакоси Гитина — «Сёто», что значит
-                    «качающиеся сосны», а «кан» значит «зал».
-                </Text>
+                <Text style={styles.infoText}>{description}</Text>
 
                 <View style={styles.insideInfoView}>
                     <Text style={styles.infoBoldRedText}>В программу обучения входит:</Text>

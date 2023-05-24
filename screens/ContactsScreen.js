@@ -13,6 +13,18 @@ export default function ContactsScreen({ navigation }) {
     const [mail, setMail] = React.useState('');
     const [comment, setComment] = React.useState('');
 
+    const [address, setAddress] = React.useState(null);
+    const [phoneClub, setPhoneClub] = React.useState(null);
+
+    React.useEffect(() => {
+        const getEvents = async () => {
+            const resp = await fetch(URL + "club/get");
+            const data = await resp.json();
+            setAddress(data.address);
+            setPhoneClub(data.phone)
+        }
+        getEvents();
+    }, []);
 
     const [error, setError] = React.useState('');
 
@@ -196,12 +208,11 @@ export default function ContactsScreen({ navigation }) {
 
                 <View style={styles.dateEventContainer}>
                     <Image style={styles.eventsImage} source={require('../images/calendar.png')} />
-                    <Text style={styles.eventText}>Адрес: г. Владимир. проспект Строителей, д. 16 В{"\n"}
-                        г. Владимир. ул. Батурина, д. 28 (филиал)</Text>
+                    <Text style={styles.eventText}>Адрес: {address}</Text>
                 </View>
                 <View style={styles.dateEventContainer}>
                     <Image style={styles.eventsImage} source={require('../images/phone.png')} />
-                    <Text style={styles.eventText}>Телефон: +7 910 182 56 56</Text>
+                    <Text style={styles.eventText}>Телефон: {phoneClub}</Text>
                 </View>
 
                 <MapView

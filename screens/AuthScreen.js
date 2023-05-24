@@ -118,6 +118,7 @@ export default function AuthScreen({ navigation }) {
         global.birthday = ''
         global.email = ''
         global.phone = ''
+        global.userId = ''
       })
       .catch(error => {
         console.error(error);
@@ -159,6 +160,36 @@ export default function AuthScreen({ navigation }) {
           <View style={styles.cardString}>
             <Text style={styles.cardTextGrey}>Членство в сборной:</Text>
             <Text style={styles.cardText}>{team}</Text>
+          </View>
+          <View style={styles.lineFull}></View>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Количество медалей:</Text>
+            <Text style={styles.cardText} numberOfLines={2} ellipsizeMode="tail">{medals}</Text>
+          </View>
+        </View>
+      )
+    }
+  }
+
+  const renderInfoCoach = () => {
+    if (surname == null || name == null || birthday == null || category == null) { }
+    else {
+      return (
+        <View style={styles.cardContainer}>
+          <Text style={styles.cardTextBold}>КАРТОЧКА ТРЕНЕРА</Text>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Дата рождения:</Text>
+            <Text style={styles.cardText}>{retDate(birthday)}</Text>
+          </View>
+          <View style={styles.lineFull}></View>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Кю/дан:</Text>
+            <Text style={styles.cardText}>{kuDan}</Text>
+          </View>
+          <View style={styles.lineFull}></View>
+          <View style={styles.cardString}>
+            <Text style={styles.cardTextGrey}>Направление:</Text>
+            <Text style={styles.cardText}>{major}</Text>
           </View>
           <View style={styles.lineFull}></View>
           <View style={styles.cardString}>
@@ -254,7 +285,7 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
+              onPress={() => { navigation.navigate("ChatScreen", { token: token, userId: userId, role: role }) }}>
               {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
               <Text style={styles.btnText}>Чат с тренером</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
@@ -271,6 +302,62 @@ export default function AuthScreen({ navigation }) {
               onPress={() => { navigation.navigate("IndividualPage", { token: token }) }}>
               {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
               <Text style={styles.btnText}>Записаться на индивидуальное занятие</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+
+            <View style={styles.pushContainer}>
+              <Text style={styles.btnText}>Включить пуш-уведомления</Text>
+              <Switch
+                trackColor={{ false: '#767577', true: '#E3241D' }}
+                thumbColor={isEnabled ? 'white' : '#f4f3f4'}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </View>
+
+            <TouchableOpacity
+              style={styles.btnExit}
+              // disabled
+              onPress={handleLogout}>
+              <View>
+                <Text style={styles.writeText}>Выйти</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    );
+  } else if (role === "COACH") {
+    // Render dashboard if logged in
+    { changeState() }
+    return (
+      <ScrollView>
+        <View style={s.container}>
+          <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
+            <Image
+              style={styles.imageIcon}
+              source={require("../images/icon.jpg")} />
+            <TouchableOpacity onPress={() => { navigation.navigate("Main") }}>
+              <Text style={s.iconText}>{'\u25C0'} {surname} {name}</Text>
+            </TouchableOpacity>
+            <View style={hms.menuView} />
+          </ImageBackground>
+
+          <View style={styles.container}>
+            {renderInfoCoach()}
+
+            <Text>{"\n"}</Text>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Уведомления</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("ChatScreen", { token: token, userId: userId, role: role }) }}>
+              <Text style={styles.btnText}>Чаты</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
 
@@ -368,7 +455,7 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
+              onPress={() => { navigation.navigate("EditClubInfoPage") }}>
               <Text style={styles.btnText}>Информация о клубе</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
@@ -376,12 +463,6 @@ export default function AuthScreen({ navigation }) {
               style={styles.btnTile}
               onPress={() => { navigation.navigate("") }}>
               <Text style={styles.btnText}>Награды клуба</Text>
-              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
-              <Text style={styles.btnText}>Контакты</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
 
