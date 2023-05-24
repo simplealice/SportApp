@@ -403,7 +403,7 @@ export default function AuthScreen({ navigation }) {
 
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
+              onPress={() => { navigation.navigate("FeedbackScreen", { token: token }) }}>
               <Text style={styles.btnText}>Обратная связь</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
@@ -463,6 +463,12 @@ export default function AuthScreen({ navigation }) {
               style={styles.btnTile}
               onPress={() => { navigation.navigate("") }}>
               <Text style={styles.btnText}>Награды клуба</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("") }}>
+              <Text style={styles.btnText}>Возможное время записи</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
 

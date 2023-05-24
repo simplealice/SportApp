@@ -18,6 +18,8 @@ import AddCoachPage from '../screens/editor_screens/AddCoachPage';
 import EditClubInfoPage from '../screens/editor_screens/EditClubInfoPage';
 import ChatScreen from '../screens/ChatScreen';
 import ChatPage from '../screens/ChatPage';
+import FeedbackScreen from '../screens/editor_screens/FeedbackScreen';
+import FeedbackPage from '../screens/editor_screens/FeedbackPage';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -45,6 +47,8 @@ const ProfileStackNavigator = () => {
             <Stack.Screen name="EditClubInfoPage" component={EditClubInfoPage} options={{ header: () => null }} />
             <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ header: () => null }} />
             <Stack.Screen name="ChatPage" component={ChatPage} options={{ header: () => null }} />
+            <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} options={{ header: () => null }} />
+            <Stack.Screen name="FeedbackPage" component={FeedbackPage} options={{ header: () => null }} />
         </Stack.Navigator>
     )
 }
