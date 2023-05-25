@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import XDate from 'xdate';
-import SelectDropdown from 'react-native-select-dropdown';
 
-export default function EditUsersScreen({ route, navigation }) {
+export default function EditPrizesScreen({ route, navigation }) {
 
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
@@ -11,7 +9,7 @@ export default function EditUsersScreen({ route, navigation }) {
 
     const { token } = route.params;
 
-    const [users, setUsers] = React.useState(null);
+    const [prizes, setPrizes] = React.useState(null);
     const [count, setCount] = useState(0);
 
     React.useEffect(() => {
@@ -22,53 +20,32 @@ export default function EditUsersScreen({ route, navigation }) {
     }, [count])
 
     const getUsers = (token) => {
-        fetch(global.URL + 'users/getAll', {
+        fetch(global.URL + 'awards/getAll', {
             method: 'GET',
             // headers: {
             //     "Authorization": `Bearer ${token}`,
             // }
         }).then(response => response.json())
             .then(data => {
-                setUsers(data)
+                setPrizes(data)
             })
             .catch(error => console.error(error));
     };
 
-    // const FilterUsers = () => {
-    //     console.log(selectedRole)
-    //     if (selectedRole === 'SPORTSMEN') {
-    //         let dataSportsmen = users.filter(function (item) {
-    //             return item.role == 'SPORTSMEN';
-    //         }).map(function ({ id, role, surname, name, email }) {
-    //             return { id, role, surname, name, email };
-    //         });
-    //         return dataSportsmen
-    //     } else if (selectedRole === 'COACH') {
-    //         let dataCoach = users.filter(function (item) {
-    //             return item.role == 'COACH';
-    //         }).map(function ({ id, role, surname, name, email }) {
-    //             return { id, role, surname, name, email };
-    //         });
-    //         return dataCoach
-    //     }
-    //     return users
-    //     //  console.log(dataSportsmen);
-    // }
-
     const renderEvents = (i) => {
-        if (users == null || i >= users.length) { }
+        if (prizes == null || i >= prizes.length) { }
         else {
-            var role = ""
-            if (i.role === 'SPORTSMEN') role = "Спортсмен"
-            else role = "Тренер"
+            const MAXLENGTH = 35;
             return (
                 <TouchableOpacity
                     style={styles.userBtnTile}
-                    onPress={() => { navigation.navigate("EditUserPage", { token: token, id: i.id, email: i.email }) }}>
+                    onPress={() => { navigation.navigate("EditPrizePage", { token: token, id: i.id }) }}>
                     <View style={styles.userTile}>
                         <View>
-                            <Text style={tls.btnNewsTextBold}>{role}</Text>
-                            <Text style={tls.btnNewsText}>{i.surname} {i.name}</Text>
+                            <Text style={tls.btnNewsTextBold}>{i.name}</Text>
+                            <Text style={tls.btnNewsText} numberOfLines={2} ellipsizeMode="tail">
+                                {i.description.slice(0, MAXLENGTH)}{(i.description.length > MAXLENGTH) ? '...' : ''}
+                            </Text>
                         </View>
                         <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
                     </View>
@@ -82,50 +59,24 @@ export default function EditUsersScreen({ route, navigation }) {
         <ScrollView>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../../images/back.jpg")}>
-                    <TouchableOpacity style={s.OpacityBell} onPress={() => navigation.navigate("AddUserPage", { token: token })}>
+                    <TouchableOpacity style={s.OpacityBell} onPress={() => navigation.navigate("AddPrizePage", { token: token })}>
                         <Image style={styles.plusImage} source={require('../../images/plus.png')} />
                     </TouchableOpacity>
                     <Image
                         style={styles.imageIcon}
                         source={require("../../images/icon.jpg")} />
                     <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                        <Text style={s.iconText}>{'\u25C0'} Пользователи</Text>
+                        <Text style={s.iconText}>{'\u25C0'} Награды</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}></View>
                 </ImageBackground>
 
-                {/* <SelectDropdown
-                    buttonStyle={styles.selectDropdown}
-                    buttonTextStyle={styles.selectDropdownText}
-                    data={roles}
-                    defaultButtonText='Все'
-                    onSelect={(selectedItem, index) => {
-                        if (selectedItem === 'Спортсмены') {
-                            setSelectedRole('SPORTSMEN')
-                        }
-                        else if (selectedItem === 'Тренеры') {
-                            setSelectedRole('COACH')
-                        }
-                        else if (selectedItem === 'Все') {
-                            setSelectedRole('ALL')
-                        }
-                    }}
-                    buttonTextAfterSelection={(selectedItem, index) => {
-                        return selectedItem
-                    }}
-                    rowTextForSelection={(item, index) => {
-                        return item
-                    }}
-                /> */}
-                {/* <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                    <Text>Добавить +</Text>
-                </TouchableOpacity> */}
                 <Text>{"\n"}</Text>
 
 
                 <FlatList style={tls.flatNews}
                     showsHorizontalScrollIndicator={false}
-                    data={users}
+                    data={prizes}
                     inverted
                     renderItem={({ item }) => renderEvents(item)}
                     ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
@@ -164,7 +115,7 @@ const styles = StyleSheet.create({
     },
     userBtnTile: {
         marginTop: 5,
-        height: 60,
+        height: 100,
         width: '90%',
         paddingHorizontal: 15,
         shadowColor: 'black',

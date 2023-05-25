@@ -461,7 +461,7 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
+              onPress={() => { navigation.navigate("EditPrizesScreen", { token: token }) }}>
               <Text style={styles.btnText}>Награды клуба</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
