@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, SectionList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -10,6 +10,14 @@ export default function CurriculumScreen({ navigation }) {
 
     const [groups, setGroups] = useState([]);
     const [count, setCount] = useState(0);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
 
     useEffect(() => {
         axios.get(global.URL + "curriculum/get")
@@ -33,10 +41,10 @@ export default function CurriculumScreen({ navigation }) {
             .catch(error => {
                 console.error(error);
             });
-            setTimeout(() => {
-                setCount(count + 1);
-            }, 15000);
-        }, [count])
+            // setTimeout(() => {
+            //     setCount(count + 1);
+            // }, 15000);
+        }, [refreshing])
 
     const renderGroup = ({ item }) => (
         <View style={styles.NewsTile}>
@@ -134,7 +142,9 @@ export default function CurriculumScreen({ navigation }) {
     }
 
     return (
-        <ScrollView>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
                     <Image

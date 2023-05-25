@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
 export default function AboutScreen({ navigation }) {
@@ -10,6 +10,15 @@ export default function AboutScreen({ navigation }) {
     const [description, setDescription] = React.useState(null);
     const [count, setCount] = useState(0);
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
     React.useEffect(() => {
         const getEvents = async () => {
             const resp = await fetch(URL + "club/get");
@@ -18,10 +27,10 @@ export default function AboutScreen({ navigation }) {
             setDescription(data.description)
         }
         getEvents();
-        setTimeout(() => {
-            setCount(count + 1);
-        }, 15000);
-    }, [count])
+        // setTimeout(() => {
+        //     setCount(count + 1);
+        // }, 15000);
+    }, [refreshing])
 
     const handleClick = (e) => {
         if (e == 'Новости') {
@@ -152,7 +161,9 @@ export default function AboutScreen({ navigation }) {
     
 
     return (
-        <ScrollView>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
                     <Image

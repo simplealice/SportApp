@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
@@ -12,6 +12,15 @@ export default function MainScreen({ navigation }) {
     const [photos, setPhotos] = React.useState(null);
     const [count, setCount] = useState(0);
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
     // Set news
     React.useEffect(() => {
         const getNews = async () => {
@@ -20,10 +29,10 @@ export default function MainScreen({ navigation }) {
             setNews(data);
         }
         getNews();
-        setTimeout(() => {
-            setCount(count + 1);
-        }, 10000);
-    }, [count])
+        // setTimeout(() => {
+        //     setCount(count + 1);
+        // }, 10000);
+    }, [refreshing])
 
     // Set events
     React.useEffect(() => {
@@ -33,7 +42,7 @@ export default function MainScreen({ navigation }) {
             setEvents(data);
         }
         getEvents();
-    }, []);
+    }, [refreshing]);
 
     // Set photos
     React.useEffect(() => {
@@ -43,7 +52,7 @@ export default function MainScreen({ navigation }) {
             setPhotos(data);
         }
         getPhotos();
-    }, []);
+    }, [refreshing]);
 
     // This func asks for the navigation (for the top horizontal menu)
     const handleClick = (e) => {
@@ -130,8 +139,8 @@ export default function MainScreen({ navigation }) {
         if (news == null || i >= news.length) { }
         else {
             var index = news.length - i - 1;
-            const MAXLENGTH = 40; 
-            var dt = new XDate(news[index].date); 
+            const MAXLENGTH = 40;
+            var dt = new XDate(news[index].date);
             return (
                 <TouchableOpacity
                     style={styles.NewsTile}
@@ -143,7 +152,7 @@ export default function MainScreen({ navigation }) {
                             {news[index].description.slice(0, MAXLENGTH)}{(news[index].description.length > MAXLENGTH) ? '...' : ''}
                         </Text>
                     </View>
-                    {news[index].image ? <Image style={styles.newsImage} source={findImage(news[index])} /> : <View />} 
+                    {news[index].image ? <Image style={styles.newsImage} source={findImage(news[index])} /> : <View />}
                     {/* <Image style={styles.newsImage} source={findImage(news[index])} /> */}
                 </TouchableOpacity>
             )
@@ -215,7 +224,9 @@ export default function MainScreen({ navigation }) {
     }
 
     return (
-        <ScrollView>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
 

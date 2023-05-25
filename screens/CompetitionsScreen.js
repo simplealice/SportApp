@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
@@ -15,6 +15,14 @@ export default function CompetitionsScreen({ navigation }) {
 
     const [competitions, setCompetitions] = React.useState([]);
     const [count, setCount] = useState(0);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
 
     React.useEffect(() => {
         const getData = async () => {
@@ -23,10 +31,10 @@ export default function CompetitionsScreen({ navigation }) {
             setCompetitions(data);
         }
         getData();
-        setTimeout(() => {
-            setCount(count + 1);
-        }, 10000);
-    }, [count])
+        // setTimeout(() => {
+        //     setCount(count + 1);
+        // }, 10000);
+    }, [refreshing])
 
     const iconStyle = (e) => {
         if (e == 'Галерея' || e == 'Контакты') {
@@ -161,7 +169,9 @@ export default function CompetitionsScreen({ navigation }) {
 
 
     return (
-        <ScrollView>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
                     <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')}>

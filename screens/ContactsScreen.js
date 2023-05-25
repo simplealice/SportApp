@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, TextInput } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, TextInput, RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 // import XDate from 'xdate';
 import MapView, { Marker } from 'react-native-maps';
@@ -16,6 +16,14 @@ export default function ContactsScreen({ navigation }) {
     const [address, setAddress] = React.useState(null);
     const [phoneClub, setPhoneClub] = React.useState(null);
     const [count, setCount] = useState(0);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
 
     React.useEffect(() => {
         const getEvents = async () => {
@@ -25,10 +33,10 @@ export default function ContactsScreen({ navigation }) {
             setPhoneClub(data.phone)
         }
         getEvents();
-        setTimeout(() => {
-            setCount(count + 1);
-        }, 15000);
-    }, [count])
+        // setTimeout(() => {
+        //     setCount(count + 1);
+        // }, 15000);
+    }, [refreshing])
 
     const [error, setError] = React.useState('');
 
@@ -166,7 +174,9 @@ export default function ContactsScreen({ navigation }) {
     }
 
     return (
-        <ScrollView>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
 

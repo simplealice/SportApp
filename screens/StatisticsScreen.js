@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
@@ -9,13 +9,21 @@ export default function StatisticsScreen({ navigation }) {
 
     const [users, setUsers] = React.useState(null);
     const [count, setCount] = useState(0);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
 
     React.useEffect(() => {
         getUsers();
-        setTimeout(() => {
-            setCount(count + 1);
-        }, 15000);
-    }, [count])
+        // setTimeout(() => {
+        //     setCount(count + 1);
+        // }, 15000);
+    }, [refreshing])
 
     const getUsers = () => {
         fetch(global.URL + 'users/getAll', {
@@ -162,7 +170,9 @@ export default function StatisticsScreen({ navigation }) {
     )
 
     return (
-        <ScrollView>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
                     <Image

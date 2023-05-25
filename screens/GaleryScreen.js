@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
 export default function GaleryScreen({ navigation }) {
@@ -22,6 +22,14 @@ export default function GaleryScreen({ navigation }) {
     //     )
     // }
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
 
     // Set photos
     React.useEffect(() => {
@@ -31,10 +39,10 @@ export default function GaleryScreen({ navigation }) {
             setPhotos(data);
         }
         getPhotos();
-        setTimeout(() => {
-            setCount(count + 1);
-        }, 15000);
-    }, [count])
+        // setTimeout(() => {
+        //     setCount(count + 1);
+        // }, 15000);
+    }, [refreshing])
 
     const handleClick = (e) => {
         if (e == 'Новости') {
@@ -134,7 +142,9 @@ export default function GaleryScreen({ navigation }) {
     }
 
     return (
-        <ScrollView>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
             <View style={styles.container}>
                 <ImageBackground style={styles.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
                     <Image
