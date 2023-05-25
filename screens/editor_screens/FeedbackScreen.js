@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import XDate from 'xdate';
-import SelectDropdown from 'react-native-select-dropdown';
 
 export default function FeedbackScreen({ route, navigation }) {
 
@@ -12,10 +10,14 @@ export default function FeedbackScreen({ route, navigation }) {
     const { token } = route.params;
 
     const [feedback, setFeedback] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         getFeedback(token);
-    });
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 5000);
+    }, [count])
 
     const getFeedback = (token) => {
         fetch(global.URL + 'feedback/getAll', {

@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -37,7 +36,31 @@ export default function EditUserPage({ route, navigation }) {
 
     React.useEffect(() => {
         getUser();
-    }, []);
+    }, [])
+
+    const [error, setError] = React.useState('');
+
+    const showError = (error, state) => {
+        state(error)
+        setTimeout(() => {
+            state('')
+        }, 5500)
+    }
+
+    const checkIfValid = () => {
+
+        if (!surname.trim() || surname.length < 2) return showError('Фамилия должна содержать не менее 2 символов', setError)
+
+        if (!name.trim() || name.length < 2) return showError('Имя должно содержать не менее 2 символов', setError)
+
+        if (birthday === '') {
+            if (birthday === '' || birthday.getFullYear() >= 2019 || birthday.getFullYear() <= 1950) {
+                return showError('Недопустимая дата рождения', setError)
+            }
+        }
+
+        return 1;
+    }
 
     const getUser = () => {
         fetch(global.URL + `users/get/${email}`, {
@@ -63,55 +86,44 @@ export default function EditUserPage({ route, navigation }) {
     };
 
     const editUser = () => {
-        fetch(global.URL + `users/edit/${id}`, {
-            method: 'PUT',
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                newSurname: surname,
-                newName: name,
-                newBirthDate: birthday,
-                newCategory: category,
-                newKuDan: kuDan,
-                newMajor: major,
-                newTeam: team,
-                newMedals: medals,
-                newGroupSc: groupSc,
-                newScores: score
-            }),
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                navigation.navigate("EditUsersScreen", { token: token })
-            })
-            .catch(error => console.error(error));
+        if (checkIfValid() == 1) {
+            fetch(global.URL + `users/edit/${id}`, {
+                method: 'PUT',
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    newSurname: surname,
+                    newName: name,
+                    newBirthDate: birthday,
+                    newCategory: category,
+                    newKuDan: kuDan,
+                    newMajor: major,
+                    newTeam: team,
+                    newMedals: medals,
+                    newGroupSc: groupSc,
+                    newScores: score
+                }),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    navigation.navigate("EditUsersScreen", { token: token })
+                })
+                .catch(error => console.error(error));
+        }
     };
 
-    // const deleteUser = () => {
-    //     fetch('https://example.com/api/resource', {
-    //         method: 'DELETE',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             // Добавьте сюда необходимые заголовки
-    //         },
-    //         body: JSON.stringify({
-    //             // Добавьте сюда необходимые данные для запроса
-    //         }),
-    //     }).then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             return response.json();
-    //         }).then(data => {
-    //             console.log(data);
-    //             navigation.navigate("EditUsersScreen", { token: token })
-    //         }).catch(error => {
-    //             console.error('There was a problem with the fetch operation:', error);
-    //         });
-    // };
+    const deleteUser = () => {
+        fetch(global.URL + `users/delete/${id}`, { method: 'GET' })
+            .then(response => response.text())
+            .then(result => {
+                // console.log(result)
+                navigation.navigate("EditUsersScreen", { token: token })
+            })
+            .catch(error => console.log('error', error));
+    };
 
     const retDate = (e) => {
         var dt = new XDate(e);
@@ -122,8 +134,8 @@ export default function EditUserPage({ route, navigation }) {
         <ScrollView>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} source={require("../../images/back.jpg")}>
-                    <TouchableOpacity style={eps.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')}>
-                        {/* <Image style={s.bellImage} source={require('../../images/bin.png')} /> */}
+                    <TouchableOpacity style={eps.OpacityBell} onPress={() => deleteUser()}>
+                        <Image style={s.bellImage} source={require('../../images/bin.png')} />
                     </TouchableOpacity>
                     <Text style={styles.titleText}>{'\n'}{'\n'}{'\n'}</Text>
 
@@ -136,6 +148,8 @@ export default function EditUserPage({ route, navigation }) {
 
                 <View style={styles.menuView}>
                     <Text style={styles.btnFeedbackText}>РЕДАКТИРОВАНИЕ ИНФОРМАЦИИ</Text>
+
+                    {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                     <Text style={styles.titleText}>Фамилия</Text>
                     <TextInput
                         style={styles.input}

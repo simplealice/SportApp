@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
 export default function MainScreen({ navigation }) {
@@ -10,6 +10,7 @@ export default function MainScreen({ navigation }) {
     const [news, setNews] = React.useState(null);
     const [events, setEvents] = React.useState(null);
     const [photos, setPhotos] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     // Set news
     React.useEffect(() => {
@@ -19,7 +20,10 @@ export default function MainScreen({ navigation }) {
             setNews(data);
         }
         getNews();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 10000);
+    }, [count])
 
     // Set events
     React.useEffect(() => {

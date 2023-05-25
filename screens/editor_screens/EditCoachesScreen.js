@@ -12,6 +12,7 @@ export default function EditCoachesScreen({ route, navigation }) {
     const { token } = route.params;
 
     const [coaches, setCoaches] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         const getCoaches = async () => {
@@ -20,7 +21,10 @@ export default function EditCoachesScreen({ route, navigation }) {
             setCoaches(data);
         }
         getCoaches();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 5000);
+    }, [count])
 
     const renderEvents = (i) => {
         if (coaches == null || i >= coaches.length) { }

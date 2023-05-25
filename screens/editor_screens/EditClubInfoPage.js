@@ -24,25 +24,49 @@ export default function EditClubInfoPage({ navigation }) {
         getEvents();
     }, []);
 
+    const [error, setError] = React.useState('');
+
+    const showError = (error, state) => {
+        state(error)
+        setTimeout(() => {
+            state('')
+        }, 5500)
+    }
+
+    const checkIfValid = () => {
+
+        if (!title.trim() || title.length < 2) return showError('Фамилия должна содержать не менее 2 символов', setError)
+
+        if (!description.trim() || description.length < 40) return showError('Описание должно содержать не менее 40 символов', setError)
+
+        if (!address.trim() || address.length < 2) return showError('Адрес должен содержать не менее 2 символов', setError)
+
+        if (!phoneClub.trim() || phoneClub.length < 10) return showError('Номер телефона должен содержать не менее 10 символов', setError)
+
+        return 1;
+    }
+
     const editNews = () => {
-        fetch(global.URL + 'club/edit', {
-            method: 'PUT',
-            headers: {
-                // Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                newTitle: title,
-                newDescription: description,
-                newPhone: phoneClub,
-                newAddress: address
-            }),
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                navigation.navigate("Profile")
-            })
-            .catch(error => console.error(error));
+        if (checkIfValid() == 1) {
+            fetch(global.URL + 'club/edit', {
+                method: 'PUT',
+                headers: {
+                    // Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    newTitle: title,
+                    newDescription: description,
+                    newPhone: phoneClub,
+                    newAddress: address
+                }),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    navigation.navigate("Profile")
+                })
+                .catch(error => console.error(error));
+        }
     };
 
     return (
@@ -60,6 +84,8 @@ export default function EditClubInfoPage({ navigation }) {
 
                 <View style={styles.menuView}>
                     <Text style={styles.btnFeedbackText}>РЕДАКТИРОВАНИЕ ИНФОРМАЦИИ</Text>
+
+                    {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                     <Text style={styles.titleText}>Название</Text>
                     <TextInput
                         style={styles.input}
@@ -92,7 +118,7 @@ export default function EditClubInfoPage({ navigation }) {
                         style={styles.input}
                         onChangeText={setPhoneClub}
                         value={phoneClub}
-                        placeholder="+7 XXX XXX XX XX"
+                        keyboardType="numeric"
                     />
                     <TouchableOpacity style={styles.btnWrite} onPress={() => editNews()}>
                         <Text style={styles.writeText}>Отправить</Text>

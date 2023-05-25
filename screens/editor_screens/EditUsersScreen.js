@@ -12,19 +12,14 @@ export default function EditUsersScreen({ route, navigation }) {
     const { token } = route.params;
 
     const [users, setUsers] = React.useState(null);
-    // const roles = ['Спортсмен', 'Тренер', 'Все']
-    // const [selectedRole, setSelectedRole] = React.useState('ALL');
-    // const [shown, setShown] = React.useState(null);
-
-    // React.useEffect(() => {
-    //     console.log(token)
-    //     getUsers(token);
-    //     // setShown(FilterUsers())
-    // }, []);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         getUsers(token);
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 1000);
+    }, [count])
 
     const getUsers = (token) => {
         fetch(global.URL + 'users/getAll', {

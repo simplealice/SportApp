@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
 export default function StatisticsScreen({ navigation }) {
@@ -8,10 +8,14 @@ export default function StatisticsScreen({ navigation }) {
     const hms = require('../styles/horiz_menu_styles');
 
     const [users, setUsers] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         getUsers();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 15000);
+    }, [count])
 
     const getUsers = () => {
         fetch(global.URL + 'users/getAll', {

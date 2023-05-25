@@ -9,6 +9,7 @@ export default function CurriculumScreen({ navigation }) {
     const tls = require('../styles/tiles_list_styles');
 
     const [groups, setGroups] = useState([]);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         axios.get(global.URL + "curriculum/get")
@@ -32,7 +33,10 @@ export default function CurriculumScreen({ navigation }) {
             .catch(error => {
                 console.error(error);
             });
-    }, []);
+            setTimeout(() => {
+                setCount(count + 1);
+            }, 15000);
+        }, [count])
 
     const renderGroup = ({ item }) => (
         <View style={styles.NewsTile}>

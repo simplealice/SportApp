@@ -28,21 +28,8 @@ export default function EditNewsPage({ route, navigation }) {
         hideDatePicker1();
     };
 
-    // const [data, setData] = React.useState(null);
-
     React.useEffect(() => {
         getNews()
-        // fetch(URL + `news/get/${id}`, {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     }
-        // })
-        //     .then(response => response.json())
-        //     .then(data => setData(data))
-        //     .catch(error => console.error(error));
-
     }, []);
 
     const getNews = () => {
@@ -62,15 +49,6 @@ export default function EditNewsPage({ route, navigation }) {
             .catch(error => console.error(error));
     };
 
-
-    // const returnSeminarDate = () => {
-    //     if (data == null) { }
-    //     else {
-    //         // setDate(retDate(data[id]))
-    //         return retDate(data)
-    //     }
-    // }
-
     const findImage = () => {
         if (image == null) { }
         else {
@@ -80,33 +58,53 @@ export default function EditNewsPage({ route, navigation }) {
         }
     }
 
+    const [error, setError] = React.useState('');
+
+    const showError = (error, state) => {
+        state(error)
+        setTimeout(() => {
+            state('')
+        }, 5500)
+    }
+
+    const checkIfValid = () => {
+
+        if (!title.trim() || title.length < 5) return showError('Название должно содержать не менее 5 символов', setError)
+
+        if (!description.trim() || description.length < 10) return showError('Описание должно содержать не менее 10 символов', setError)
+
+        return 1;
+    }
+
     const editNews = () => {
-        fetch(global.URL + `news/edit/${id}`, {
-            method: 'PUT',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                newTitle: title,
-                newDate: date,
-                newDescription: description,
-                newImage: image
-            }),
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                navigation.navigate("EditNewsScreen")
-            })
-            .catch(error => console.error(error));
+        if (checkIfValid() == 1) {
+            fetch(global.URL + `news/edit/${id}`, {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    newTitle: title,
+                    newDate: date,
+                    newDescription: description,
+                    newImage: image
+                }),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    navigation.navigate("EditNewsScreen")
+                })
+                .catch(error => console.error(error));
+        }
     };
 
     const deleteNews = () => {
         fetch(global.URL + `news/delete/${id}`)
-        .then(response => {
-            response.json()
-            navigation.navigate("EditNewsScreen")
-        }).catch(error => console.error(error));
+            .then(response => {
+                response.json()
+                navigation.navigate("EditNewsScreen")
+            }).catch(error => console.error(error));
     };
 
     const retDate = (e) => {
@@ -132,6 +130,8 @@ export default function EditNewsPage({ route, navigation }) {
 
                 <View style={styles.menuView}>
                     <Text style={styles.btnFeedbackText}>РЕДАКТИРОВАНИЕ ИНФОРМАЦИИ</Text>
+
+                    {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                     <Text style={styles.titleText}>Название</Text>
                     <TextInput
                         style={styles.input}
@@ -139,24 +139,6 @@ export default function EditNewsPage({ route, navigation }) {
                         value={title}
                         placeholder="Название"
                     />
-
-                    {/* birthday */}
-                    {/* <View style={styles.containerDate}>
-                        <Text style={styles.dateText}>
-                            {returnSeminarDate() ? returnSeminarDate() : 'Дата выбрана'}
-                        </Text>
-                        <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
-                            <Text style={styles.writeText}>Дата</Text>
-                        </TouchableOpacity>
-                        <DateTimePickerModal
-                            // date={birthday}
-                            isVisible={datePickerVisible1}
-                            mode="date"
-                            value={returnSeminarDate()}
-                            onConfirm={handleConfirmBirthday}
-                            onCancel={hideDatePicker1}
-                        />
-                    </View> */}
 
                     <Text style={styles.titleText}>Изображение</Text>
                     <TextInput

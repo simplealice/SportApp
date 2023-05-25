@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
 export default function CompetitionsScreen({ navigation }) {
@@ -14,6 +14,7 @@ export default function CompetitionsScreen({ navigation }) {
     }
 
     const [competitions, setCompetitions] = React.useState([]);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         const getData = async () => {
@@ -22,7 +23,10 @@ export default function CompetitionsScreen({ navigation }) {
             setCompetitions(data);
         }
         getData();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 10000);
+    }, [count])
 
     const iconStyle = (e) => {
         if (e == 'Галерея' || e == 'Контакты') {

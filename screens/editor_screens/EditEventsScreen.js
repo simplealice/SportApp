@@ -9,6 +9,7 @@ export default function EditEventsScreen({ navigation }) {
     const tls = require('../../styles/tiles_list_styles');
 
     const [events, setEvents] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     // React.useEffect(() => {
     //     getEvents();
@@ -16,7 +17,10 @@ export default function EditEventsScreen({ navigation }) {
 
     React.useEffect(() => {
         getEvents();
-    });
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 5000);
+    }, [count])
 
     const getEvents = () => {
         fetch(global.URL + 'events/getAll', {

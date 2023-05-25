@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
 export default function PrizesScreen({ navigation }) {
@@ -9,6 +9,7 @@ export default function PrizesScreen({ navigation }) {
     const tls = require('../styles/tiles_list_styles');
 
     const [awards, setAwards] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         const getAwards = async () => {
@@ -17,7 +18,10 @@ export default function PrizesScreen({ navigation }) {
             setAwards(data);
         }
         getAwards();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 15000);
+    }, [count])
 
     const handleClick = (e) => {
         if (e == 'Новости') {

@@ -38,27 +38,51 @@ export default function EditCoachPage({ route, navigation }) {
             .catch(error => console.error(error));
     };
 
+    const [error, setError] = React.useState('');
+
+    const showError = (error, state) => {
+        state(error)
+        setTimeout(() => {
+            state('')
+        }, 5500)
+    }
+
+    const checkIfValid = () => {
+
+        if (!surname.trim() || surname.length < 2) return showError('Фамилия должна содержать не менее 2 символов', setError)
+
+        if (!name.trim() || name.length < 2) return showError('Имя должно содержать не менее 2 символов', setError)
+
+        if (!position.trim() || position.length < 5) return showError('Должность должна содержать не менее 5 символов', setError)
+
+        if (!description.trim() || description.length < 5) return showError('Описание должно содержать не менее 5 символов', setError)
+
+        return 1;
+    }
+
     const editUser = () => {
-        fetch(global.URL + `coaches/edit/${id}`, {
-            method: 'PUT',
-            headers: {
-                // "Authorization": `Bearer ${token}`,
-                // Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                newSurname: surname,
-                newName: name,
-                newPosition: position,
-                newDescription: description,
-                newImage: photo,
-            }),
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                navigation.navigate("EditCoachesScreen", { token: token })
-            })
-            .catch(error => console.error(error));
+        if (checkIfValid() == 1) {
+            fetch(global.URL + `coaches/edit/${id}`, {
+                method: 'PUT',
+                headers: {
+                    // "Authorization": `Bearer ${token}`,
+                    // Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    newSurname: surname,
+                    newName: name,
+                    newPosition: position,
+                    newDescription: description,
+                    newImage: photo,
+                }),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    navigation.navigate("EditCoachesScreen", { token: token })
+                })
+                .catch(error => console.error(error));
+        }
     };
 
     // const deleteUser = () => {
@@ -107,6 +131,8 @@ export default function EditCoachPage({ route, navigation }) {
 
                 <View style={styles.menuView}>
                     <Text style={styles.btnFeedbackText}>РЕДАКТИРОВАНИЕ ИНФОРМАЦИИ</Text>
+
+                    {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                     <Text style={styles.titleText}>Фамилия</Text>
                     <TextInput
                         style={styles.input}

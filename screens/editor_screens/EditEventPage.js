@@ -33,21 +33,8 @@ export default function EditEventPage({ route, navigation }) {
         hideDatePicker1();
     };
 
-    // const [data, setData] = React.useState(null);
-
     React.useEffect(() => {
         getEvent()
-        // fetch(URL + `news/get/${id}`, {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     }
-        // })
-        //     .then(response => response.json())
-        //     .then(data => setData(data))
-        //     .catch(error => console.error(error));
-
     }, []);
 
     const getEvent = () => {
@@ -88,28 +75,61 @@ export default function EditEventPage({ route, navigation }) {
         }
     }
 
+    const [error, setError] = React.useState('');
+
+    const showError = (error, state) => {
+        state(error)
+        setTimeout(() => {
+            state('')
+        }, 5500)
+    }
+
+    const checkIfValid = () => {
+
+        if (!title.trim() || title.length < 5) return showError('Название должно содержать не менее 5 символов', setError)
+
+        if (!description.trim() || description.length < 10) return showError('Описание должно содержать не менее 10 символов', setError)
+
+        // if (date === '' || date.getFullYear() < new Date().getFullYear()
+        //     || (date.getFullYear() === new Date().getFullYear() && date.getMonth() < new Date().getMonth())
+        //     || (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() && date.getDate() <= new Date().getDate())
+        // ) {
+        //     return showError('Недопустимая дата', setError)
+        // }
+
+        if (!city.trim() || city.length < 3) return showError('Место проведения должно содержать не менее 3 символов', setError)
+
+        if (type == 'competition') {
+            if (!discipline.trim() || discipline.length < 2) return showError('Дисциплина должна содержать не менее 2 символов', setError)
+        }
+
+        return 1;
+    }
+
     const editNews = () => {
-        fetch(global.URL + `events/edit/${id}`, {
-            method: 'PUT',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                newDate: date,
-                newTitle: title,
-                newCity: city,
-                newDescription: description,
-                newType: type,
-                newDiscipline: discipline,
-                newImage: image
-            }),
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                navigation.navigate("EditEventsScreen")
-            })
-            .catch(error => console.error(error));
+        if (checkIfValid() == 1) {
+            fetch(global.URL + `events/edit/${id}`, {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    newDate: date,
+                    newTitle: title,
+                    newCity: city,
+                    newDescription: description,
+                    newType: type,
+                    newDiscipline: discipline,
+                    newImage: image
+                }),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    navigation.navigate("EditEventsScreen")
+                })
+                .catch(error => console.error(error));
+        }
     };
 
     const deleteEvent = () => {
@@ -124,7 +144,7 @@ export default function EditEventPage({ route, navigation }) {
         var dt = new XDate(e);
         return dt.toString("dd.MM.yyyy");
     }
-    
+
     const retType = () => {
         if (type === 'seminar') return 'Семинар';
         else return 'Турнир'
@@ -149,6 +169,7 @@ export default function EditEventPage({ route, navigation }) {
                 <View style={styles.menuView}>
                     <Text style={styles.btnFeedbackText}>РЕДАКТИРОВАНИЕ ИНФОРМАЦИИ</Text>
 
+                    {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                     <SelectDropdown
                         buttonStyle={styles.selectDropdown}
                         buttonTextStyle={styles.selectDropdownText}

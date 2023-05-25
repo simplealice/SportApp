@@ -9,10 +9,14 @@ export default function EditNewsScreen({ navigation }) {
     const tls = require('../../styles/tiles_list_styles');
 
     const [news, setNews] = React.useState([]);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {       
         getNews();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 5000);
+    }, [count])
 
     const getNews = async () => {
         await fetch(global.URL + 'news/getAll', {
@@ -23,10 +27,6 @@ export default function EditNewsScreen({ navigation }) {
             })
             .catch(error => console.error(error));
     };
-
-  useEffect(() => {
-    console.log("rerendered");
-  }, [news]);
 
     // This func returns an image URL from the object's param image
     const findImage = (e) => {

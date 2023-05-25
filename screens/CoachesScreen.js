@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
 export default function CoachesScreen({ navigation }) {
@@ -8,6 +8,7 @@ export default function CoachesScreen({ navigation }) {
     const hms = require('../styles/horiz_menu_styles');
 
     const [coaches, setCoaches] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         const getCoaches = async () => {
@@ -16,7 +17,10 @@ export default function CoachesScreen({ navigation }) {
             setCoaches(data);
         }
         getCoaches();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 10000);
+    }, [count])
 
     const handleClick = (e) => {
         if (e == 'Новости') {

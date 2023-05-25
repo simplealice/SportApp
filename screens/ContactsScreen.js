@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, TextInput } from 'react-native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 // import XDate from 'xdate';
 import MapView, { Marker } from 'react-native-maps';
 
@@ -15,6 +15,7 @@ export default function ContactsScreen({ navigation }) {
 
     const [address, setAddress] = React.useState(null);
     const [phoneClub, setPhoneClub] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         const getEvents = async () => {
@@ -24,7 +25,10 @@ export default function ContactsScreen({ navigation }) {
             setPhoneClub(data.phone)
         }
         getEvents();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 15000);
+    }, [count])
 
     const [error, setError] = React.useState('');
 

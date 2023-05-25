@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import * as React from 'react';
-import { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
 export default function GaleryScreen({ navigation }) {
 
     const [photos, setPhotos] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     // const [hovered, setHovered] = useState(false)
 
@@ -31,7 +31,10 @@ export default function GaleryScreen({ navigation }) {
             setPhotos(data);
         }
         getPhotos();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 15000);
+    }, [count])
 
     const handleClick = (e) => {
         if (e == 'Новости') {

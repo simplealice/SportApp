@@ -9,26 +9,6 @@ export default function EditCurriculumScreen({ navigation }) {
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
 
-    // const [curriculum, setCurriculum] = React.useState(null);
-
-    // React.useEffect(() => {
-    //     getCurriculum();
-    // });
-
-    // const getCurriculum = () => {
-
-    //     fetch(global.URL + "curriculum/get", {
-    //         method: 'GET',
-    //         body: "",
-    //         redirect: 'follow'
-    //     }).then(response => response.text())
-    //         .then(result => {
-    //             console.log(result)
-    //             setCurriculum(result)
-    //         })
-    //         .catch(error => console.log('error', error));
-    // };
-
     // This func returns an image URL from the object's param image
     const findImage = (e) => {
         var ImageURL = { uri: e.image };
@@ -41,6 +21,7 @@ export default function EditCurriculumScreen({ navigation }) {
     }
 
     const [groups, setGroups] = useState([]);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         axios.get(global.URL + "curriculum/get")
@@ -60,32 +41,35 @@ export default function EditCurriculumScreen({ navigation }) {
                     return result;
                 }, []);
                 setGroups(groups);
-                console.log(groups)
             })
             .catch(error => {
                 console.error(error);
             });
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 5000);
+    }, [count])
+
 
     const renderGroup = ({ item }) => (
         <View style={styles.NewsTile}>
-            <TouchableOpacity onPress={() => navigation.navigate("EditCurriculumPage", 
-            { groupNumber: item.groupNumber, coach: item.coach, curriculum: item.items })}>
-            <View style={styles.timeContainer}>
-                <Text style={tls.btnNewsTextRed}>{item.groupNumber}</Text>
-                <Text style={tls.btnNewsTextRed}>{item.coach}</Text>
-            </View>
-            <View style={styles.lineFull}></View>
-            <FlatList
-                data={item.items}
-                renderItem={({ item }) => (
-                    <View style={styles.timeContainer}>
-                        <Text>{item.dayOfWeek}</Text>
-                        <Text>{item.timeFromTo}</Text>
-                    </View>
-                )}
-                keyExtractor={item => item.id.toString()}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate("EditCurriculumPage",
+                { groupNumber: item.groupNumber, coach: item.coach, curriculum: item.items })}>
+                <View style={styles.timeContainer}>
+                    <Text style={tls.btnNewsTextRed}>{item.groupNumber}</Text>
+                    <Text style={tls.btnNewsTextRed}>{item.coach}</Text>
+                </View>
+                <View style={styles.lineFull}></View>
+                <FlatList
+                    data={item.items}
+                    renderItem={({ item }) => (
+                        <View style={styles.timeContainer}>
+                            <Text>{item.dayOfWeek}</Text>
+                            <Text>{item.timeFromTo}</Text>
+                        </View>
+                    )}
+                    keyExtractor={item => item.id.toString()}
+                />
             </TouchableOpacity>
         </View>
     );

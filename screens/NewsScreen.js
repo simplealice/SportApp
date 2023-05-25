@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
 export default function NewsScreen({ navigation }) {
@@ -7,6 +7,7 @@ export default function NewsScreen({ navigation }) {
     // var URL = "http://192.168.31.11:8080/"
 
     const [events, setEvents] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         const getEvents = async () => {
@@ -15,7 +16,10 @@ export default function NewsScreen({ navigation }) {
             setEvents(data);
         }
         getEvents();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 10000);
+    }, [count])
 
     const handleClick = (e) => {
         if (e == 'Новости') {

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function AboutScreen({ navigation }) {
 
@@ -8,6 +8,7 @@ export default function AboutScreen({ navigation }) {
 
     const [title, setTitle] = React.useState(null);
     const [description, setDescription] = React.useState(null);
+    const [count, setCount] = useState(0);
 
     React.useEffect(() => {
         const getEvents = async () => {
@@ -17,7 +18,10 @@ export default function AboutScreen({ navigation }) {
             setDescription(data.description)
         }
         getEvents();
-    }, []);
+        setTimeout(() => {
+            setCount(count + 1);
+        }, 15000);
+    }, [count])
 
     const handleClick = (e) => {
         if (e == 'Новости') {
