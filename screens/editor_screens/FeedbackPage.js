@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
 import * as React from 'react';
-import XDate from 'xdate';
 
 export default function FeedbackPage({ route, navigation }) {
+
+    const ams = require('../../styles/admin_mode_styles');
 
     const { token, id } = route.params;
 
@@ -50,7 +51,6 @@ export default function FeedbackPage({ route, navigation }) {
         }
     }
 
-
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -62,8 +62,6 @@ export default function FeedbackPage({ route, navigation }) {
                         </TouchableOpacity>
                     </View>
                 </ImageBackground>
-
-                {/* {data[id].image ? <Image style={styles.photo} source={findImage()} /> : <View />}  */}
 
                 <View style={styles.viewSem}>
                     <View style={styles.dateEventContainer1}>
@@ -95,7 +93,6 @@ const styles = StyleSheet.create({
     },
     imageBack: {
         width: '100%',
-        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -113,7 +110,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginLeft: 20,
         fontWeight: 'bold',
-
     },
     menuView: {
         width: '100%',
@@ -133,7 +129,6 @@ const styles = StyleSheet.create({
     viewSem: {
         paddingBottom: 300,
     },
-
     eventsImage: {
         width: 20,
         height: 20,
@@ -152,7 +147,6 @@ const styles = StyleSheet.create({
     dateEventContainer2: {
         flexDirection: 'row',
         alignSelf: 'flex-start',
-        // marginTop: 30
     },
 
 })

@@ -4,8 +4,6 @@ import * as React from 'react';
 export default function SignSeminarPage({ route, navigation }) {
 
     const s = require('../styles/styles');
-    const hms = require('../styles/horiz_menu_styles');
-    const tls = require('../styles/tiles_list_styles');
 
     const [email, setEmail] = React.useState(global.email);
     const [person, setPerson] = React.useState(global.name);
@@ -23,7 +21,6 @@ export default function SignSeminarPage({ route, navigation }) {
     const { id } = route.params;
 
     const checkIfValid = () => {
-        // if (!isValidField(userInfo)) return showError('Необходимо заполнить все поля', setError)
 
         if (!person.trim() || person.length < 3) return showError('ФИО должно содержать не менее 3 символов', setError)
 
@@ -60,7 +57,6 @@ export default function SignSeminarPage({ route, navigation }) {
                 console.log("reponse :", res);
                 console.log("status code :", res.statusCode);
                 if (statusCode == '200') {
-                    // navigation.navigate("Main")
                     navigation.goBack();
                 }
             } catch (error) {

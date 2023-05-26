@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import XDate from 'xdate';
+import React, { useState } from 'react';
 
 export default function CoachesScreen({ navigation }) {
 
@@ -21,14 +20,11 @@ export default function CoachesScreen({ navigation }) {
 
     React.useEffect(() => {
         const getCoaches = async () => {
-            const resp = await fetch(URL + "coaches/getAll"); // EDIT ON START
+            const resp = await fetch(URL + "coaches/getAll");
             const data = await resp.json();
             setCoaches(data);
         }
         getCoaches();
-        // setTimeout(() => {
-        //     setCount(count + 1);
-        // }, 10000);
     }, [refreshing])
 
     const byteArrayToBase64 = (byteArray) => {

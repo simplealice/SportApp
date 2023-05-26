@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
+import React, { useState } from 'react';
 import XDate from 'xdate';
 
 export default function SeminarsScreen({ navigation }) {
@@ -9,7 +9,6 @@ export default function SeminarsScreen({ navigation }) {
     const tls = require('../styles/tiles_list_styles');
 
     const [events, setEvents] = React.useState(null);
-    const [count, setCount] = useState(0);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -27,9 +26,6 @@ export default function SeminarsScreen({ navigation }) {
             setEvents(data);
         }
         getEvents();
-        // setTimeout(() => {
-        //     setCount(count + 1);
-        // }, 10000);
     }, [refreshing])
 
     const handleClick = (e) => {
@@ -158,13 +154,10 @@ export default function SeminarsScreen({ navigation }) {
     return (
         <ScrollView refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
+        }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
-                    {/* !!!!!!!!!!!!!!!!TODO: LINK TO NOTIFICATIONS!!!!!!!!!!!!!!!! */}
-                    <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')}>
-                        <Image style={s.bellImage} source={require('../images/bell.png')} />
-                    </TouchableOpacity>
+                    <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')} />
                     <Image
                         style={s.imageIcon}
                         source={require("../images/icon.jpg")} />

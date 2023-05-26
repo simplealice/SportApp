@@ -7,7 +7,6 @@ const ChatPage = ({ route, navigation }) => {
     const { token, id, surname, name, userId, role } = route.params;
     const ldate = ''
     const [chatId, setChatId] = useState('')
-    // const [senderId, setSenderId] = useState('')
 
     const s = require('../styles/styles');
 
@@ -36,15 +35,12 @@ const ChatPage = ({ route, navigation }) => {
             }),
         }).then(response => response.json())
             .then(data => {
-                // console.log(data);
                 setChatId(data.id)
-                // console.log(chatId)
             })
             .catch(error => console.error(error));
     }
 
     const getMessages = async () => {
-        // console.log(global.URL + `message/messages/${chatId}`)
         await fetch(global.URL + `message/messages/${chatId}`, {
             method: 'GET',
             headers: {
@@ -52,7 +48,6 @@ const ChatPage = ({ route, navigation }) => {
             }
         }).then(response => response.json())
             .then(data => {
-                // console.log(data);
                 const formattedMessages = data.map((message) => ({ // format messages to fit GiftedChat data structure
                     _id: message.id,
                     text: message.message,
@@ -123,9 +118,6 @@ const ChatPage = ({ route, navigation }) => {
                 onSend={newMessages => onSend(newMessages)}
                 user={{ _id: userId }}
             renderBubble={renderBubble}
-            // sendButtonProps={{ label: 'Отправить', containerStyle: { backgroundColor: 'red' } }}
-            // renderMessage={renderMessage}
-            // renderBubble={renderBubble}
             />
         </View>
     )

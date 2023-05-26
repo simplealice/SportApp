@@ -1,13 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, TextInput } from 'react-native';
 import * as React from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import XDate from 'xdate';
 
 export default function SignCompetitionPage({ route, navigation }) {
 
     const s = require('../styles/styles');
-    const hms = require('../styles/horiz_menu_styles');
-    const tls = require('../styles/tiles_list_styles');
 
     const [email, setEmail] = React.useState(global.email);
     const [person, setPerson] = React.useState(global.name);
@@ -38,8 +35,6 @@ export default function SignCompetitionPage({ route, navigation }) {
     const { id } = route.params;
 
     const checkIfValid = () => {
-        // if (!isValidField(userInfo)) return showError('Необходимо заполнить все поля', setError)
-
         if (!person.trim() || person.length < 3) return showError('ФИО должно содержать не менее 3 символов', setError)
 
         if (!email.trim()) return showError('Необходимо ввести почту', setError)
@@ -81,7 +76,6 @@ export default function SignCompetitionPage({ route, navigation }) {
                 console.log("reponse :", res);
                 console.log("status code :", res.statusCode);
                 if (statusCode == '200') {
-                    // navigation.navigate("Main")
                     navigation.goBack();
                 }
             } catch (error) {
@@ -153,7 +147,6 @@ export default function SignCompetitionPage({ route, navigation }) {
                                     <Text style={styles.writeText}>Дата рождения</Text>
                                 </TouchableOpacity>
                                 <DateTimePickerModal
-                                    // date={birthday}
                                     isVisible={datePickerVisible1}
                                     mode="date"
                                     value={birthday}

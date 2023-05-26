@@ -1,13 +1,10 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import XDate from 'xdate';
 
 export default function NewsScreen({ navigation }) {
 
-    // var URL = "http://192.168.31.11:8080/"
-
     const [events, setEvents] = React.useState(null);
-    const [count, setCount] = useState(0);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -20,14 +17,11 @@ export default function NewsScreen({ navigation }) {
 
     React.useEffect(() => {
         const getEvents = async () => {
-            const resp = await fetch(global.URL + "news/getAll"); // EDIT ON START
+            const resp = await fetch(global.URL + "news/getAll");
             const data = await resp.json();
             setEvents(data);
         }
         getEvents();
-        // setTimeout(() => {
-        //     setCount(count + 1);
-        // }, 10000);
     }, [refreshing])
 
     const handleClick = (e) => {
@@ -147,7 +141,6 @@ export default function NewsScreen({ navigation }) {
                             {i.description.slice(0, MAXLENGTH)}{(i.description.length > MAXLENGTH) ? '...' : ''}
                         </Text>
                     </View>
-                    {/* <Image style={styles.newsImage} source={findImage(i)} /> */}
                     {i.image ? <Image style={styles.newsImage} source={findImage(i)} /> : <View />} 
                     </TouchableOpacity>
                 )
@@ -221,7 +214,6 @@ const styles = StyleSheet.create({
     },
     imageBack: {
         width: '100%',
-        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -238,7 +230,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         fontWeight: 'bold'
     },
-
     menuView: {
         width: '100%',
         backgroundColor: 'gainsboro',
@@ -252,7 +243,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     flatMenu: {
-        // flexGrow: 0.1
         marginTop: 15,
         marginLeft: 15,
         marginRight: 15
@@ -261,12 +251,10 @@ const styles = StyleSheet.create({
         width: '80%',
         alignItems: 'center',
         paddingHorizontal: 10,
-        // paddingVertical: 5,
         backgroundColor: '#930'
     },
     TouchableOpacityNews: {
         width: '90%',
-        // alignItems: 'flex-end',
         marginTop: 10,
         paddingVertical: 5,
     },
@@ -283,7 +271,6 @@ const styles = StyleSheet.create({
     icon: {
         width: 20,
         height: 30,
-        // tintColor: 'white'
     },
     TextContainer: {
         width: '70%'
@@ -315,7 +302,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-
     flatNews: {
         width: "100%",
         marginBottom: 10
@@ -355,7 +341,6 @@ const styles = StyleSheet.create({
         width: 85,
         height: 85,
     },
-
     eventsImage: {
         width: 20,
         height: 20,

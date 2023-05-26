@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export default function SigningIndividualScreen({ route, navigation }) {
 
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
+    const ams = require('../../styles/admin_mode_styles');
 
     const [signing, setSigning] = React.useState(null);
     const [count, setCount] = useState(0);
@@ -99,11 +100,6 @@ export default function SigningIndividualScreen({ route, navigation }) {
 };
 
 const styles = StyleSheet.create({
-    plusImage: {
-        width: 30,
-        height: 35,
-        tintColor: 'white'
-    },
     imageIcon: {
         marginTop: 60,
         marginBottom: 10,

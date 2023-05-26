@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import XDate from 'xdate';
+import React from 'react';
 
 export default function StatisticsScreen({ navigation }) {
 
@@ -8,7 +7,6 @@ export default function StatisticsScreen({ navigation }) {
     const hms = require('../styles/horiz_menu_styles');
 
     const [users, setUsers] = React.useState(null);
-    const [count, setCount] = useState(0);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -20,17 +18,11 @@ export default function StatisticsScreen({ navigation }) {
 
     React.useEffect(() => {
         getUsers();
-        // setTimeout(() => {
-        //     setCount(count + 1);
-        // }, 15000);
     }, [refreshing])
 
     const getUsers = () => {
         fetch(global.URL + 'users/getAll', {
             method: 'GET',
-            // headers: {
-            //     "Authorization": `Bearer ${token}`,
-            // }
         }).then(response => response.json())
             .then(data => {
                 const filteredSportsmen = data.filter(sportsman => sportsman.role === 'SPORTSMEN');
@@ -147,9 +139,6 @@ export default function StatisticsScreen({ navigation }) {
         else {
             return (
                 <View style={styles.coachContainer}>
-                    {/* { i.filebyte === '' ? <Image style={styles.coachImage} source={ require('../images/coach.png')} /> :
-                    <Image style={styles.coachImage} source={{uri: findImg(i.filebyte)}}/> } */}
-                    {/* <Text style={styles.coachText}>{i}</Text> */}
                     <Text style={styles.coachBoldText}>{i.surname} {i.name[0]}.</Text>
                     <Text style={styles.coachText}>{i.birthDate}</Text>
                     <Text style={styles.coachText}>{i.category}</Text>
@@ -160,7 +149,7 @@ export default function StatisticsScreen({ navigation }) {
         }
     }
 
-    const renderTableItem = ({ item, index }) => (
+    const renderTableItem = ({ item }) => (
         <View style={styles.tableRow}>
             <Text style={styles.tableCellB}>{item.surname} {item.name[0]}.</Text>
             <Text style={styles.tableCell}>{item.category}</Text>
@@ -210,12 +199,6 @@ export default function StatisticsScreen({ navigation }) {
                     </View>
                 </ImageBackground>
 
-                {/* <FlatList style={styles.flatNews}
-                    showsHorizontalScrollIndicator={false}
-                    data={users}
-                    renderItem={({ item }) => renderCoaches(item)}
-                    ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-                /> */}
                 <View style={styles.tableHeader}>
                     <Text style={[styles.tableCellB, styles.headerCell]}>ФИО</Text>
                     <Text style={[styles.tableCell, styles.headerCell]}>Разряд</Text>
@@ -235,7 +218,6 @@ export default function StatisticsScreen({ navigation }) {
 };
 
 const styles = StyleSheet.create({
-
     imageIcon: {
         marginTop: 60,
         marginBottom: 10,

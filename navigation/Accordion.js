@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         paddingLeft: 20,
         paddingRight: 20,
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
 
     },
     parentHr: {

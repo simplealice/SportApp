@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
+import React, { useState } from 'react';
 import XDate from 'xdate';
 
 export default function EditEventsScreen({ navigation }) {
@@ -7,13 +7,10 @@ export default function EditEventsScreen({ navigation }) {
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
+    const ams = require('../../styles/admin_mode_styles');
 
     const [events, setEvents] = React.useState(null);
     const [count, setCount] = useState(0);
-
-    // React.useEffect(() => {
-    //     getEvents();
-    // }, []);
 
     React.useEffect(() => {
         getEvents();
@@ -46,7 +43,7 @@ export default function EditEventsScreen({ navigation }) {
     const renderEvents = (i) => {
         if (events == null || i >= events.length) { }
         else {
-            const MAXLENGTH = 40; 
+            const MAXLENGTH = 40;
             return (
 
                 <TouchableOpacity
@@ -110,29 +107,6 @@ const styles = StyleSheet.create({
         height: 110,
         borderRadius: 10
     },
-    userTile: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    userBtnTile: {
-        marginTop: 5,
-        height: 60,
-        width: '90%',
-        paddingHorizontal: 15,
-        shadowColor: 'black',
-        elevation: 6,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        alignSelf: 'center',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 10
-    },
     NewsTile: {
         marginTop: 10,
         height: 140,
@@ -149,10 +123,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10
     },
-    btnNewsText: {
-        fontSize: 14,
-        color: 'black'
-    },
     btnNewsTextGray: {
         fontSize: 15,
         color: 'gray'
@@ -162,11 +132,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontWeight: 'bold',
         marginRight: 10,
-    },
-    btnNewsTextRed: {
-        fontSize: 14,
-        color: '#E3241D',
-        fontWeight: 'bold',
     },
     newsImage: {
         width: 85,

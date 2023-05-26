@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 const ChatScreen = ({ route, navigation }) => {
 
@@ -21,9 +21,6 @@ const ChatScreen = ({ route, navigation }) => {
   const getUsers = (token) => {
     fetch(global.URL + 'users/getAll', {
       method: 'GET',
-      // headers: {
-      //     "Authorization": `Bearer ${token}`,
-      // }
     }).then(response => response.json())
       .then(data => {
         setUsers(data)
@@ -45,7 +42,6 @@ const ChatScreen = ({ route, navigation }) => {
               </View>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </View>
-            {/* {FilterUsers()} */}
           </TouchableOpacity>
         )
       } else if (role == 'SPORTSMEN' && i.role === 'COACH') {
@@ -59,7 +55,6 @@ const ChatScreen = ({ route, navigation }) => {
                   </View>
                   <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
               </View>
-              {/* {FilterUsers()} */}
           </TouchableOpacity>
       )
       }

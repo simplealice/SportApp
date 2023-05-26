@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
+import React, { useState } from 'react';
 import XDate from 'xdate';
 
 export default function EditNewsScreen({ navigation }) {
@@ -7,11 +7,12 @@ export default function EditNewsScreen({ navigation }) {
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
+    const ams = require('../../styles/admin_mode_styles');
 
     const [news, setNews] = React.useState([]);
     const [count, setCount] = useState(0);
 
-    React.useEffect(() => {       
+    React.useEffect(() => {
         getNews();
         setTimeout(() => {
             setCount(count + 1);
@@ -42,20 +43,8 @@ export default function EditNewsScreen({ navigation }) {
     const renderEvents = (i) => {
         if (news == null || i >= news.length) { }
         else {
-            const MAXLENGTH = 40; 
+            const MAXLENGTH = 40;
             return (
-                // <TouchableOpacity
-                //     style={styles.userBtnTile}
-                //     onPress={() => { navigation.navigate("EditUserPage", { token: token, id: i.id, email: i.email }) }}>
-                //     <View style={styles.userTile}>
-                //         <View>
-                //             <Text style={tls.btnNewsTextBold}>{role}</Text>
-                //             <Text style={tls.btnNewsText}>{i.surname} {i.name}</Text>
-                //         </View>
-                //         <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-                //     </View>
-                // </TouchableOpacity>
-
                 <TouchableOpacity
                     style={styles.NewsTile}
                     onPress={() => { navigation.navigate("EditNewsPage", { id: i.id }) }}>
@@ -117,29 +106,6 @@ const styles = StyleSheet.create({
         height: 110,
         borderRadius: 10
     },
-    userTile: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    userBtnTile: {
-        marginTop: 5,
-        height: 60,
-        width: '90%',
-        paddingHorizontal: 15,
-        shadowColor: 'black',
-        elevation: 6,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        alignSelf: 'center',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 10
-    },
     NewsTile: {
         marginTop: 10,
         height: 110,
@@ -156,20 +122,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10
     },
-    btnNewsText: {
-        fontSize: 14,
-        color: 'black'
-    },
     btnNewsTextBold: {
         fontSize: 14,
         color: 'black',
         fontWeight: 'bold',
         marginRight: 10,
-    },
-    btnNewsTextRed: {
-        fontSize: 14,
-        color: '#E3241D',
-        fontWeight: 'bold',
     },
     newsImage: {
         width: 85,

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import XDate from 'xdate';
 
 export default function EventsScreen({ navigation }) {
@@ -9,7 +9,6 @@ export default function EventsScreen({ navigation }) {
     const tls = require('../styles/tiles_list_styles');
 
     const [events, setEvents] = React.useState(null);
-    const [count, setCount] = useState(0);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -26,9 +25,6 @@ export default function EventsScreen({ navigation }) {
             setEvents(data);
         }
         getEvents();
-        // setTimeout(() => {
-        //     setCount(count + 1);
-        // }, 10000);
     }, [refreshing])
 
     const handleClick = (e) => {

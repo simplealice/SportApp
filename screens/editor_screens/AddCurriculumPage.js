@@ -1,32 +1,36 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 
-export default function AddTimeSignInPage({ navigation }) {
+export default function AddCurriculumPage({ navigation }) {
 
     const s = require('../../styles/styles');
     const eps = require('../../styles/event_page_styles');
     const ams = require('../../styles/admin_mode_styles');
 
-    const [signDate, setSignDate] = useState('');
+    const [groupNumber, setGroupNumber] = useState('');
+    const [coach, setCoach] = useState('');
+    const [dayOfWeek, setDayOfWeek] = useState('');
     const [timeFromTo, setTimeFromTo] = useState('');
 
-    const addTimeSignIn = () => {
+    const addCurriculum = () => {
         if (checkIfValid() == 1) {
-            fetch(global.URL + 'timeSignIn/add', {
+            fetch(global.URL + 'curriculum/add', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    signDate: signDate,
+                    groupNumber: groupNumber,
+                    coach: coach,
+                    dayOfWeek: dayOfWeek,
                     timeFromTo: timeFromTo,
                 }),
             }).then(response => {
                 response.json()
             })
                 .then(() => {
-                    navigation.navigate("EditTimeSignInScreen")
+                    navigation.navigate("EditCurriculumScreen")
                 })
                 .catch(error => console.error(error));
         }
@@ -43,9 +47,13 @@ export default function AddTimeSignInPage({ navigation }) {
 
     const checkIfValid = () => {
 
-        if (!signDate.trim() || signDate.length < 10) return showError('Дата должна содержать 10 символов', setError)
+        if (!groupNumber.trim()) return showError('Необходимо ввести номер группы', setError)
 
-        if (!timeFromTo.trim()) return showError('Время должно быть заполнено', setError)
+        if (!coach.trim()) return showError('Необходимо ввести тренера', setError)
+
+        if (!dayOfWeek.trim()) return showError('Необходимо задать день недели', setError)
+
+        if (!timeFromTo.trim()) return showError('Необходимо задать время тренировки', setError)
 
         return 1;
     }
@@ -64,25 +72,39 @@ export default function AddTimeSignInPage({ navigation }) {
                 </ImageBackground>
 
                 <View style={ams.menuView}>
-                    <Text style={ams.btnFeedbackText}>ДОБАВЛЕНИЕ ВРЕМЕНИ ЗАПИСИ</Text>
+                    <Text style={ams.btnFeedbackText}>ДОБАВЛЕНИЕ РАСПИСАНИЯ</Text>
 
                     {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
 
                     <TextInput
                         style={ams.input}
-                        onChangeText={setSignDate}
-                        value={signDate}
-                        placeholder="Дата возможного занятия"
+                        onChangeText={setGroupNumber}
+                        value={groupNumber}
+                        placeholder="Номер группы"
+                    />
+
+                    <TextInput
+                        style={ams.input}
+                        onChangeText={setCoach}
+                        value={coach}
+                        placeholder="Тренер"
+                    />
+
+                    <TextInput
+                        style={ams.input}
+                        onChangeText={setDayOfWeek}
+                        value={dayOfWeek}
+                        placeholder="День недели"
                     />
 
                     <TextInput
                         style={ams.input}
                         onChangeText={setTimeFromTo}
                         value={timeFromTo}
-                        placeholder="Время возможного занятия"
+                        placeholder="Время тренировки (с - до)"
                     />
 
-                    <TouchableOpacity style={ams.btnWrite} onPress={() => addTimeSignIn()}>
+                    <TouchableOpacity style={ams.btnWrite} onPress={() => addCurriculum()}>
                         <Text style={ams.writeText}>Добавить</Text>
                     </TouchableOpacity>
 

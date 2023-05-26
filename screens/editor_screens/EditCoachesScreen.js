@@ -1,13 +1,12 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import XDate from 'xdate';
-import SelectDropdown from 'react-native-select-dropdown';
+import React, { useState } from 'react';
 
 export default function EditCoachesScreen({ route, navigation }) {
 
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
+    const ams = require('../../styles/admin_mode_styles');
 
     const { token } = route.params;
 
@@ -16,7 +15,7 @@ export default function EditCoachesScreen({ route, navigation }) {
 
     React.useEffect(() => {
         const getCoaches = async () => {
-            const resp = await fetch(URL + "coaches/getAll"); // EDIT ON START
+            const resp = await fetch(URL + "coaches/getAll");
             const data = await resp.json();
             setCoaches(data);
         }

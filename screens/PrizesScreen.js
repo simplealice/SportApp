@@ -1,15 +1,12 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import XDate from 'xdate';
+import React, { useState } from 'react';
 
 export default function PrizesScreen({ navigation }) {
 
     const s = require('../styles/styles');
     const hms = require('../styles/horiz_menu_styles');
-    const tls = require('../styles/tiles_list_styles');
 
     const [awards, setAwards] = React.useState(null);
-    const [count, setCount] = useState(0);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -22,14 +19,11 @@ export default function PrizesScreen({ navigation }) {
 
     React.useEffect(() => {
         const getAwards = async () => {
-            const resp = await fetch(URL + "awards/getAll"); // EDIT ON START
+            const resp = await fetch(URL + "awards/getAll");
             const data = await resp.json();
             setAwards(data);
         }
         getAwards();
-        // setTimeout(() => {
-        //     setCount(count + 1);
-        // }, 15000);
     }, [refreshing])
 
     const handleClick = (e) => {
@@ -262,18 +256,15 @@ const styles = StyleSheet.create({
     flatSubMenu: {
         alignSelf: 'center'
     },
-
     subMenuView: {
         width: '100%',
         paddingBottom: 20
     },
-
     awardImage: {
         width: '100%',
         height: 150,
         width: 150,
         aspectRatio: 1,
-        // borderRadius: 65
     },
     awardContainer: {
         alignItems: 'center',

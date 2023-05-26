@@ -8,7 +8,6 @@ export default function AuthScreen({ navigation }) {
 
   const s = require('../styles/styles');
   const hms = require('../styles/horiz_menu_styles');
-  const tls = require('../styles/tiles_list_styles');
 
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -39,7 +38,6 @@ export default function AuthScreen({ navigation }) {
     },
     {
       title: 'Мое расписание',
-      // data: renderGroup(groups[0])
       data: 'Расписания нет...'
     },
     {
@@ -48,13 +46,6 @@ export default function AuthScreen({ navigation }) {
     }
   ]
 
-  // useState(() => {
-  //   var str = surname
-  //   str += ' '
-  //   str += name
-  //   global.name = str
-  //   console.log("GName: " + global.name)
-  // })
   const changeState = () => {
     var str = surname
     str += ' '
@@ -92,7 +83,6 @@ export default function AuthScreen({ navigation }) {
   };
 
   const handleLogin = () => {
-    // Send login request to server
     axios.post(global.URL + "auth/authenticate", {
       'email': username,
       'password': password,
@@ -100,7 +90,6 @@ export default function AuthScreen({ navigation }) {
       .then(response => {
         const data = response.data;
         setToken(data.token);
-        // console.log(`Logged in with token ${data.token}`);
         getUser(data.token);
       })
       .catch(error => {
@@ -109,7 +98,6 @@ export default function AuthScreen({ navigation }) {
   };
 
   const handleLogout = () => {
-    // Send logout request to server
     axios.post(global.URL + "auth/logout")
       .then(response => {
         console.log(response.data);
@@ -244,7 +232,6 @@ export default function AuthScreen({ navigation }) {
             </SafeAreaView>
             <TouchableOpacity
               style={styles.btnWrite}
-              // disabled
               onPress={handleLogin}>
               <View>
                 <Text style={styles.writeText}>Войти</Text>
@@ -278,29 +265,13 @@ export default function AuthScreen({ navigation }) {
             <Text>{"\n"}</Text>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
-              {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
-              <Text style={styles.btnText}>Уведомления</Text>
-              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnTile}
               onPress={() => { navigation.navigate("ChatScreen", { token: token, userId: userId, role: role }) }}>
-              {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
               <Text style={styles.btnText}>Чат с тренером</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
-              {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
-              <Text style={styles.btnText}>Мой календарь</Text>
-              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnTile}
               onPress={() => { navigation.navigate("IndividualPage", { token: token }) }}>
-              {/* <Image style={styles.btnImage} source={require('../images/bell.png')} /> */}
               <Text style={styles.btnText}>Записаться на индивидуальное занятие</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
@@ -374,7 +345,6 @@ export default function AuthScreen({ navigation }) {
 
             <TouchableOpacity
               style={styles.btnExit}
-              // disabled
               onPress={handleLogout}>
               <View>
                 <Text style={styles.writeText}>Выйти</Text>
@@ -566,7 +536,6 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 14,
-    // marginLeft: 15,
     paddingRight: 10
   },
   btnTextArrow: {

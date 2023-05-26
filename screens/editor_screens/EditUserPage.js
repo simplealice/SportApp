@@ -7,6 +7,7 @@ export default function EditUserPage({ route, navigation }) {
 
     const s = require('../../styles/styles');
     const eps = require('../../styles/event_page_styles');
+    const ams = require('../../styles/admin_mode_styles');
 
     const { token, id, email } = route.params;
 
@@ -118,8 +119,7 @@ export default function EditUserPage({ route, navigation }) {
     const deleteUser = () => {
         fetch(global.URL + `users/delete/${id}`, { method: 'GET' })
             .then(response => response.text())
-            .then(result => {
-                // console.log(result)
+            .then(() => {
                 navigation.navigate("EditUsersScreen", { token: token })
             })
             .catch(error => console.log('error', error));
@@ -146,13 +146,13 @@ export default function EditUserPage({ route, navigation }) {
                     </View>
                 </ImageBackground>
 
-                <View style={styles.menuView}>
-                    <Text style={styles.btnFeedbackText}>РЕДАКТИРОВАНИЕ ИНФОРМАЦИИ</Text>
+                <View style={ams.menuView}>
+                    <Text style={ams.btnFeedbackText}>РЕДАКТИРОВАНИЕ ИНФОРМАЦИИ</Text>
 
                     {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
                     <Text style={styles.titleText}>Фамилия</Text>
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setSurame}
                         value={surname}
                         placeholder="Фамилия"
@@ -160,21 +160,19 @@ export default function EditUserPage({ route, navigation }) {
 
                     <Text style={styles.titleText}>Имя</Text>
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setName}
                         value={name}
                         placeholder="Имя"
                     />
-                    {/* birthday */}
                     <View style={styles.containerDate}>
                         <Text style={styles.dateText}>
                             {birthday ? retDate(birthday) : 'Дата выбрана'}
                         </Text>
-                        <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
-                            <Text style={styles.writeText}>Дата рождения</Text>
+                        <TouchableOpacity style={ams.btnWrite} onPress={showDatePicker1}>
+                            <Text style={ams.writeText}>Дата рождения</Text>
                         </TouchableOpacity>
                         <DateTimePickerModal
-                            // date={birthday}
                             isVisible={datePickerVisible1}
                             mode="date"
                             value={birthday}
@@ -185,7 +183,7 @@ export default function EditUserPage({ route, navigation }) {
 
                     <Text style={styles.titleText}>Кю/дан</Text>
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setKuDan}
                         value={kuDan}
                         placeholder="6 кю (красный пояс)"
@@ -193,7 +191,7 @@ export default function EditUserPage({ route, navigation }) {
 
                     <Text style={styles.titleText}>Категория</Text>
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setCategory}
                         value={category}
                         placeholder="12-13 лет"
@@ -202,7 +200,7 @@ export default function EditUserPage({ route, navigation }) {
 
                     <Text style={styles.titleText}>Направление</Text>
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setMajor}
                         value={major}
                         placeholder="ката"
@@ -211,7 +209,7 @@ export default function EditUserPage({ route, navigation }) {
 
                     <Text style={styles.titleText}>Членство в сборной</Text>
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setTeam}
                         value={team}
                         placeholder="да"
@@ -232,7 +230,7 @@ export default function EditUserPage({ route, navigation }) {
 
                     <Text style={styles.titleText}>Баллы</Text>
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setScore}
                         value={score}
                         placeholder="20"
@@ -241,15 +239,15 @@ export default function EditUserPage({ route, navigation }) {
 
                     <Text style={styles.titleText}>Группа</Text>
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setGroupSc}
                         value={groupSc}
                         placeholder="1"
                         autoCapitalize='none'
                     />
 
-                    <TouchableOpacity style={styles.btnWrite} onPress={() => editUser()}>
-                        <Text style={styles.writeText}>Отправить</Text>
+                    <TouchableOpacity style={ams.btnWrite} onPress={() => editUser()}>
+                        <Text style={ams.writeText}>Отправить</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -259,38 +257,6 @@ export default function EditUserPage({ route, navigation }) {
 };
 
 const styles = StyleSheet.create({
-
-    flatNews: {
-        width: "100%",
-    },
-    NewsTile: {
-        marginTop: 10,
-        height: 110,
-        width: '90%',
-        paddingHorizontal: 20,
-        shadowColor: 'black',
-        elevation: 6,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        alignSelf: 'center',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    btnNewsText: {
-        fontSize: 15,
-        color: 'black'
-    },
-    btnNewsTextBold: {
-        fontSize: 15,
-        color: 'black',
-        fontWeight: 'bold'
-    },
-    btnNewsTextGray: {
-        fontSize: 15,
-        color: 'gray'
-    },
     mapStyle: {
         width: '100%',
         height: 200
@@ -299,58 +265,11 @@ const styles = StyleSheet.create({
         width: 85,
         height: 85,
     },
-
-    btnFeedbackText: {
-        alignSelf: 'center',
-        fontSize: 15,
-        color: '#E3241D',
-        fontWeight: 'bold'
-    },
-    eventText: {
-        fontSize: 14,
-        marginLeft: 15,
-        paddingRight: 10
-    },
     titleText: {
         fontSize: 15,
         marginTop: 15,
         marginLeft: 15,
         fontWeight: 'bold'
-    },
-
-    dateEventContainer: {
-        marginTop: 10,
-        flexDirection: 'row',
-        alignSelf: 'flex-start',
-        marginLeft: 15,
-        alignItems: 'center',
-        marginBottom: 15
-    },
-
-
-    networkContainer: {
-        width: '100%',
-        paddingTop: 20,
-        paddingBottom: 20,
-        alignItems: 'center',
-        backgroundColor: 'gainsboro'
-    },
-
-    menuView: {
-        alignSelf: 'center',
-        width: '90%',
-        backgroundColor: 'white',
-        borderRadius: 20,
-        paddingBottom: 20,
-        paddingTop: 20
-    },
-    input: {
-        height: 40,
-        margin: 12,
-        marginTop: 0,
-        borderBottomColor: '#E5E5E5',
-        borderBottomWidth: 1,
-        padding: 10,
     },
     textField: {
         height: 100,
@@ -358,20 +277,6 @@ const styles = StyleSheet.create({
         borderColor: '#E5E5E5',
         borderWidth: 1,
         padding: 10,
-    },
-    btnWrite: {
-        marginTop: 20,
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: '#E3241D',
-        width: 150,
-        borderRadius: 20,
-    },
-    writeText: {
-        fontSize: 14,
-        marginTop: 10,
-        marginBottom: 10,
-        color: 'white'
     },
     containerDate: {
         flexDirection: 'row',

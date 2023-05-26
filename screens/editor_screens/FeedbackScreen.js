@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export default function FeedbackScreen({ route, navigation }) {
 
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
+    const ams = require('../../styles/admin_mode_styles');
 
     const { token } = route.params;
 
@@ -22,9 +23,6 @@ export default function FeedbackScreen({ route, navigation }) {
     const getFeedback = (token) => {
         fetch(global.URL + 'feedback/getAll', {
             method: 'GET',
-            // headers: {
-            //     "Authorization": `Bearer ${token}`,
-            // }
         }).then(response => response.json())
             .then(data => {
                 setFeedback(data)
@@ -35,7 +33,7 @@ export default function FeedbackScreen({ route, navigation }) {
     const renderEvents = (i) => {
         if (feedback == null || i >= feedback.length) { }
         else {
-            const MAXLENGTH = 40; 
+            const MAXLENGTH = 40;
             return (
                 <TouchableOpacity
                     style={styles.userBtnTile}
@@ -88,11 +86,6 @@ export default function FeedbackScreen({ route, navigation }) {
 };
 
 const styles = StyleSheet.create({
-    plusImage: {
-        width: 30,
-        height: 35,
-        tintColor: 'white'
-    },
     imageIcon: {
         marginTop: 60,
         marginBottom: 10,

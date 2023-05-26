@@ -1,22 +1,16 @@
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, TextInput } from 'react-native';
 import * as React from 'react';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import XDate from 'xdate';
 import SelectDropdown from 'react-native-select-dropdown';
 
 export default function IndividualPage({ route, navigation }) {
 
     const s = require('../styles/styles');
-    const hms = require('../styles/horiz_menu_styles');
-    const tls = require('../styles/tiles_list_styles');
 
     const { token } = route.params;
 
     const [phone, setPhone] = React.useState(global.phone);
     const [mail, setMail] = React.useState(global.email);
-
     const [date, setDate] = React.useState('');
-
     const [comment, setComment] = React.useState('');
 
     const [error, setError] = React.useState('');
@@ -30,8 +24,6 @@ export default function IndividualPage({ route, navigation }) {
     }
 
     const checkIfValid = () => {
-        // if (!isValidField(userInfo)) return showError('Необходимо заполнить все поля', setError)
-
         if (!mail.trim() && !phone.trim()) return showError('Необходимо ввести почту или номер телефона', setError)
 
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -68,19 +60,6 @@ export default function IndividualPage({ route, navigation }) {
                 .catch(error => console.log('error', error));
         }
     }
-
-    const formatDate = (data) => {
-        let day = ""
-        let month = ""
-        if (data.getDate() < 10) {
-            day = "0" + data.getDate()
-        } else day = data.getDate()
-        if (data.getMonth() + 1 < 10) {
-            month = "0" + (data.getMonth() + 1)
-        } else month = data.getMonth() + 1
-        let dateTimeString = day + '.' + month + '.' + data.getFullYear();
-        return dateTimeString;
-    };
 
     const formatDateBirth = (data) => {
         let day = data[8]
@@ -139,7 +118,6 @@ export default function IndividualPage({ route, navigation }) {
                         <TextInput
                             style={styles.input}
                             onChangeText={setPhone}
-                            // onChangeText={(value) => handleOnChangeText(value, 'phone')}
                             value={phone}
                             placeholder="Номер телефона"
                             keyboardType="numeric"
@@ -174,7 +152,6 @@ export default function IndividualPage({ route, navigation }) {
                             maxLength={100}
                             placeholder="Комментарий"
                             onChangeText={text => setComment(text)}
-                            // onChangeText={(value) => handleOnChangeText(value, 'comment')}
                             value={comment}
                             style={styles.textField}
                         />

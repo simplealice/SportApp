@@ -1,13 +1,12 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import XDate from 'xdate';
-import SelectDropdown from 'react-native-select-dropdown';
+import React, { useState } from 'react';
 
 export default function EditUsersScreen({ route, navigation }) {
 
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
+    const ams = require('../../styles/admin_mode_styles');
 
     const { token } = route.params;
 
@@ -24,36 +23,12 @@ export default function EditUsersScreen({ route, navigation }) {
     const getUsers = (token) => {
         fetch(global.URL + 'users/getAll', {
             method: 'GET',
-            // headers: {
-            //     "Authorization": `Bearer ${token}`,
-            // }
         }).then(response => response.json())
             .then(data => {
                 setUsers(data)
             })
             .catch(error => console.error(error));
     };
-
-    // const FilterUsers = () => {
-    //     console.log(selectedRole)
-    //     if (selectedRole === 'SPORTSMEN') {
-    //         let dataSportsmen = users.filter(function (item) {
-    //             return item.role == 'SPORTSMEN';
-    //         }).map(function ({ id, role, surname, name, email }) {
-    //             return { id, role, surname, name, email };
-    //         });
-    //         return dataSportsmen
-    //     } else if (selectedRole === 'COACH') {
-    //         let dataCoach = users.filter(function (item) {
-    //             return item.role == 'COACH';
-    //         }).map(function ({ id, role, surname, name, email }) {
-    //             return { id, role, surname, name, email };
-    //         });
-    //         return dataCoach
-    //     }
-    //     return users
-    //     //  console.log(dataSportsmen);
-    // }
 
     const renderEvents = (i) => {
         if (users == null || i >= users.length) { }
@@ -72,7 +47,6 @@ export default function EditUsersScreen({ route, navigation }) {
                         </View>
                         <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
                     </View>
-                    {/* {FilterUsers()} */}
                 </TouchableOpacity>
             )
         }
@@ -94,32 +68,6 @@ export default function EditUsersScreen({ route, navigation }) {
                     <View style={hms.menuView}></View>
                 </ImageBackground>
 
-                {/* <SelectDropdown
-                    buttonStyle={styles.selectDropdown}
-                    buttonTextStyle={styles.selectDropdownText}
-                    data={roles}
-                    defaultButtonText='Все'
-                    onSelect={(selectedItem, index) => {
-                        if (selectedItem === 'Спортсмены') {
-                            setSelectedRole('SPORTSMEN')
-                        }
-                        else if (selectedItem === 'Тренеры') {
-                            setSelectedRole('COACH')
-                        }
-                        else if (selectedItem === 'Все') {
-                            setSelectedRole('ALL')
-                        }
-                    }}
-                    buttonTextAfterSelection={(selectedItem, index) => {
-                        return selectedItem
-                    }}
-                    rowTextForSelection={(item, index) => {
-                        return item
-                    }}
-                /> */}
-                {/* <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                    <Text>Добавить +</Text>
-                </TouchableOpacity> */}
                 <Text>{"\n"}</Text>
 
 

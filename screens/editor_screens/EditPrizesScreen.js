@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export default function EditPrizesScreen({ route, navigation }) {
 
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
+    const ams = require('../../styles/admin_mode_styles');
 
     const { token } = route.params;
 
@@ -22,9 +23,6 @@ export default function EditPrizesScreen({ route, navigation }) {
     const getUsers = (token) => {
         fetch(global.URL + 'awards/getAll', {
             method: 'GET',
-            // headers: {
-            //     "Authorization": `Bearer ${token}`,
-            // }
         }).then(response => response.json())
             .then(data => {
                 setPrizes(data)
@@ -49,7 +47,6 @@ export default function EditPrizesScreen({ route, navigation }) {
                         </View>
                         <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
                     </View>
-                    {/* {FilterUsers()} */}
                 </TouchableOpacity>
             )
         }

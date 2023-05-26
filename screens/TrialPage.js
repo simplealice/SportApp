@@ -1,14 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, TextInput } from 'react-native';
 import * as React from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import XDate from 'xdate';
 import SelectDropdown from 'react-native-select-dropdown';
 
 export default function TrialPage({ navigation }) {
 
     const s = require('../styles/styles');
-    const hms = require('../styles/horiz_menu_styles');
-    const tls = require('../styles/tiles_list_styles');
 
     const [name, setName] = React.useState(global.name);
     const [birthday, setBirthday] = React.useState(global.birthday);
@@ -33,7 +30,6 @@ export default function TrialPage({ navigation }) {
     const [error, setError] = React.useState('');
 
     const showError = (error, state) => {
-        // console.log(error)
         state(error)
         setTimeout(() => {
             state('')
@@ -41,8 +37,6 @@ export default function TrialPage({ navigation }) {
     }
 
     const checkIfValid = () => {
-        // if (!isValidField(userInfo)) return showError('Необходимо заполнить все поля', setError)
-
         if (!name.trim() || name.length < 3) return showError('ФИО должно содержать не менее 3 символов', setError)
 
         if (!mail.trim() && !phone.trim()) return showError('Необходимо ввести почту или номер телефона', setError)
@@ -88,7 +82,6 @@ export default function TrialPage({ navigation }) {
                 console.log("reponse :", res);
                 console.log("status code :", res.statusCode);
                 if (statusCode == '200') {
-                    // navigation.navigate("Main")
                     navigation.goBack();
                 }
             } catch (error) {
@@ -173,7 +166,6 @@ export default function TrialPage({ navigation }) {
                                     <Text style={styles.writeText}>Дата рождения</Text>
                                 </TouchableOpacity>
                                 <DateTimePickerModal
-                                    // date={birthday}
                                     isVisible={datePickerVisible1}
                                     mode="date"
                                     value={birthday}
@@ -187,7 +179,6 @@ export default function TrialPage({ navigation }) {
                         <TextInput
                             style={styles.input}
                             onChangeText={setPhone}
-                            // onChangeText={(value) => handleOnChangeText(value, 'phone')}
                             value={phone}
                             placeholder="Номер телефона"
                             keyboardType="numeric"
@@ -223,7 +214,6 @@ export default function TrialPage({ navigation }) {
                             maxLength={100}
                             placeholder="Комментарий"
                             onChangeText={text => setComment(text)}
-                            // onChangeText={(value) => handleOnChangeText(value, 'comment')}
                             value={comment}
                             style={styles.textField}
                         />

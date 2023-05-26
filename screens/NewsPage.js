@@ -70,7 +70,6 @@ export default function NewsPage({ route, navigation }) {
                 </ImageBackground>
 
                 <Image source={findImage()} style={styles.photo} />
-                {/* {data[id].image ? <Image style={styles.photo} source={findImage()} /> : <View />}  */}
 
                 <View style={styles.viewSem}>
                     <View style={styles.dateEventContainer1}>
@@ -81,9 +80,6 @@ export default function NewsPage({ route, navigation }) {
                         <Image style={styles.eventsImage} source={require('../images/calendar.png')} />
                         <Text style={styles.btnNewsTextRed}>{returnSeminarDate()}</Text>
                     </View>
-                    {/* <Text style={styles.btnTitleText}>{returnSeminarTitle()}</Text>
-                    <Text style={styles.btnNewsTextRed}>{returnSeminarDate()}</Text>
-                    <Text style={styles.btnNewsText}>{returnSeminarCity()}</Text> */}
                     <Text style={styles.btnNewsText}>{returnSeminarDescription()}</Text>
                 </View>
             </View>
@@ -100,7 +96,6 @@ const styles = StyleSheet.create({
     },
     imageBack: {
         width: '100%',
-        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -128,8 +123,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
     },
     photo: {
-        // width: '55%',
-        // height: '35%',
         marginTop: 20,
         width: '60%',
         height: '40%',
@@ -181,15 +174,11 @@ const styles = StyleSheet.create({
     dateEventContainer1: {
         flexDirection: 'row',
         alignSelf: 'flex-start',
-        // marginLeft: 5,
-        // marginRight: 5,
         alignItems: 'center',
     },
     dateEventContainer2: {
         flexDirection: 'row',
         alignSelf: 'flex-start',
-        // marginLeft: 5,
-        // marginRight: 5,
         alignItems: 'center',
         marginTop: 10
     },

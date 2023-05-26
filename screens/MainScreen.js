@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import XDate from 'xdate';
 
 export default function MainScreen({ navigation }) {
@@ -10,7 +10,6 @@ export default function MainScreen({ navigation }) {
     const [news, setNews] = React.useState(null);
     const [events, setEvents] = React.useState(null);
     const [photos, setPhotos] = React.useState(null);
-    const [count, setCount] = useState(0);
 
     const [refreshing, setRefreshing] = React.useState(false);
 
@@ -153,7 +152,6 @@ export default function MainScreen({ navigation }) {
                         </Text>
                     </View>
                     {news[index].image ? <Image style={styles.newsImage} source={findImage(news[index])} /> : <View />}
-                    {/* <Image style={styles.newsImage} source={findImage(news[index])} /> */}
                 </TouchableOpacity>
             )
         }
@@ -230,10 +228,8 @@ export default function MainScreen({ navigation }) {
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
 
-                    {/* !!!!!!!!!!!!!!!!TODO: LINK TO NOTIFICATIONS!!!!!!!!!!!!!!!! */}
-                    <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')}>
-                        <Image style={s.bellImage} source={require('../images/bell.png')} />
-                    </TouchableOpacity>
+                    <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')} />
+
                     <Image
                         style={s.imageIcon}
                         source={require("../images/icon.jpg")} />

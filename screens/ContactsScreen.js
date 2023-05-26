@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, TextInput, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
-// import XDate from 'xdate';
+import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function ContactsScreen({ navigation }) {
@@ -15,7 +14,6 @@ export default function ContactsScreen({ navigation }) {
 
     const [address, setAddress] = React.useState(null);
     const [phoneClub, setPhoneClub] = React.useState(null);
-    const [count, setCount] = useState(0);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -33,9 +31,6 @@ export default function ContactsScreen({ navigation }) {
             setPhoneClub(data.phone)
         }
         getEvents();
-        // setTimeout(() => {
-        //     setCount(count + 1);
-        // }, 15000);
     }, [refreshing])
 
     const [error, setError] = React.useState('');
@@ -52,7 +47,7 @@ export default function ContactsScreen({ navigation }) {
         if (!name.trim() || name.length < 3) return showError('ФИО должно содержать не менее 3 символов', setError)
 
         if (!mail.trim() && !phone.trim()) return showError('Необходимо ввести почту или номер телефона', setError)
-        
+
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (mail.trim() && !re.test(mail)) return showError('Неверный формат почты', setError)
 
@@ -87,7 +82,6 @@ export default function ContactsScreen({ navigation }) {
                 console.log("reponse :", res);
                 console.log("status code :", res.statusCode);
                 if (statusCode == '200') {
-                    // navigation.navigate("Main")
                     navigation.goBack();
                 }
             } catch (error) {
@@ -176,14 +170,11 @@ export default function ContactsScreen({ navigation }) {
     return (
         <ScrollView refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
+        }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
 
-                    {/* !!!!!!!!!!!!!!!!TODO: LINK TO NOTIFICATIONS!!!!!!!!!!!!!!!! */}
-                    <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')}>
-                        <Image style={s.bellImage} source={require('../images/bell.png')} />
-                    </TouchableOpacity>
+                    <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')} />
                     <Image
                         style={s.imageIcon}
                         source={require("../images/icon.jpg")} />
@@ -262,7 +253,6 @@ export default function ContactsScreen({ navigation }) {
                     <TextInput
                         style={styles.input}
                         onChangeText={setPhone}
-                        // onChangeText={(value) => handleOnChangeText(value, 'phone')}
                         value={phone}
                         placeholder="Номер телефона"
                         keyboardType="numeric"
@@ -337,7 +327,6 @@ const styles = StyleSheet.create({
         width: 85,
         height: 85,
     },
-
     btnFeedbackText: {
         alignSelf: 'center',
         fontSize: 15,
@@ -362,8 +351,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 15
     },
-
-
     networkContainer: {
         width: '100%',
         paddingTop: 20,

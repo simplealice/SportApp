@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import XDate from 'xdate';
@@ -9,8 +8,7 @@ export default function AddEventPage({ navigation }) {
 
     const s = require('../../styles/styles');
     const eps = require('../../styles/event_page_styles');
-
-    // const { token } = route.params;
+    const ams = require('../../styles/admin_mode_styles');
 
     const roles = ['Турнир', 'Семинар']
     const [title, setTitle] = useState('');
@@ -38,9 +36,6 @@ export default function AddEventPage({ navigation }) {
         if (checkIfValid() == 1) {
             fetch(global.URL + 'events/add', {
                 method: 'POST',
-                // headers: {
-                //     "Authorization": `Bearer ${token}`,
-                // },
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
@@ -57,7 +52,7 @@ export default function AddEventPage({ navigation }) {
             }).then(response => {
                 response.json()
             })
-                .then(data => {
+                .then(() => {
                     navigation.navigate("EditEventsScreen")
                 })
                 .catch(error => console.error(error));
@@ -72,7 +67,6 @@ export default function AddEventPage({ navigation }) {
     const [error, setError] = React.useState('');
 
     const showError = (error, state) => {
-        // console.log(error)
         state(error)
         setTimeout(() => {
             state('')
@@ -105,7 +99,7 @@ export default function AddEventPage({ navigation }) {
         <ScrollView>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} source={require("../../images/back.jpg")}>
-                    <Text style={styles.titleText}>{'\n'}{'\n'}{'\n'}</Text>
+                    <Text>{'\n'}{'\n'}{'\n'}</Text>
 
                     <View style={eps.menuView}>
                         <TouchableOpacity onPress={() => { navigation.goBack(); }}>
@@ -114,14 +108,14 @@ export default function AddEventPage({ navigation }) {
                     </View>
                 </ImageBackground>
 
-                <View style={styles.menuView}>
-                    <Text style={styles.btnFeedbackText}>ДОБАВЛЕНИЕ СОБЫТИЯ</Text>
+                <View style={ams.menuView}>
+                    <Text style={ams.btnFeedbackText}>ДОБАВЛЕНИЕ СОБЫТИЯ</Text>
 
                     {error ? <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>{error}</Text> : null}
 
                     <SelectDropdown
-                        buttonStyle={styles.selectDropdown}
-                        buttonTextStyle={styles.selectDropdownText}
+                        buttonStyle={ams.selectDropdown}
+                        buttonTextStyle={ams.selectDropdownText}
                         data={roles}
                         defaultButtonText='Выберите тип...'
                         onSelect={(selectedItem, index) => {
@@ -141,7 +135,7 @@ export default function AddEventPage({ navigation }) {
                     />
 
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setTitle}
                         value={title}
                         placeholder="Название"
@@ -151,11 +145,10 @@ export default function AddEventPage({ navigation }) {
                         <Text style={styles.dateText}>
                             {date ? retDate(date) : 'Дата выбрана'}
                         </Text>
-                        <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker1}>
-                            <Text style={styles.writeText}>Дата</Text>
+                        <TouchableOpacity style={ams.btnWrite} onPress={showDatePicker1}>
+                            <Text style={ams.writeText}>Дата</Text>
                         </TouchableOpacity>
                         <DateTimePickerModal
-                            // date={birthday}
                             isVisible={datePickerVisible1}
                             mode="date"
                             value={date}
@@ -165,21 +158,21 @@ export default function AddEventPage({ navigation }) {
                     </View>
 
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setCity}
                         value={city}
                         placeholder="Место проведения"
                     />
 
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setDiscipline}
                         value={discipline}
                         placeholder="Дисциплина (для турниров)"
                     />
 
                     <TextInput
-                        style={styles.input}
+                        style={ams.input}
                         onChangeText={setImage}
                         value={image}
                         placeholder="Ссылка на изображение"
@@ -196,8 +189,8 @@ export default function AddEventPage({ navigation }) {
                         style={styles.textField}
                     />
 
-                    <TouchableOpacity style={styles.btnWrite} onPress={() => addNews()}>
-                        <Text style={styles.writeText}>Добавить</Text>
+                    <TouchableOpacity style={ams.btnWrite} onPress={() => addNews()}>
+                        <Text style={ams.writeText}>Добавить</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -207,100 +200,12 @@ export default function AddEventPage({ navigation }) {
 };
 
 const styles = StyleSheet.create({
-
-    flatNews: {
-        width: "100%",
-    },
-    NewsTile: {
-        marginTop: 10,
-        height: 110,
-        width: '90%',
-        paddingHorizontal: 20,
-        shadowColor: 'black',
-        elevation: 6,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        alignSelf: 'center',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    btnNewsText: {
-        fontSize: 15,
-        color: 'black'
-    },
-    btnNewsTextBold: {
-        fontSize: 15,
-        color: 'black',
-        fontWeight: 'bold'
-    },
-    btnNewsTextGray: {
-        fontSize: 15,
-        color: 'gray'
-    },
-    selectDropdown: {
-        width: '100%',
-        marginTop: 20,
-        alignSelf: 'center',
-        borderColor: '#E5E5E5',
-        borderWidth: 1,
-        backgroundColor: 'white',
-    },
-    selectDropdownText: {
-        fontSize: 14
-    },
-
-    btnFeedbackText: {
-        alignSelf: 'center',
-        fontSize: 15,
-        color: '#E3241D',
-        fontWeight: 'bold'
-    },
-    dateEventContainer: {
-        marginTop: 10,
-        flexDirection: 'row',
-        alignSelf: 'flex-start',
-        marginLeft: 15,
-        alignItems: 'center',
-        marginBottom: 15
-    },
-
-    menuView: {
-        alignSelf: 'center',
-        width: '90%',
-        backgroundColor: 'white',
-        borderRadius: 20,
-        paddingBottom: 20,
-        paddingTop: 20
-    },
-    input: {
-        height: 40,
-        margin: 12,
-        borderBottomColor: '#E5E5E5',
-        borderBottomWidth: 1,
-        padding: 10,
-    },
     textField: {
         height: 250,
         margin: 12,
         borderColor: '#E5E5E5',
         borderWidth: 1,
         padding: 10,
-    },
-    btnWrite: {
-        marginTop: 20,
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: '#E3241D',
-        width: 150,
-        borderRadius: 20,
-    },
-    writeText: {
-        fontSize: 14,
-        marginTop: 10,
-        marginBottom: 10,
-        color: 'white'
     },
     containerDate: {
         flexDirection: 'row',

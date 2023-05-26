@@ -26,8 +26,7 @@ const Stack = createNativeStackNavigator();
 
 const MainStackNavigator = ({ navigation, route }) => {
   React.useLayoutEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? 'Splash'; 
-    // console.log(routeName)
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'Splash';
     if (routeName === "Splash") {
       navigation.setOptions({ tabBarStyle: { display: 'none' } });
     } else {

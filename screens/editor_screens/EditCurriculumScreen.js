@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import XDate from 'xdate';
 import axios from 'axios';
 
 export default function EditCurriculumScreen({ navigation }) {
@@ -8,17 +7,7 @@ export default function EditCurriculumScreen({ navigation }) {
     const s = require('../../styles/styles');
     const hms = require('../../styles/horiz_menu_styles');
     const tls = require('../../styles/tiles_list_styles');
-
-    // This func returns an image URL from the object's param image
-    const findImage = (e) => {
-        var ImageURL = { uri: e.image };
-        return ImageURL;
-    }
-
-    const retDate = (e) => {
-        var dt = new XDate(e.date);
-        return dt.toString("dd.MM.yyyy");
-    }
+    const ams = require('../../styles/admin_mode_styles');
 
     const [groups, setGroups] = useState([]);
     const [count, setCount] = useState(0);
@@ -50,27 +39,33 @@ export default function EditCurriculumScreen({ navigation }) {
         }, 5000);
     }, [count])
 
+    const deleteCurriculum = (id) => {
+        fetch(global.URL + `curriculum/delete/${id}`, { method: 'GET' })
+            .then(response => response.text())
+            .then(result => { })
+            .catch(error => console.log('error', error));
+    };
 
     const renderGroup = ({ item }) => (
         <View style={styles.NewsTile}>
-            <TouchableOpacity onPress={() => navigation.navigate("EditCurriculumPage",
-                { groupNumber: item.groupNumber, coach: item.coach, curriculum: item.items })}>
-                <View style={styles.timeContainer}>
-                    <Text style={tls.btnNewsTextRed}>{item.groupNumber}</Text>
-                    <Text style={tls.btnNewsTextRed}>{item.coach}</Text>
-                </View>
-                <View style={styles.lineFull}></View>
-                <FlatList
-                    data={item.items}
-                    renderItem={({ item }) => (
-                        <View style={styles.timeContainer}>
-                            <Text>{item.dayOfWeek}</Text>
-                            <Text>{item.timeFromTo}</Text>
-                        </View>
-                    )}
-                    keyExtractor={item => item.id.toString()}
-                />
-            </TouchableOpacity>
+            <View style={styles.timeContainer}>
+                <Text style={tls.btnNewsTextRed}>{item.groupNumber}</Text>
+                <Text style={tls.btnNewsTextRed}>{item.coach}</Text>
+            </View>
+            <View style={styles.lineFull}></View>
+            <FlatList
+                data={item.items}
+                renderItem={({ item }) => (
+                    <View style={styles.timeContainer}>
+                        <Text>{item.dayOfWeek}</Text>
+                        <Text>{item.timeFromTo}</Text>
+                        <TouchableOpacity onPress={() => deleteCurriculum(item.id)}>
+                            <Image style={styles.binImage} source={require('../../images/bin.png')} />
+                        </TouchableOpacity>
+                    </View>
+                )}
+                keyExtractor={item => item.id.toString()}
+            />
         </View>
     );
 
@@ -78,7 +73,7 @@ export default function EditCurriculumScreen({ navigation }) {
         <ScrollView>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../../images/back.jpg")}>
-                    <TouchableOpacity style={s.OpacityBell} onPress={() => navigation.navigate("AddEventPage")}>
+                    <TouchableOpacity style={s.OpacityBell} onPress={() => navigation.navigate("AddCurriculumPage")}>
                         <Image style={styles.plusImage} source={require('../../images/plus.png')} />
                     </TouchableOpacity>
                     <Image
@@ -117,32 +112,8 @@ const styles = StyleSheet.create({
         height: 110,
         borderRadius: 10
     },
-    userTile: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    userBtnTile: {
-        marginTop: 5,
-        height: 60,
-        width: '90%',
-        paddingHorizontal: 15,
-        shadowColor: 'black',
-        elevation: 6,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        alignSelf: 'center',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 10
-    },
-
     NewsTile: {
-        height: 130,
+        height: 220,
         width: '98%',
         margin: 10,
         paddingHorizontal: 20,
@@ -152,37 +123,23 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignSelf: 'center',
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingTop: 20
     },
     timeContainer: {
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-    },
-    btnNewsText: {
-        fontSize: 14,
-        color: 'black'
-    },
-    btnNewsTextGray: {
-        fontSize: 15,
-        color: 'gray'
-    },
-    btnNewsTextBold: {
-        fontSize: 14,
-        color: 'black',
-        fontWeight: 'bold',
-        marginRight: 10,
+        marginBottom: 20
     },
     btnNewsTextRed: {
         fontSize: 14,
         color: '#E3241D',
         fontWeight: 'bold',
     },
-    newsImage: {
-        width: 85,
-        height: 85,
-    },
-    TextContainer: {
-        width: '70%'
-    },
+    binImage: {
+        width: 20,
+        height: 25,
+        tintColor: 'red'
+    }
 })

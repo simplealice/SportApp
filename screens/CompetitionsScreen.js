@@ -8,13 +8,7 @@ export default function CompetitionsScreen({ navigation }) {
     const hms = require('../styles/horiz_menu_styles');
     const tls = require('../styles/tiles_list_styles');
 
-    const findImage = (e) => {
-        var ImageURL = { uri: e.image };
-        return ImageURL;
-    }
-
     const [competitions, setCompetitions] = React.useState([]);
-    const [count, setCount] = useState(0);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -31,9 +25,6 @@ export default function CompetitionsScreen({ navigation }) {
             setCompetitions(data);
         }
         getData();
-        // setTimeout(() => {
-        //     setCount(count + 1);
-        // }, 10000);
     }, [refreshing])
 
     const iconStyle = (e) => {
@@ -167,16 +158,13 @@ export default function CompetitionsScreen({ navigation }) {
         }
     }
 
-
     return (
         <ScrollView refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
+        }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
-                    <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')}>
-                        <Image style={s.bellImage} source={require('../images/bell.png')} />
-                    </TouchableOpacity>
+                    <TouchableOpacity style={s.OpacityBell} onPress={() => Linking.openURL('https://vk.com/public151614553')} />
                     <Image
                         style={s.imageIcon}
                         source={require("../images/icon.jpg")} />
@@ -229,14 +217,3 @@ export default function CompetitionsScreen({ navigation }) {
 
     );
 };
-
-const styles = StyleSheet.create({
-    btnNewsTextGray: {
-        fontSize: 15,
-        color: 'gray'
-    },
-    newsImage: {
-        width: 95,
-        height: 115,
-    },
-})

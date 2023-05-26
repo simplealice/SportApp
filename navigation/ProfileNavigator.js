@@ -11,7 +11,6 @@ import EditEventsScreen from '../screens/editor_screens/EditEventsScreen';
 import AddEventPage from '../screens/editor_screens/AddEventPage';
 import EditEventPage from '../screens/editor_screens/EditEventPage';
 import EditCurriculumScreen from '../screens/editor_screens/EditCurriculumScreen';
-import EditCurriculumPage from '../screens/editor_screens/EditCurriculumPage'
 import EditCoachesScreen from '../screens/editor_screens/EditCoachesScreen';
 import EditCoachPage from '../screens/editor_screens/EditCoachPage';
 import AddCoachPage from '../screens/editor_screens/AddCoachPage';
@@ -27,6 +26,7 @@ import EditTimeSignInScreen from '../screens/editor_screens/EditTimeSignInScreen
 import AddTimeSignInPage from '../screens/editor_screens/AddTimeSignInPage';
 import SigningIndividualScreen from '../screens/editor_screens/SigningIndividualScreen';
 import SigningTrialScreen from '../screens/editor_screens/SigningTrialScreen';
+import AddCurriculumPage from '../screens/editor_screens/AddCurriculumPage';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -46,8 +46,8 @@ const ProfileStackNavigator = () => {
             <Stack.Screen name="EditEventsScreen" component={EditEventsScreen} options={{ header: () => null }} />
             <Stack.Screen name="AddEventPage" component={AddEventPage} options={{ header: () => null }} />
             <Stack.Screen name="EditEventPage" component={EditEventPage} options={{ header: () => null }} />
+            <Stack.Screen name="AddCurriculumPage" component={AddCurriculumPage} options={{ header: () => null }} />
             <Stack.Screen name="EditCurriculumScreen" component={EditCurriculumScreen} options={{ header: () => null }} />
-            <Stack.Screen name="EditCurriculumPage" component={EditCurriculumPage} options={{ header: () => null }} />
             <Stack.Screen name="AddCoachPage" component={AddCoachPage} options={{ header: () => null }} />
             <Stack.Screen name="EditCoachesScreen" component={EditCoachesScreen} options={{ header: () => null }} />
             <Stack.Screen name="EditCoachPage" component={EditCoachPage} options={{ header: () => null }} />

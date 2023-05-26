@@ -22,10 +22,6 @@ const BottomTabNavigator = () => {
                             style={{ tintColor: '#605F60', width: 30, height: 30 }}
                             source={require('../images/main.png')
                             } />
-                    // <Image
-                    //     style={{ tintColor: '#605F60', width: 30, height: 30 }}
-                    //     source={require('../images/main.png')
-                    //     } />
                 ),
                 tabBarLabel: 'Главная', header: () => null
             }} />
@@ -75,7 +71,6 @@ const BottomTabNavigator = () => {
 const styles = StyleSheet.create({
     bottomTabIcon: {
         flex: 1,
-        // backgroundColor: '#fff',
         width: 30,
         height: 30
     },

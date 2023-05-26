@@ -9,7 +9,6 @@ export default function CurriculumScreen({ navigation }) {
     const tls = require('../styles/tiles_list_styles');
 
     const [groups, setGroups] = useState([]);
-    const [count, setCount] = useState(0);
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -41,9 +40,6 @@ export default function CurriculumScreen({ navigation }) {
             .catch(error => {
                 console.error(error);
             });
-            // setTimeout(() => {
-            //     setCount(count + 1);
-            // }, 15000);
         }, [refreshing])
 
     const renderGroup = ({ item }) => (
@@ -198,7 +194,6 @@ export default function CurriculumScreen({ navigation }) {
 };
 
 const styles = StyleSheet.create({
-
     imageIcon: {
         marginTop: 60,
         marginBottom: 10,
@@ -206,7 +201,6 @@ const styles = StyleSheet.create({
         height: 110,
         borderRadius: 10
     },
-
     item: {
         padding: 10,
         fontSize: 18,
@@ -229,13 +223,10 @@ const styles = StyleSheet.create({
         height: 30,
         // tintColor: 'white'
     },
-
     btnView: {
         alignItems: 'center',
         paddingTop: 15
     },
-
-
     NewsTile: {
         height: 130,
         width: '98%',
@@ -254,7 +245,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
     },
-
     lineFull: {
         backgroundColor: 'gainsboro',
         height: 1,
