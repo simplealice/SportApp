@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, Linking, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ImageBackground, ScrollView, RefreshControl } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import XDate from 'xdate';
 
@@ -30,6 +30,15 @@ export default function CoachesScreen({ navigation }) {
         //     setCount(count + 1);
         // }, 10000);
     }, [refreshing])
+
+    const byteArrayToBase64 = (byteArray) => {
+        let binary = '';
+        while (byteArray === null) {}
+        for (let i = 0; i < byteArray.length; i++) {
+            binary += String.fromCharCode(byteArray[i]);
+        }
+        return Buffer.from(binary, 'binary').toString('base64');
+    };
 
     const handleClick = (e) => {
         if (e == 'Новости') {
@@ -167,8 +176,8 @@ export default function CoachesScreen({ navigation }) {
         else {
             return (
                 <View style={styles.coachContainer}>
-                    {/* { i.filebyte === '' ? <Image style={styles.coachImage} source={ require('../images/coach.png')} /> :
-                    <Image style={styles.coachImage} source={{uri: findImg(i.filebyte)}}/> } */}
+                    {/* {i.filebyte === '' ? <Image style={styles.coachImage} source={require('../images/coach.png')} /> :
+                        <Image style={styles.coachImage} source={{ uri: `data:image/png;base64,${byteArrayToBase64(i.filebyte)}` }} />} */}
                     <Image style={styles.coachImage} source={ require('../images/coach.png')} />
                     <Text style={styles.coachText}>{i.position}</Text>
                     <Text style={styles.coachBoldText}>{i.surname} {i.name}</Text>
@@ -181,7 +190,7 @@ export default function CoachesScreen({ navigation }) {
     return (
         <ScrollView refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
+        }>
             <View style={s.container}>
                 <ImageBackground style={s.imageBack} resizeMode='cover' source={require("../images/back.jpg")}>
                     <Image

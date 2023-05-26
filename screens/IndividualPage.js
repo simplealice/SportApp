@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, 
 import * as React from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import XDate from 'xdate';
+import SelectDropdown from 'react-native-select-dropdown';
 
 export default function IndividualPage({ route, navigation }) {
 
@@ -14,18 +15,7 @@ export default function IndividualPage({ route, navigation }) {
     const [phone, setPhone] = React.useState(global.phone);
     const [mail, setMail] = React.useState(global.email);
 
-    const [date, setDate] = React.useState(new XDate());
-    const [datePickerVisible2, setDatePickerVisible2] = React.useState(false);
-    const showDatePicker2 = () => {
-        setDatePickerVisible2(true);
-    };
-    const hideDatePicker2 = () => {
-        setDatePickerVisible2(false);
-    };
-    const handleConfirmDate = (date) => {
-        setDate(date);
-        hideDatePicker2();
-    };
+    const [date, setDate] = React.useState('');
 
     const [comment, setComment] = React.useState('');
 
@@ -49,13 +39,6 @@ export default function IndividualPage({ route, navigation }) {
 
         var pattern = new RegExp(/^[0-9\b]+$/);
         if (phone.trim() && (!pattern.test(phone) || phone.length !== 11)) return showError('Неверный формат номера телефона', setError)
-
-        if (date === '' || date.getFullYear() < new Date().getFullYear()
-            || (date.getFullYear() === new Date().getFullYear() && date.getMonth() < new Date().getMonth())
-            || (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() && date.getDate() <= new Date().getDate())
-        ) {
-            return showError('Недопустимая дата записи', setError)
-        }
 
         return 1;
     }
@@ -116,6 +99,27 @@ export default function IndividualPage({ route, navigation }) {
         return str;
     };
 
+    const [timeSignIn, setTimeSignIn] = React.useState([]);
+    const [options, setOptions] = React.useState(['1', '2']);
+    const getTimeSignIn = async () => {
+        await fetch(global.URL + 'timeSignIn/getAll', {
+            method: 'GET',
+        }).then(response => response.json())
+            .then(data => {
+                setTimeSignIn(data)
+                console.log(timeSignIn)
+                const options1 = data.map((item) => `${item.signDate} - ${item.timeFromTo}`);
+                setOptions(options1)
+                console.log(options)
+            })
+            .catch(error => console.error(error));
+    };
+
+    React.useEffect(() => {
+        getTimeSignIn();
+    }, [])
+
+
     return (
         <ScrollView>
             <View style={s.container}>
@@ -147,22 +151,21 @@ export default function IndividualPage({ route, navigation }) {
                             placeholder="Эл. почта"
                             autoCapitalize='none'
                         />
-                        <View style={styles.containerDate}>
-                            <Text style={styles.dateText}>
-                                {date ? formatDate(date) : 'Дата не выбрана'}
-                            </Text>
-                            <TouchableOpacity style={styles.btnWrite} onPress={showDatePicker2}>
-                                <Text style={styles.writeText}>Дата посещения</Text>
-                            </TouchableOpacity>
-                            <DateTimePickerModal
-                                // date={date}
-                                isVisible={datePickerVisible2}
-                                mode="date"
-                                value={date}
-                                onConfirm={handleConfirmDate}
-                                onCancel={hideDatePicker2}
-                            />
-                        </View>
+                        <SelectDropdown
+                            buttonStyle={styles.selectDropdown}
+                            buttonTextStyle={styles.selectDropdownText}
+                            data={options}
+                            defaultButtonText='Выберите дату посещения...'
+                            onSelect={(selectedItem, index) => {
+                                setDate(selectedItem)
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                return item
+                            }}
+                        />
 
                         <TextInput
                             editable
@@ -247,5 +250,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         marginTop: 30
-    }
+    },
+    selectDropdown: {
+        width: '93%',
+        marginTop: 20,
+        alignSelf: 'center',
+        borderColor: '#E5E5E5',
+        borderWidth: 1,
+        backgroundColor: 'white',
+    },
+    selectDropdownText: {
+        fontSize: 14
+    },
 })

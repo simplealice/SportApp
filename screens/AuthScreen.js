@@ -409,8 +409,14 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
-              <Text style={styles.btnText}>Записи</Text>
+              onPress={() => { navigation.navigate("SigningIndividualScreen", { token: token }) }}>
+              <Text style={styles.btnText}>Записи на индивидуальное занятие</Text>
+              <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnTile}
+              onPress={() => { navigation.navigate("SigningTrialScreen") }}>
+              <Text style={styles.btnText}>Записи на пробное занятие</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
 
@@ -467,7 +473,7 @@ export default function AuthScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnTile}
-              onPress={() => { navigation.navigate("") }}>
+              onPress={() => { navigation.navigate("EditTimeSignInScreen") }}>
               <Text style={styles.btnText}>Возможное время записи</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>

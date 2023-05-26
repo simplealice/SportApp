@@ -23,6 +23,10 @@ import FeedbackPage from '../screens/editor_screens/FeedbackPage';
 import EditPrizesScreen from '../screens/editor_screens/EditPrizesScreen';
 import AddPrizePage from '../screens/editor_screens/AddPrizePage';
 import EditPrizePage from '../screens/editor_screens/EditPrizePage';
+import EditTimeSignInScreen from '../screens/editor_screens/EditTimeSignInScreen';
+import AddTimeSignInPage from '../screens/editor_screens/AddTimeSignInPage';
+import SigningIndividualScreen from '../screens/editor_screens/SigningIndividualScreen';
+import SigningTrialScreen from '../screens/editor_screens/SigningTrialScreen';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -55,6 +59,10 @@ const ProfileStackNavigator = () => {
             <Stack.Screen name="AddPrizePage" component={AddPrizePage} options={{ header: () => null }} />
             <Stack.Screen name="EditPrizesScreen" component={EditPrizesScreen} options={{ header: () => null }} />
             <Stack.Screen name="EditPrizePage" component={EditPrizePage} options={{ header: () => null }} />
+            <Stack.Screen name="EditTimeSignInScreen" component={EditTimeSignInScreen} options={{ header: () => null }} />
+            <Stack.Screen name="AddTimeSignInPage" component={AddTimeSignInPage} options={{ header: () => null }} />
+            <Stack.Screen name="SigningIndividualScreen" component={SigningIndividualScreen} options={{ header: () => null }} />
+            <Stack.Screen name="SigningTrialScreen" component={SigningTrialScreen} options={{ header: () => null }} />
         </Stack.Navigator>
     )
 }
