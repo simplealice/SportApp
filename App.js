@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
 
-  global.URL = "http://192.168.31.19:8080/"
+  global.URL = "http://192.168.31.20:8080/" // change this path
   global.splashed = false
   global.name = ''
   global.birthday = ''

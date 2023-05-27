@@ -319,12 +319,12 @@ export default function AuthScreen({ navigation }) {
             {renderInfoCoach()}
 
             <Text>{"\n"}</Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.btnTile}
               onPress={() => { navigation.navigate("") }}>
               <Text style={styles.btnText}>Уведомления</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.btnTile}
               onPress={() => { navigation.navigate("ChatScreen", { token: token, userId: userId, role: role }) }}>
@@ -417,12 +417,12 @@ export default function AuthScreen({ navigation }) {
               <Text style={styles.btnText}>Расписание</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.btnTile}
               onPress={() => { navigation.navigate("EditEventsScreen") }}>
               <Text style={styles.btnText}>Галерея</Text>
               <Text style={styles.btnTextArrow}>{String.fromCharCode(9654)}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.btnTile}
               onPress={() => { navigation.navigate("EditCoachesScreen", { token: token }) }}>

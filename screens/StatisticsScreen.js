@@ -168,7 +168,7 @@ export default function StatisticsScreen({ navigation }) {
                         style={styles.imageIcon}
                         source={require("../images/icon.jpg")} />
                     <TouchableOpacity onPress={() => { navigation.goBack(); }}>
-                        <Text style={s.iconText}>{'\u25C0'} О клубе</Text>
+                        <Text style={s.iconText}>{'\u25C0'} Статистика</Text>
                     </TouchableOpacity>
                     <View style={hms.menuView}>
                         <FlatList style={hms.flatMenu}
